@@ -1,46 +1,46 @@
+from __future__ import annotations
+
 """
 Tibetan Spirit AI Operations Server
 FastAPI webhook receiver + cron scheduler + Agent SDK worker
 
-Deployment: Railway (long-running session pattern)
-Runtime: Python 3.12+ with Node.js 18+ (Agent SDK requirement)
+Deployment: Railway (ephemeral session pattern)
+Runtime: Python 3.12+ (Agent SDK bundles Claude Code CLI)
 """
 
-import os
-import asyncio
+import base64
 import hashlib
 import hmac
 import json
 import logging
+import os
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, Optional
 
-from fastapi import FastAPI, HTTPException, Request, Header, BackgroundTasks
+from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, Request
 from pydantic import BaseModel
 
-# Claude Agent SDK imports
-# from claude_agent_sdk import (
-#     query, ClaudeAgentOptions, AssistantMessage, TextBlock, ResultMessage
-# )
-
-# Shared library imports
-# from ts_shared.supabase_client import get_supabase_client
-# from ts_shared.logging_utils import log_skill_invocation
+from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, query
+from ts_shared.logging_utils import log_skill_invocation
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("ts-ops")
 
-app = FastAPI(title="Tibetan Spirit AI Operations", version="0.1.0")
+app = FastAPI(title="Tibetan Spirit AI Operations", version="0.2.0")
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 
 SHOPIFY_WEBHOOK_SECRET = os.environ.get("SHOPIFY_WEBHOOK_SECRET", "")
 API_KEY = os.environ.get("API_KEY", "")
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+SKILLS_DIR = os.path.join(os.path.dirname(__file__), "..", "skills")
+
+MODEL_IDS = {
+    "haiku": "claude-haiku-4-5-20251001",
+    "sonnet": "claude-sonnet-4-6-20250514",
+    "opus": "claude-opus-4-6-20250514",
+}
 
 # ─── Skill Registry ──────────────────────────────────────────────────────────
-
-SKILLS_DIR = os.path.join(os.path.dirname(__file__), "..", "skills")
 
 
 def load_skill(skill_path: str) -> str:
@@ -52,7 +52,6 @@ def load_skill(skill_path: str) -> str:
         return f.read()
 
 
-# Agent configurations — maps agent name to its default skill set and options
 AGENT_CONFIGS = {
     "customer-service": {
         "skills": [
@@ -61,7 +60,7 @@ AGENT_CONFIGS = {
             "shared/escalation-matrix",
             "customer-service/ticket-triage",
         ],
-        "model": "haiku",  # Triage with Haiku, escalate to Sonnet for evaluating and writing all responses which aren't clearly answered by existing template
+        "model": "haiku",
         "max_turns": 10,
         "max_budget_usd": 0.25,
     },
@@ -76,6 +75,39 @@ AGENT_CONFIGS = {
         "max_turns": 15,
         "max_budget_usd": 0.50,
     },
+    "ecommerce": {
+        "skills": [
+            "shared/channel-config",
+            "shared/product-knowledge",
+            "ecommerce/etsy-content-optimization",
+            "ecommerce/cross-channel-parity",
+        ],
+        "model": "sonnet",
+        "max_turns": 15,
+        "max_budget_usd": 0.50,
+    },
+    "category-management": {
+        "skills": [
+            "shared/channel-config",
+            "shared/product-knowledge",
+            "category-management/pricing-strategy",
+            "category-management/competitive-research",
+        ],
+        "model": "sonnet",
+        "max_turns": 20,
+        "max_budget_usd": 1.00,
+    },
+    "marketing": {
+        "skills": [
+            "shared/channel-config",
+            "marketing/meta-ads",
+            "marketing/google-ads",
+            "marketing/performance-reporting",
+        ],
+        "model": "sonnet",
+        "max_turns": 15,
+        "max_budget_usd": 0.75,
+    },
     "finance": {
         "skills": [
             "shared/channel-config",
@@ -89,7 +121,6 @@ AGENT_CONFIGS = {
     },
 }
 
-
 # ─── Webhook Security ────────────────────────────────────────────────────────
 
 
@@ -99,11 +130,8 @@ def verify_shopify_webhook(body: bytes, hmac_header: str) -> bool:
         logger.warning("SHOPIFY_WEBHOOK_SECRET not set — skipping validation")
         return True
     digest = hmac.new(
-        SHOPIFY_WEBHOOK_SECRET.encode("utf-8"),
-        body,
-        hashlib.sha256,
+        SHOPIFY_WEBHOOK_SECRET.encode("utf-8"), body, hashlib.sha256
     ).digest()
-    import base64
     computed = base64.b64encode(digest).decode("utf-8")
     return hmac.compare_digest(computed, hmac_header)
 
@@ -116,7 +144,7 @@ async def health():
     return {
         "status": "ok",
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "version": "0.1.0",
+        "version": "0.2.0",
     }
 
 
@@ -131,17 +159,13 @@ async def shopify_order_created(
 ):
     """Handle new Shopify order — triggers Operations Agent."""
     body = await request.body()
-
     if x_shopify_hmac_sha256 and not verify_shopify_webhook(body, x_shopify_hmac_sha256):
         raise HTTPException(status_code=401, detail="Invalid HMAC signature")
 
     payload = json.loads(body)
     order_id = payload.get("id")
-    order_number = payload.get("order_number")
+    logger.info(f"New order received: #{payload.get('order_number')} (ID: {order_id})")
 
-    logger.info(f"New order received: #{order_number} (ID: {order_id})")
-
-    # Respond 200 immediately — process asynchronously
     background_tasks.add_task(process_order, payload)
     return {"status": "accepted", "order_id": order_id}
 
@@ -154,7 +178,6 @@ async def shopify_inventory_updated(
 ):
     """Handle inventory level change — triggers inventory check."""
     body = await request.body()
-
     if x_shopify_hmac_sha256 and not verify_shopify_webhook(body, x_shopify_hmac_sha256):
         raise HTTPException(status_code=401, detail="Invalid HMAC signature")
 
@@ -172,82 +195,79 @@ async def execute_skill(
     agent_name: str,
     skill_path: str,
     prompt: str,
-    context: dict[str, Any] | None = None,
+    context: Optional[Dict[str, Any]] = None,
 ) -> dict[str, Any]:
-    """
-    Execute a single skill via the Claude Agent SDK.
-
-    This is the core execution function. Every skill invocation flows through here,
-    which ensures consistent logging, cost tracking, and error handling.
-    """
-    invocation_id = f"{agent_name}-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
+    """Execute a skill via the Claude Agent SDK. Logs every invocation."""
     start_time = datetime.now(timezone.utc)
+    config = AGENT_CONFIGS.get(agent_name, {})
+    model_key = config.get("model", "sonnet")
+    result_text = ""
+    cost_usd = 0.0
+    input_tokens = output_tokens = cached_tokens = 0
+    status = "success"
+    error_msg = None
 
     try:
         skill_content = load_skill(skill_path)
-        config = AGENT_CONFIGS.get(agent_name, {})
-
-        # Build the full prompt with skill instructions and context
         full_prompt = f"{skill_content}\n\n---\n\nTask:\n{prompt}"
         if context:
             full_prompt += f"\n\nContext:\n{json.dumps(context, indent=2, default=str)}"
 
-        # TODO: Replace with actual Agent SDK call once credentials are configured
-        # options = ClaudeAgentOptions(
-        #     system_prompt=skill_content,
-        #     max_turns=config.get("max_turns", 10),
-        #     max_budget_usd=config.get("max_budget_usd", 0.50),
-        #     permission_mode="bypassPermissions",
-        # )
-        # result = await query(prompt=full_prompt, options=options)
+        options = ClaudeAgentOptions(
+            system_prompt=skill_content,
+            model=MODEL_IDS.get(model_key, MODEL_IDS["sonnet"]),
+            max_turns=config.get("max_turns", 10),
+            permission_mode="bypassPermissions",
+            cwd=os.path.dirname(SKILLS_DIR),
+        )
 
-        result = {
-            "status": "stub",
-            "message": f"Skill {skill_path} would execute here",
-            "invocation_id": invocation_id,
-        }
+        async for message in query(prompt=full_prompt, options=options):
+            if isinstance(message, ResultMessage):
+                result_text = message.result or ""
+                cost_usd = getattr(message, "total_cost_usd", 0.0) or 0.0
+                usage = getattr(message, "usage", {}) or {}
+                input_tokens = usage.get("input_tokens", 0)
+                output_tokens = usage.get("output_tokens", 0)
+                cached_tokens = usage.get("cache_read_input_tokens", 0)
 
-        # Log to Supabase skill_invocations table
-        # await log_skill_invocation(
-        #     invocation_id=invocation_id,
-        #     agent_name=agent_name,
-        #     skill_name=skill_path,
-        #     prompt=prompt,
-        #     result=result,
-        #     cost_usd=0.0,
-        #     start_time=start_time,
-        #     end_time=datetime.now(timezone.utc),
-        # )
-
-        return result
+        return {"status": "completed", "result": result_text[:2000]}
 
     except Exception as e:
         logger.error(f"Skill execution failed: {skill_path} — {e}")
-        # Log failure
-        # await log_skill_invocation(
-        #     invocation_id=invocation_id,
-        #     agent_name=agent_name,
-        #     skill_name=skill_path,
-        #     prompt=prompt,
-        #     result={"error": str(e)},
-        #     cost_usd=0.0,
-        #     start_time=start_time,
-        #     end_time=datetime.now(timezone.utc),
-        #     status="error",
-        # )
+        status = "error"
+        error_msg = str(e)
         raise
+
+    finally:
+        end_time = datetime.now(timezone.utc)
+        try:
+            await log_skill_invocation(
+                agent_name=agent_name,
+                skill_name=skill_path,
+                prompt=prompt,
+                result={"text": result_text[:500]} if result_text else {"error": error_msg},
+                cost_usd=cost_usd,
+                start_time=start_time,
+                end_time=end_time,
+                model_used=MODEL_IDS.get(model_key, "sonnet"),
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                cached_tokens=cached_tokens,
+                trigger_source="webhook",
+                status=status,
+                error=error_msg,
+            )
+        except Exception as log_err:
+            logger.error(f"Failed to log invocation: {log_err}")
 
 
 # ─── Background Task Handlers ────────────────────────────────────────────────
 
 
 async def process_order(order_payload: dict):
-    """Process a new Shopify order through the Operations Agent pipeline."""
+    """Process a new Shopify order through the Operations Agent."""
     order_number = order_payload.get("order_number")
     logger.info(f"Processing order #{order_number}")
-
-    # Step 1: Determine fulfillment route
-    # (domestic via Fiona, Mexico via Omar, or international via Nepal)
     await execute_skill(
         agent_name="operations",
         skill_path="operations/fulfillment-domestic",
@@ -267,15 +287,13 @@ async def process_inventory_update(inventory_payload: dict):
 
 
 # ─── Cron-Triggered Skills ───────────────────────────────────────────────────
-# These are invoked by an external scheduler (Railway cron, GitHub Actions, or crontab)
-# via authenticated POST to /api/run-skill
 
 
 class SkillRunRequest(BaseModel):
     agent: str
     skill: str
     prompt: str
-    context: dict[str, Any] | None = None
+    context: Optional[Dict[str, Any]] = None
 
 
 @app.post("/api/run-skill")
@@ -302,5 +320,6 @@ async def run_skill(
 
 if __name__ == "__main__":
     import uvicorn
+
     port = int(os.environ.get("PORT", 8080))
     uvicorn.run(app, host="0.0.0.0", port=port)
