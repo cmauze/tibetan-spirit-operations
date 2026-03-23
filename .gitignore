@@ -1,0 +1,47 @@
+# Environment
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Node (for dashboard)
+node_modules/
+.next/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Skill workspace (eval iterations)
+*-workspace/
+
+# Secrets
+*.pem
+*.key
+credentials.json
+
+# Claude Code / MCP local config
+.claude/settings.local.json
+.mcp.json
+
+# Validation reports (generated)
+validation-report.json

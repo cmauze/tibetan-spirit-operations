@@ -1,0 +1,19 @@
+# Tibetan Spirit AI Operations — Python dependencies
+# Pin major versions; update intentionally
+
+# Web framework
+fastapi>=0.115.0,<1.0
+uvicorn[standard]>=0.30.0,<1.0
+
+# Claude Agent SDK (production runtime)
+claude-agent-sdk>=0.1.48
+
+# Database
+supabase>=2.0.0,<3.0
+
+# Observability (Phase 2)
+# langfuse>=2.0.0
+
+# Utilities
+python-dotenv>=1.0.0
+httpx>=0.27.0
