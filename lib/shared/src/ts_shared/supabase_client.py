@@ -11,7 +11,7 @@ Usage:
 import os
 from functools import lru_cache
 
-# from supabase import create_client, Client
+from supabase import create_client, Client
 
 
 @lru_cache(maxsize=1)
@@ -31,6 +31,4 @@ def get_client():
             "See server/.env.example for required environment variables."
         )
 
-    # TODO: Uncomment when supabase package is installed
-    # return create_client(url, key)
-    raise NotImplementedError("Supabase client not yet configured — provision database first")
+    return create_client(url, key)

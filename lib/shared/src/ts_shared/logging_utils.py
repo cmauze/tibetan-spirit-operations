@@ -72,10 +72,9 @@ async def log_skill_invocation(
     }
 
     try:
-        # TODO: Uncomment when Supabase is configured
-        # from ts_shared.supabase_client import get_client
-        # client = get_client()
-        # client.table("skill_invocations").insert(record).execute()
+        from ts_shared.supabase_client import get_client
+        client = get_client()
+        client.table("skill_invocations").insert(record).execute()
         logger.info(
             f"Skill invocation logged: {skill_name} ({status}) "
             f"cost=${cost_usd:.4f} latency={latency_ms}ms"
