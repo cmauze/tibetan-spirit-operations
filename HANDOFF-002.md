@@ -25,9 +25,9 @@
 ### Tier 2: Shared Library Activation (merged)
 - [x] **Branch D: `feat/shared-lib`** — `supabase_client.py` activated (sb_secret_ key format works with supabase-py 2.28.3), `logging_utils.py` Supabase insert activated, `__init__.py` exports added, 4 unit tests passing
 
-### Tier 3: Server Wiring + Deploy (in progress)
-- [ ] **Branch E: `feat/server-wiring`** — Agent SDK integration in server.py
-- [ ] **Branch F: `feat/railway-deploy`** — Railway deployment + Shopify webhook config
+### Tier 3: Server Wiring + Deploy
+- [x] **Branch E: `feat/server-wiring`** — Real `claude_agent_sdk.query()` calls, all 6 AGENT_CONFIGS, model routing, audit logging, 8 server tests passing
+- [x] **Branch F: Railway deploy** — Railway connected, building from GitHub. Dockerfile path: `server/Dockerfile`, Root Directory: cleared (repo root)
 
 ---
 
@@ -147,7 +147,8 @@
 | `HANDOFF.md` | Credentials redacted |
 | `BUILD-PLAN.md` | No credential changes needed |
 | `.gitignore` | Added Claude/MCP/validation entries |
-| `server/server.py` | TBD — Tier 3 (Agent SDK wiring) |
+| `server/server.py` | Rewired with real Agent SDK calls, 6 agent configs, v0.2.0 |
+| `tests/test_server.py` | NEW — 8 endpoint + config tests |
 
 ---
 
