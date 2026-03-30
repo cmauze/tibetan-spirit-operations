@@ -37,12 +37,12 @@ Tibetan Spirit's catalog organizes into these primary categories:
 
 For deep product knowledge by category, read the relevant reference file:
 
-- `skills/shared/product-knowledge/singing-bowls.md` — Tonal grading, metal composition, size-to-use mapping
-- `skills/shared/product-knowledge/thangkas.md` — Hand-painted vs. print, artist traditions, deity identification
-- `skills/shared/product-knowledge/incense.md` — Nado Poizokhang varieties, monastery sources, scent profiles
-- `skills/shared/product-knowledge/malas.md` — Materials, bead counts, significance by tradition
-- `skills/shared/product-knowledge/statues.md` — Casting methods, finish grades, deity identification
-- `skills/shared/product-knowledge/prayer-flags.md` — Block printing, color symbolism, sizing
+- `agents/shared/product-knowledge/singing-bowls.md` — Tonal grading, metal composition, size-to-use mapping
+- `agents/shared/product-knowledge/thangkas.md` — Hand-painted vs. print, artist traditions, deity identification
+- `agents/shared/product-knowledge/incense.md` — Nado Poizokhang varieties, monastery sources, scent profiles
+- `agents/shared/product-knowledge/malas.md` — Materials, bead counts, significance by tradition
+- `agents/shared/product-knowledge/statues.md` — Casting methods, finish grades, deity identification
+- `agents/shared/product-knowledge/prayer-flags.md` — Block printing, color symbolism, sizing
 
 ## Authenticity Framework
 

@@ -73,12 +73,12 @@ When answering product questions, load the relevant category reference:
 
 | Question About | Load Reference |
 |---------------|----------------|
-| Singing bowls | `skills/shared/product-knowledge/singing-bowls.md` |
-| Thangkas | `skills/shared/product-knowledge/thangkas.md` |
-| Incense | `skills/shared/product-knowledge/incense.md` |
-| Malas | `skills/shared/product-knowledge/malas.md` |
-| Statues | `skills/shared/product-knowledge/statues.md` |
-| Prayer flags | `skills/shared/product-knowledge/prayer-flags.md` |
+| Singing bowls | `agents/shared/product-knowledge/singing-bowls.md` |
+| Thangkas | `agents/shared/product-knowledge/thangkas.md` |
+| Incense | `agents/shared/product-knowledge/incense.md` |
+| Malas | `agents/shared/product-knowledge/malas.md` |
+| Statues | `agents/shared/product-knowledge/statues.md` |
+| Prayer flags | `agents/shared/product-knowledge/prayer-flags.md` |
 
 ## Data Queries
 
@@ -140,7 +140,7 @@ ORDER BY p.price ASC;
 - Never use prohibited words (see brand-guidelines/cultural-sensitivity.md for the full list)
 - Provide meditation instruction or Buddhist doctrine (escalate to spiritual-director)
 
-Read `skills/shared/brand-guidelines/SKILL.md` and `skills/shared/brand-guidelines/cultural-sensitivity.md` for the full voice and cultural sensitivity reference.
+Read `agents/shared/brand-guidelines/SKILL.md` and `agents/shared/brand-guidelines/cultural-sensitivity.md` for the full voice and cultural sensitivity reference.
 
 ## Response Structure
 
@@ -195,7 +195,7 @@ With gratitude,
 Tibetan Spirit Customer Service
 ```
 
-Send the customer an acknowledgment (read `skills/customer-service/ticket-triage/response-templates.md` for the practice question acknowledgment template).
+Send the customer an acknowledgment (read `agents/customer-service/skills/ticket-triage/response-templates.md` for the practice question acknowledgment template).
 
 ## Model Routing
 
@@ -224,7 +224,7 @@ This ensures brand voice quality while the system proves itself.
 | Custom/wholesale product inquiry | ceo | Dashboard | 48 hours |
 | Product authenticity challenge | operations-manager + ceo | WhatsApp + Dashboard | 24 hours |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -262,9 +262,9 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/product-knowledge/SKILL.md` for product taxonomy and category references
-- Read `skills/shared/brand-guidelines/SKILL.md` for voice and tone
-- Read `skills/shared/brand-guidelines/cultural-sensitivity.md` for cultural rules
-- Read `skills/shared/supabase-ops-db/SKILL.md` for inventory queries
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
-- Read `skills/customer-service/ticket-triage/response-templates.md` for escalation acknowledgment template
+- Read `agents/shared/product-knowledge/SKILL.md` for product taxonomy and category references
+- Read `agents/shared/brand-guidelines/SKILL.md` for voice and tone
+- Read `agents/shared/brand-guidelines/cultural-sensitivity.md` for cultural rules
+- Read `agents/shared/supabase-ops-db/SKILL.md` for inventory queries
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions
+- Read `agents/customer-service/skills/ticket-triage/response-templates.md` for escalation acknowledgment template

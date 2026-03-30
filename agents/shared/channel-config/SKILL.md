@@ -40,7 +40,7 @@ cost_budget_usd: 0.15
   - Payment processing: 3% + $0.25
   - Offsite ads fee: 12-15% on attributed sales (mandatory above $10K/year revenue)
   - **Total effective fee: ~10-12% per sale**
-- **Content rules**: Etsy SEO is different from Shopify. Titles up to 140 chars, front-loaded with keywords. 13 tags per listing. Read `skills/ecommerce/etsy-content-optimization/SKILL.md` for details.
+- **Content rules**: Etsy SEO is different from Shopify. Titles up to 140 chars, front-loaded with keywords. 13 tags per listing. Read `agents/ecommerce/skills/etsy-content-optimization/SKILL.md` for details.
 - **Important**: Do NOT push Shopify-optimized descriptions to Etsy. Each channel needs native content.
 
 ### Amazon FBA
@@ -52,7 +52,7 @@ cost_budget_usd: 0.15
   - Monthly storage: $0.87/cubic foot (standard), $2.40/cubic foot (Oct-Dec peak)
   - **Total effective fee: 25-40% per sale depending on item**
 - **Margin implications**: Amazon's fee stack means only items with >50% gross margin should be listed
-- **FBA prep requirements**: Read `skills/operations/amazon-fba-replenishment/fba-prep-checklist.md`
+- **FBA prep requirements**: Read `agents/operations/skills/amazon-fba-replenishment/fba-prep-checklist.md`
 
 ### Wholesale (Espíritu Tibetano + Dharma Centers)
 - **Status**: Planning (launches Month 9+)

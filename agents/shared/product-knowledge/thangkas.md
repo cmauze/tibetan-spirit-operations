@@ -1,4 +1,4 @@
-<!-- DRAFT: Pending Dr. Hun Lye review for Buddhist practice accuracy -->
+<!-- DRAFT: Pending spiritual-director review for Buddhist practice accuracy -->
 
 # Thangkas — Product Knowledge Reference
 
@@ -34,7 +34,7 @@ Thangka painting follows strict canonical proportions (thig-tse) established in 
 - **Appropriate colors**: Deity body colors follow tradition (Green Tara is green, White Tara is white)
 - **Proper throne and aureole**: Background elements follow canonical patterns
 
-**Escalate to Dr. Hun Lye** if a customer asks whether a specific thangka's iconography is correct, or if you notice apparent deviations from traditional proportions in a product listing.
+**Escalate to the spiritual-director** if a customer asks whether a specific thangka's iconography is correct, or if you notice apparent deviations from traditional proportions in a product listing.
 
 ## Common Subjects
 
@@ -61,7 +61,7 @@ Thangka painting follows strict canonical proportions (thig-tse) established in 
 | Guru Rinpoche (Padmasambhava) | Holding vajra and skull cup, lotus hat | Nyingma lineage devotion |
 | Protector deities | Wrathful forms (Mahakala, Palden Lhamo) | Advanced practice — note for customers |
 
-**Note on wrathful deities**: Thangkas depicting wrathful protector deities are intended for practitioners with specific initiations. When customers ask about these, explain that wrathful iconography represents the fierce compassion that cuts through obstacles to awakening — not anger or violence. If the question goes deeper, escalate to Dr. Hun Lye.
+**Note on wrathful deities**: Thangkas depicting wrathful protector deities are intended for practitioners with specific initiations. When customers ask about these, explain that wrathful iconography represents the fierce compassion that cuts through obstacles to awakening — not anger or violence. If the question goes deeper, escalate to the spiritual-director.
 
 ## Mounting and Framing
 
@@ -126,6 +126,6 @@ A: Our thangkas are not consecrated (blessed) before shipping. Consecration is t
 
 - **Hand-painted thangkas**: Newari artist workshops in Patan and Bhaktapur. These are family lineage workshops where painting skills are passed across generations.
 - **Prints**: Sourced from high-resolution scans of authenticated master paintings, printed on archival cotton canvas.
-- **Quality control**: Dr. Hun Lye reviews iconographic accuracy of hand-painted pieces when questions arise. Jhoti inspects craftsmanship during sourcing trips.
+- **Quality control**: The spiritual-director reviews iconographic accuracy of hand-painted pieces when questions arise. The operations-manager inspects craftsmanship during sourcing trips.
 - **Lead time**: Hand-painted thangkas are individual commissions — 4-12 weeks depending on size and complexity. Prints are stocked and ship from inventory.
 - **Artist attribution**: Where possible, we attribute the artist or workshop. This is important for provenance and supports the artisans' reputations.

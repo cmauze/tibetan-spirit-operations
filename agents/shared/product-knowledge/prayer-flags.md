@@ -1,4 +1,4 @@
-<!-- DRAFT: Pending Dr. Hun Lye review for Buddhist practice accuracy -->
+<!-- DRAFT: Pending spiritual-director review for Buddhist practice accuracy -->
 
 # Prayer Flags — Product Knowledge Reference
 
@@ -78,7 +78,7 @@ Traditional guidance (not strict rules):
 - **Best**: Hang on auspicious days — Losar (Tibetan New Year), full moon days, Saga Dawa, or other Buddhist holidays
 - **Good**: Any morning, especially a clear and windy morning
 - **Avoid**: Traditionally, flags are not hung on inauspicious days (specific dates vary by Tibetan calendar)
-- **Practical**: When a customer asks when to hang flags, suggest a morning with good wind, ideally on or near an auspicious date. Reference `skills/shared/tibetan-calendar/SKILL.md` for current year dates.
+- **Practical**: When a customer asks when to hang flags, suggest a morning with good wind, ideally on or near an auspicious date. Reference `agents/shared/tibetan-calendar/SKILL.md` for current year dates.
 
 ### Placement Guidelines
 - **Outdoors preferred**: The wind carries the prayers. Indoor display is acceptable but the traditional power is in outdoor placement.

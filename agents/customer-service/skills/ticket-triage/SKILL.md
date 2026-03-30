@@ -36,7 +36,7 @@ Simple factual questions with clear answers. You generate and post the response 
 - "When will [item] be back in stock?" → Check `inventory_extended` table
 
 **Response guidelines:**
-- Warm, helpful tone (read `skills/shared/brand-guidelines/SKILL.md`)
+- Warm, helpful tone (read `agents/shared/brand-guidelines/SKILL.md`)
 - Include specific details (tracking number, dates, policy details)
 - Maximum 3 paragraphs
 - Always end with "Is there anything else I can help you with?"
@@ -106,7 +106,7 @@ Work through this decision tree:
 
 ## Response Templates
 
-Read `skills/customer-service/ticket-triage/response-templates.md` for pre-approved response templates by category.
+Read `agents/customer-service/skills/ticket-triage/response-templates.md` for pre-approved response templates by category.
 
 ## Model Routing
 

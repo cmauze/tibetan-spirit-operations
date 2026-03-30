@@ -1,4 +1,4 @@
-<!-- DRAFT: Pending Dr. Hun Lye review for Buddhist practice accuracy -->
+<!-- DRAFT: Pending spiritual-director review for Buddhist practice accuracy -->
 
 # Malas (Prayer Beads) — Product Knowledge Reference
 
@@ -47,7 +47,7 @@ Tibetan Spirit carries malas in a range of traditional materials sourced through
 
 - **For daily mantra practice**: Bodhi seed or rosewood. Durable, develops beautiful patina with use, traditional.
 - **For beginning practitioners**: Sandalwood (pleasant, aromatic, affordable) or rosewood (durable, attractive).
-- **For specific practices**: Consult a teacher. Some lineages prescribe specific materials for specific mantras. If a customer mentions a particular practice, escalate to Dr. Hun Lye rather than guessing.
+- **For specific practices**: Consult a teacher. Some lineages prescribe specific materials for specific mantras. If a customer mentions a particular practice, escalate to the spiritual-director rather than guessing.
 - **For gifting**: Sandalwood or bodhi seed malas are universally appropriate Buddhist gifts.
 - **For wrist wear / daily reminder**: 27-bead wrist mala in any material the customer finds meaningful.
 

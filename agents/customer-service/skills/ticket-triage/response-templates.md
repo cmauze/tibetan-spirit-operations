@@ -75,11 +75,11 @@ Tibetan Spirit
 
 ---
 
-## Practice Question Acknowledgment (Before Escalation to Dr. Hun Lye)
+## Practice Question Acknowledgment (Before Escalation to spiritual-director)
 
 Hi {first_name},
 
-Thank you for your thoughtful question about {topic}. Questions about Buddhist practice deserve a knowledgeable response, so I'm connecting you with our spiritual advisor, Dr. Hun Lye, who has deep experience in this area.
+Thank you for your thoughtful question about {topic}. Questions about Buddhist practice deserve a knowledgeable response, so I'm connecting you with our spiritual advisor, who has deep experience in this area.
 
 You should hear back within 48 hours. In the meantime, if you have any questions about our products or your order, I'm here to help.
 

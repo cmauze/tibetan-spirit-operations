@@ -235,7 +235,7 @@ All actions require human decision:
 | Category margin decline >5pp week-over-week | ceo | Dashboard + email alert | 48 hours |
 | Ad-hoc report request | ceo | Dashboard | Same day |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -291,7 +291,7 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema (product_margin_detail view, channel_profitability_monthly view)
-- Reads COGS data maintained by `skills/finance/cogs-tracking/SKILL.md`
-- Read `skills/shared/channel-config/SKILL.md` for fee structures by channel
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema (product_margin_detail view, channel_profitability_monthly view)
+- Reads COGS data maintained by `agents/finance/skills/cogs-tracking/SKILL.md`
+- Read `agents/shared/channel-config/SKILL.md` for fee structures by channel
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions

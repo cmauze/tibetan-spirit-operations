@@ -23,6 +23,7 @@ dev = [
 testpaths = ["tests"]
 asyncio_mode = "auto"
 filterwarnings = ["ignore::DeprecationWarning"]
+pythonpath = ["lib"]
 
 [build-system]
 requires = ["setuptools>=69.0"]

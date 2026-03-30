@@ -1,4 +1,4 @@
-<!-- DRAFT: Pending Dr. Hun Lye review for Buddhist practice accuracy -->
+<!-- DRAFT: Pending spiritual-director review for Buddhist practice accuracy -->
 
 # Incense — Product Knowledge Reference
 
@@ -112,7 +112,7 @@ A: For stick incense: any horizontal incense holder or ash catcher that accommod
 ## Sourcing Notes
 
 - **Nado Poizokhang**: Direct relationship through Bhutanese distributor. Consistent supply, established quality.
-- **Kathmandu producers**: Jhoti manages relationships with 2-3 established makers during quarterly visits.
+- **Kathmandu producers**: The operations-manager manages relationships with 2-3 established makers during quarterly visits.
 - **Quality markers**: Even burn, consistent scent throughout the stick, no black smoke or chemical smell, firm but not hard texture.
 - **Lead time**: 2-4 weeks for Nado products. Kathmandu producers vary.
 - **Minimum orders**: Typically 50-100 boxes per variety for reasonable pricing.

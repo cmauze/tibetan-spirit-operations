@@ -27,7 +27,7 @@ Shopify is the source of truth. Etsy and Amazon listings should reflect Shopify 
 **Parity IS:**
 - Same product facts (materials, dimensions, origin, practice context) across all channels
 - Inventory availability reflects actual stock (no overselling, no phantom stock)
-- Pricing follows the channel-specific markup rules defined in `skills/shared/channel-config/SKILL.md`
+- Pricing follows the channel-specific markup rules defined in `agents/shared/channel-config/SKILL.md`
 - Images are current and consistent across channels
 
 **Parity is NOT:**
@@ -217,6 +217,6 @@ After demonstrating reliable performance (target: 90+ days, 200+ corrections, <2
 
 ## Dependencies
 
-- **References**: `skills/shared/channel-config/SKILL.md` (fee structures, markup rules, SKU conventions), `skills/shared/product-knowledge/SKILL.md` (product facts for validation), `skills/shared/escalation-matrix/SKILL.md` (approval routing)
+- **References**: `agents/shared/channel-config/SKILL.md` (fee structures, markup rules, SKU conventions), `agents/shared/product-knowledge/SKILL.md` (product facts for validation), `agents/shared/escalation-matrix/SKILL.md` (approval routing)
 - **Data sources**: Supabase `products` table, `inventory_extended` table, Shopify API, Etsy API, Amazon SP-API
-- **Referenced by**: `skills/ecommerce/etsy-content-optimization/SKILL.md`, operations agents (inventory sync)
+- **Referenced by**: `agents/ecommerce/skills/etsy-content-optimization/SKILL.md`, operations agents (inventory sync)

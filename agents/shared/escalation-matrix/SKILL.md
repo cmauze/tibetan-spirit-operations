@@ -81,11 +81,11 @@ Phase 1 skills always propose actions for human approval. This matrix determines
 
 | Role | Dashboard | WhatsApp | Email | Language |
 |------|-----------|----------|-------|----------|
-| ceo | Yes | No | chris@tibetanspirit.com | English |
-| operations-manager | Yes (mobile) | Yes (primary) | jhoti@tibetanspirit.com | **Bahasa Indonesia** (formal register) |
-| warehouse-manager | Yes | No | fiona@tibetanspirit.com | English |
-| spiritual-director | No | No | hunlye@foresthermitage.org | English |
-| mexico-fulfillment | No | No | omar@espiritutibetano.mx | English/Spanish |
+| ceo | Yes | No | See ORG.md | English |
+| operations-manager | Yes (mobile) | Yes (primary) | See ORG.md | **Bahasa Indonesia** (formal register) |
+| warehouse-manager | Yes | No | See ORG.md | English |
+| spiritual-director | No | No | See ORG.md | English |
+| mexico-fulfillment | No | No | See ORG.md | English/Spanish |
 
 ## Bahasa Indonesia Communication Rules for operations-manager
 

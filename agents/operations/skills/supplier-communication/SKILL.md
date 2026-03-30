@@ -204,7 +204,7 @@ In Phase 1, this skill drafts all communications but does NOT send them:
 | Quality issue >$200 | ceo + operations-manager | Dashboard + WhatsApp | 12 hours |
 | New supplier onboarding | ceo (approval) -> operations-manager (relationship) | Dashboard | 1 week |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -237,8 +237,8 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema
-- Read `skills/shared/product-knowledge/SKILL.md` for product specifications
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
-- Coordinates with `skills/finance/nepal-payments/SKILL.md` for payment confirmations
-- Coordinates with `skills/operations/fulfillment-nepal/SKILL.md` for shipment tracking
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema
+- Read `agents/shared/product-knowledge/SKILL.md` for product specifications
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions
+- Coordinates with `agents/finance/skills/nepal-payments/SKILL.md` for payment confirmations
+- Coordinates with `agents/operations/skills/fulfillment-nepal/SKILL.md` for shipment tracking

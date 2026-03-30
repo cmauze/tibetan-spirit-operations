@@ -270,8 +270,8 @@ All actions go through ceo for approval. Pricing changes route through `pricing-
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema
-- Uses COGS from `skills/finance/cogs-tracking/SKILL.md`
-- Feeds into `skills/finance/channel-profitability/SKILL.md` for cross-channel comparison
-- Coordinates with `skills/finance/margin-reporting/SKILL.md` for unified margin view
-- Read `skills/shared/channel-config/SKILL.md` for Amazon API scopes and fee schedules
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema
+- Uses COGS from `agents/finance/skills/cogs-tracking/SKILL.md`
+- Feeds into `agents/finance/skills/channel-profitability/SKILL.md` for cross-channel comparison
+- Coordinates with `agents/finance/skills/margin-reporting/SKILL.md` for unified margin view
+- Read `agents/shared/channel-config/SKILL.md` for Amazon API scopes and fee schedules

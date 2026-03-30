@@ -274,7 +274,7 @@ No refund is processed, no RMA is issued, and no customer response is sent witho
 | Quality defect claim | operations-manager | WhatsApp (Bahasa Indonesia) | 12 hours |
 | Outside return window but sympathetic case | ceo | Dashboard | 48 hours |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -293,7 +293,7 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
   "approval_tier": "ESCALATE_OPS_MANAGER",
   "rma_number": "RMA-2026-0142",
   "customer_response_draft": "...",
-  "jhoti_briefing_id": "...",
+  "ops_manager_briefing_id": "...",
   "escalation_target": "operations-manager | ceo | spiritual-director | null",
   "urgency": "normal | urgent",
   "phase": 1,
@@ -304,8 +304,8 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema
-- Read `skills/shared/brand-guidelines/SKILL.md` for customer communication tone
-- Read `skills/shared/brand-guidelines/cultural-sensitivity.md` for sacred item handling
-- Read `skills/shared/product-knowledge/SKILL.md` for product category details
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema
+- Read `agents/shared/brand-guidelines/SKILL.md` for customer communication tone
+- Read `agents/shared/brand-guidelines/cultural-sensitivity.md` for sacred item handling
+- Read `agents/shared/product-knowledge/SKILL.md` for product category details
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions

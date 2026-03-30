@@ -1,4 +1,4 @@
-<!-- DRAFT: Pending Dr. Hun Lye review for Buddhist practice accuracy -->
+<!-- DRAFT: Pending spiritual-director review for Buddhist practice accuracy -->
 
 # Statues — Product Knowledge Reference
 
@@ -71,7 +71,7 @@ Tibetan Spirit sources statues primarily from Patan (Lalitpur) in the Kathmandu 
 | Mahakala | Wrathful face, often multi-armed, skull crown | Advanced practice. Explain wrathful iconography if asked — represents fierce compassion. |
 | Vajrapani | Wrathful stance, holding vajra | Protector of the dharma, power to overcome obstacles. |
 
-**Note on wrathful forms**: Protector deity statues depict fierce, wrathful expressions. When customers ask about these, explain that wrathful iconography in Buddhist tradition represents the intense energy of compassion cutting through ignorance and obstacles — not anger or malevolence. For detailed questions about specific protector practices, escalate to Dr. Hun Lye.
+**Note on wrathful forms**: Protector deity statues depict fierce, wrathful expressions. When customers ask about these, explain that wrathful iconography in Buddhist tradition represents the intense energy of compassion cutting through ignorance and obstacles — not anger or malevolence. For detailed questions about specific protector practices, escalate to the spiritual-director.
 
 ## Consecration and Filling
 
@@ -126,7 +126,7 @@ A: Bronze (copper + tin) is heavier, more durable, and develops a richer patina 
 A: Place the statue at the highest point of your shrine, typically at eye level or above when seated for meditation. The figure should face outward (toward the practitioner/room). If you have multiple statues, place the primary figure (your main practice deity) at center. Treat the statue with respect — do not place it on the floor, in a bathroom, or below other objects.
 
 **Q: Can I have a statue of a deity from a different Buddhist tradition?**
-A: Buddhist figures are respected across traditions. However, some deities (particularly wrathful protectors and specific yidam forms) are associated with specific initiations and lineages. For general figures — Shakyamuni Buddha, Tara, Chenrezig, Manjushri — any practitioner can respectfully display and practice with them. For questions about specific deities and your practice, consult your teacher or contact us and we can connect you with Dr. Hun Lye.
+A: Buddhist figures are respected across traditions. However, some deities (particularly wrathful protectors and specific yidam forms) are associated with specific initiations and lineages. For general figures — Shakyamuni Buddha, Tara, Chenrezig, Manjushri — any practitioner can respectfully display and practice with them. For questions about specific deities and your practice, consult your teacher or contact us and we can connect you with our spiritual advisor.
 
 ## Care and Handling
 

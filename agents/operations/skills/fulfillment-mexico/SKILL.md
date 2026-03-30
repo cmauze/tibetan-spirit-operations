@@ -104,7 +104,7 @@ WHERE id = $2;
 
 ## Email to mexico-fulfillment
 
-All communication with mexico-fulfillment is via email to omar@espiritutibetano.mx. The mexico-fulfillment partner reads English and Spanish. Keep emails clear, structured, and actionable.
+All communication with mexico-fulfillment is via email. Resolve the contact address from ORG.md. The mexico-fulfillment partner reads English and Spanish. Keep emails clear, structured, and actionable.
 
 ### Order Fulfillment Email Template
 
@@ -185,7 +185,7 @@ Graduation criteria: after 50+ orders fulfilled through mexico-fulfillment with 
 | Customer complaint about LATAM delivery | ceo | Dashboard | 24 hours |
 | Restock shipment to mexico-fulfillment needed | ceo (approval) -> warehouse-manager (ship) | Dashboard | 1 week |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -214,7 +214,7 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema
-- Read `skills/shared/channel-config/SKILL.md` for shipping zone definitions
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
-- Coordinates with `skills/operations/fulfillment-domestic/SKILL.md` when shipping from Asheville internationally
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema
+- Read `agents/shared/channel-config/SKILL.md` for shipping zone definitions
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions
+- Coordinates with `agents/operations/skills/fulfillment-domestic/SKILL.md` when shipping from Asheville internationally

@@ -399,7 +399,7 @@ class TestSkillStructure:
 
     def test_has_classification_tiers(self, triage_skill_text: str):
         """Must define all four classification tiers."""
-        for tier in ["AUTO_RESPOND", "ESCALATE_JHOTI", "ESCALATE_SPECIALIST", "URGENT"]:
+        for tier in ["AUTO_RESPOND", "ESCALATE_OPS_MANAGER", "ESCALATE_SPECIALIST", "URGENT"]:
             assert tier in triage_skill_text, f"Missing tier: {tier}"
 
     def test_has_output_format(self, triage_skill_text: str):

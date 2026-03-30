@@ -1,4 +1,4 @@
-<!-- DRAFT: Pending Dr. Hun Lye review for Buddhist practice accuracy -->
+<!-- DRAFT: Pending spiritual-director review for Buddhist practice accuracy -->
 
 # Singing Bowls — Product Knowledge Reference
 
@@ -105,7 +105,7 @@ A: Tingshas are small paired cymbals connected by a leather cord, struck togethe
 ## Sourcing Notes
 
 - **Primary source**: Specific smithing families in Patan (Lalitpur), Kathmandu Valley
-- **Relationship**: Jhoti maintains direct relationships with 3-4 workshops, visiting quarterly
+- **Relationship**: The operations-manager maintains direct relationships with 3-4 workshops, visiting quarterly
 - **Quality control**: Each bowl is individually played and assessed before purchase. Bowls with dead spots, cracks, or poor sustain are rejected.
 - **Lead time**: Hand-hammered bowls are produced in small batches. Reorder lead time is 4-8 weeks from order to arrival in Asheville warehouse.
 - **Supplier payment**: NPR, tracked in `supplier_payments` table

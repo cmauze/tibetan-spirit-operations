@@ -95,7 +95,7 @@ What this item IS and its practice context. Connect it to the buyer's intention.
 
 [Practice context paragraph]
 How this item is used in Buddhist practice. Brief, educational, respectful.
-Read skills/shared/brand-guidelines/SKILL.md for voice and tone.
+Read agents/shared/brand-guidelines/SKILL.md for voice and tone.
 
 [Care instructions]
 Brief maintenance guidance.
@@ -132,7 +132,7 @@ Etsy is a visual-first platform. Photo quality directly impacts click-through ra
 - Display items respectfully — on a clean surface, thoughtfully arranged
 - Do not place sacred items on the floor or among unrelated commercial objects
 - If showing items in a practice context, ensure the setting is authentic and respectful
-- Read `skills/shared/brand-guidelines/cultural-sensitivity.md` for full guidelines
+- Read `agents/shared/brand-guidelines/cultural-sensitivity.md` for full guidelines
 
 ## Pricing with Etsy Fees
 
@@ -174,7 +174,7 @@ IF margin < margin_floor_by_channel['etsy']:
     FLAG for ceo review — product may not be viable on Etsy
 ```
 
-Reference `skills/shared/channel-config/SKILL.md` for complete fee structure and cross-channel pricing rules.
+Reference `agents/shared/channel-config/SKILL.md` for complete fee structure and cross-channel pricing rules.
 
 ## Shop Sections
 
@@ -268,5 +268,5 @@ For each listing optimization, produce:
 
 ## Dependencies
 
-- **References**: `skills/shared/product-knowledge/SKILL.md` (product details), `skills/shared/brand-guidelines/SKILL.md` (voice/tone), `skills/shared/channel-config/SKILL.md` (fees and pricing rules)
-- **Referenced by**: `skills/ecommerce/cross-channel-parity/SKILL.md` (parity checks include Etsy content)
+- **References**: `agents/shared/product-knowledge/SKILL.md` (product details), `agents/shared/brand-guidelines/SKILL.md` (voice/tone), `agents/shared/channel-config/SKILL.md` (fees and pricing rules)
+- **Referenced by**: `agents/ecommerce/skills/cross-channel-parity/SKILL.md` (parity checks include Etsy content)

@@ -61,7 +61,7 @@ For each order, include:
 
 ## Carrier Selection Rules
 
-Read `skills/operations/fulfillment-domestic/carrier-rules.md` for the full decision matrix. Summary:
+Read `agents/operations/skills/fulfillment-domestic/carrier-rules.md` for the full decision matrix. Summary:
 
 | Criteria | Carrier | Service |
 |----------|---------|---------|

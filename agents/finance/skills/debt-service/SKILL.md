@@ -191,7 +191,7 @@ All actions require human decision:
 | Payment overdue (>5 days past due) | ceo | Email alert | Immediate |
 | Debt-to-revenue ratio > 2.0x | ceo | Dashboard (flagged) | Monthly |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -241,7 +241,7 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema
-- Uses COGS data from `skills/finance/cogs-tracking/SKILL.md` for inventory reconciliation
-- Feeds into `skills/finance/margin-reporting/SKILL.md` for cash flow context
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema
+- Uses COGS data from `agents/finance/skills/cogs-tracking/SKILL.md` for inventory reconciliation
+- Feeds into `agents/finance/skills/margin-reporting/SKILL.md` for cash flow context
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions

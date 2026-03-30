@@ -288,7 +288,7 @@ All recommendations go through ceo for decision. Pricing changes route through `
 | Channel becomes net-negative | ceo | Email alert | 24 hours |
 | Fee structure change detected | ceo + pricing-strategy | Dashboard + email | 1 week |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -332,9 +332,9 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema (channel_profitability_monthly view, product_margin_detail view)
-- Uses COGS from `skills/finance/cogs-tracking/SKILL.md`
-- Uses Amazon fee data from `skills/finance/amazon-fee-analysis/SKILL.md`
-- Feeds pricing decisions to `skills/category-management/pricing-strategy/SKILL.md`
-- Read `skills/shared/channel-config/SKILL.md` for fee structures and API scopes
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema (channel_profitability_monthly view, product_margin_detail view)
+- Uses COGS from `agents/finance/skills/cogs-tracking/SKILL.md`
+- Uses Amazon fee data from `agents/finance/skills/amazon-fee-analysis/SKILL.md`
+- Feeds pricing decisions to `agents/category-management/skills/pricing-strategy/SKILL.md`
+- Read `agents/shared/channel-config/SKILL.md` for fee structures and API scopes
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions

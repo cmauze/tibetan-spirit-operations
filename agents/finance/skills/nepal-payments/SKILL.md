@@ -232,7 +232,7 @@ Payment approval flow:
 | Invoice >$2,000 USD | ceo | Dashboard + email | 24 hours |
 | Supplier claims non-receipt of payment | ceo + operations-manager | Dashboard + WhatsApp | 12 hours |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -262,7 +262,7 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema (supplier_payments table)
-- Coordinates with `skills/operations/supplier-communication/SKILL.md` for PO reference
-- Feeds payment data to `skills/finance/cogs-tracking/SKILL.md` for COGS confirmation
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema (supplier_payments table)
+- Coordinates with `agents/operations/skills/supplier-communication/SKILL.md` for PO reference
+- Feeds payment data to `agents/finance/skills/cogs-tracking/SKILL.md` for COGS confirmation
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions

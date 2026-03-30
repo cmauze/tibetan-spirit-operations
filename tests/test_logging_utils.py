@@ -1,10 +1,18 @@
 """Tests for skill invocation logging."""
 
 import asyncio
+import sys
 from unittest.mock import patch, MagicMock
 from datetime import datetime, timezone
 
 import pytest
+
+
+def _ensure_real_logging_utils() -> None:
+    """Remove sys.modules mocks injected by test_server.py so we test real code."""
+    for mod in ("ts_shared.logging_utils", "ts_shared.supabase_client", "ts_shared"):
+        if mod in sys.modules and hasattr(sys.modules[mod], "_mock_name"):
+            del sys.modules[mod]
 
 
 @pytest.fixture
@@ -20,6 +28,7 @@ def mock_supabase():
 
 def test_log_invocation_returns_id(mock_supabase):
     """log_skill_invocation returns an invocation ID."""
+    _ensure_real_logging_utils()
     client, table = mock_supabase
 
     with patch("ts_shared.supabase_client.get_client", return_value=client):

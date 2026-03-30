@@ -28,7 +28,7 @@ The database extends Shopify's data model with fields Shopify can't store native
 
 ### Core Tables
 
-Read `skills/shared/supabase-ops-db/schema.sql` for the full DDL. Key tables:
+Read `agents/shared/supabase-ops-db/schema.sql` for the full DDL. Key tables:
 
 **`products`** — Master product catalog
 - Synced from Shopify: `shopify_id`, `title`, `handle`, `sku`, `price`, `status`
@@ -74,7 +74,7 @@ Refreshed via `pg_cron` on Supabase:
 
 ## Pre-Built Queries
 
-See `skills/shared/supabase-ops-db/queries/` for ready-to-use SQL:
+See `agents/shared/supabase-ops-db/queries/` for ready-to-use SQL:
 
 - `product-margin.sql` — Get margin by SKU with COGS confidence
 - `inventory-availability.sql` — Cross-channel availability including FBA and in-transit

@@ -195,7 +195,7 @@ All inventory updates require human confirmation:
 | Goods received with damage | operations-manager + warehouse-manager | WhatsApp + Dashboard | Same day |
 | Goods received, quantity mismatch | operations-manager | WhatsApp (Bahasa Indonesia) | 24 hours |
 
-Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation reference.
+Read `agents/shared/escalation-matrix/SKILL.md` for the full escalation reference.
 
 ## Output Format
 
@@ -236,8 +236,8 @@ Read `skills/shared/escalation-matrix/SKILL.md` for the full escalation referenc
 
 ## Dependencies
 
-- Read `skills/shared/supabase-ops-db/SKILL.md` for database schema
-- Read `skills/shared/product-knowledge/SKILL.md` for product categories and HS mapping
-- Coordinates with `skills/operations/supplier-communication/SKILL.md` for PO and inquiry drafting
-- Feeds landed cost data to `skills/finance/cogs-tracking/SKILL.md`
-- Read `skills/shared/escalation-matrix/SKILL.md` for routing decisions
+- Read `agents/shared/supabase-ops-db/SKILL.md` for database schema
+- Read `agents/shared/product-knowledge/SKILL.md` for product categories and HS mapping
+- Coordinates with `agents/operations/skills/supplier-communication/SKILL.md` for PO and inquiry drafting
+- Feeds landed cost data to `agents/finance/skills/cogs-tracking/SKILL.md`
+- Read `agents/shared/escalation-matrix/SKILL.md` for routing decisions

@@ -67,7 +67,7 @@ Orders fulfilled by Amazon have separate tracking. Check `fulfillment_route = 'f
 
 ### Step 4: Generate Response
 
-Use the response template from `skills/customer-service/ticket-triage/response-templates.md` as a starting point, but personalize:
+Use the response template from `agents/customer-service/skills/ticket-triage/response-templates.md` as a starting point, but personalize:
 - Include the specific tracking number and carrier
 - If delayed, acknowledge proactively
 - If delivered but customer claims non-receipt, escalate to operations-manager (Tier 2)

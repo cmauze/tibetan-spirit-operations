@@ -143,4 +143,4 @@ When queried for calendar information, return:
 ## Dependencies
 
 - **Referenced by**: marketing agents (campaign timing), operations agents (inventory planning), ecommerce agents (seasonal content), customer-service agents (answering holiday questions)
-- **References**: `skills/shared/brand-guidelines/SKILL.md` for content tone, `skills/shared/escalation-matrix/SKILL.md` for approval routing
+- **References**: `agents/shared/brand-guidelines/SKILL.md` for content tone, `agents/shared/escalation-matrix/SKILL.md` for approval routing

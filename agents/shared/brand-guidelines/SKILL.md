@@ -136,7 +136,7 @@ Our customers are primarily Western Buddhist practitioners, meditation enthusias
 
 ## Cultural Sensitivity Rules
 
-Read `skills/shared/brand-guidelines/cultural-sensitivity.md` for the full reference. Key rules:
+Read `agents/shared/brand-guidelines/cultural-sensitivity.md` for the full reference. Key rules:
 
 1. **Buddhist terminology stays untranslated**: mala, thangka, dharma, sangha, stupa, mandala, mantra. These words have specific meanings that English translations dilute.
 
