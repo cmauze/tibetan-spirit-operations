@@ -112,19 +112,19 @@ class TestOrderTracking:
 
 
 # ---------------------------------------------------------------------------
-# Test Case 2: Refund request $30 -> ESCALATE_JHOTI
+# Test Case 2: Refund request $30 -> ESCALATE_OPS_MANAGER
 # ---------------------------------------------------------------------------
 
 
 class TestRefundEscalation:
-    """'I want a refund for the singing bowl, $30' should route to Jhoti."""
+    """'I want a refund for the singing bowl, $30' should route to operations-manager."""
 
-    def test_classifies_as_escalate_jhoti(self, triage_agent):
-        """Refund requests are operational issues requiring Jhoti's authority."""
+    def test_classifies_as_escalate_ops_manager(self, triage_agent):
+        """Refund requests are operational issues requiring the operations manager's authority."""
         response = MockAgentResponse(
             content="",
             structured_output={
-                "tier": "ESCALATE_JHOTI",
+                "tier": "ESCALATE_OPS_MANAGER",
                 "category": "refund",
                 "confidence": 0.91,
                 "customer_response_draft": (
@@ -137,7 +137,7 @@ class TestRefundEscalation:
                     "Pelanggan meminta pengembalian dana $30 untuk singing bowl. "
                     "Dalam jangka waktu kebijakan pengembalian."
                 ),
-                "escalation_target": "jhoti",
+                "escalation_target": "operations-manager",
                 "order_id": None,
                 "suggested_tags": ["refund", "singing-bowl"],
             },
@@ -149,16 +149,16 @@ class TestRefundEscalation:
         )
 
         result = response.structured_output
-        assert result["tier"] == "ESCALATE_JHOTI"
+        assert result["tier"] == "ESCALATE_OPS_MANAGER"
         assert result["category"] == "refund"
-        assert result["escalation_target"] == "jhoti"
+        assert result["escalation_target"] == "operations-manager"
 
-    def test_jhoti_briefing_in_bahasa_indonesia(self, triage_agent):
-        """Jhoti's internal notes must be in Bahasa Indonesia."""
+    def test_ops_manager_briefing_in_bahasa_indonesia(self, triage_agent):
+        """Operations manager's internal notes must be in Bahasa Indonesia."""
         response = MockAgentResponse(
             content="",
             structured_output={
-                "tier": "ESCALATE_JHOTI",
+                "tier": "ESCALATE_OPS_MANAGER",
                 "category": "refund",
                 "confidence": 0.89,
                 "customer_response_draft": "Thank you for reaching out...",
@@ -167,7 +167,7 @@ class TestRefundEscalation:
                     "Pelanggan meminta pengembalian dana sebesar $30 untuk singing bowl. "
                     "Mungkin bisa Anda periksa dan setujui permintaan ini."
                 ),
-                "escalation_target": "jhoti",
+                "escalation_target": "operations-manager",
                 "order_id": None,
                 "suggested_tags": ["refund"],
             },
@@ -342,7 +342,7 @@ class TestUrgentEscalation:
             },
         )
         id_notes = response.structured_output["internal_notes_id"]
-        assert "MENDESAK" in id_notes, "Urgent items must be marked MENDESAK for Jhoti"
+        assert "MENDESAK" in id_notes, "Urgent items must be marked MENDESAK for operations-manager"
 
     def test_urgent_response_is_empathetic_not_defensive(self, triage_agent):
         """Response to angry customers must be empathetic, never defensive."""

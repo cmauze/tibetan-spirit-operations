@@ -2,47 +2,21 @@
 
 These tests mock the Agent SDK and Supabase to test server behavior
 without requiring external services.
+
+sys.modules stubs for claude_agent_sdk and ts_shared.* are installed by
+pytest_configure in tests/conftest.py before collection, so this module
+can import server.server at the top level without any module-level hacks.
 """
 
 import base64
 import hashlib
 import hmac
 import json
-import sys
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
-# Mock the claude_agent_sdk module before importing server
-mock_sdk = MagicMock()
-
-
-class MockResultMessage:
-    result = "Skill executed successfully"
-    total_cost_usd = 0.001
-    usage = {"input_tokens": 100, "output_tokens": 50, "cache_read_input_tokens": 0}
-
-
-async def mock_query(prompt, options=None):
-    """Mock query that yields a ResultMessage."""
-    yield MockResultMessage()
-
-
-mock_sdk.query = mock_query
-mock_sdk.ClaudeAgentOptions = MagicMock()
-mock_sdk.ResultMessage = MockResultMessage
-sys.modules["claude_agent_sdk"] = mock_sdk
-
-# Mock shared library
-mock_logging = MagicMock()
-mock_logging.log_skill_invocation = AsyncMock(return_value="test-inv-id")
-sys.modules["ts_shared"] = MagicMock()
-sys.modules["ts_shared.logging_utils"] = mock_logging
-sys.modules["ts_shared.supabase_client"] = MagicMock()
-
 from server.server import app, verify_shopify_webhook
-
-# Use httpx for async test client
 from httpx import ASGITransport, AsyncClient
 
 
