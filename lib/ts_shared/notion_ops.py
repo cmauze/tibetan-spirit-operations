@@ -124,7 +124,6 @@ def create_academy_page(
     logger.info("Created Academy page: %s (module %d)", title, module_id)
     return page_id
 
-
 def log_cost_to_notion(
     workflow: str,
     model: str,

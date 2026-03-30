@@ -287,10 +287,10 @@ class TestPracticeQuestionEscalation:
 
 
 class TestUrgentEscalation:
-    """'Filing a chargeback RIGHT NOW' -> URGENT tier, route to Chris."""
+    """'Filing a chargeback RIGHT NOW' -> URGENT tier, route to ceo."""
 
     def test_classifies_as_urgent(self, triage_agent):
-        """Chargeback threats are Tier 4 URGENT, always routed to Chris."""
+        """Chargeback threats are Tier 4 URGENT, always routed to ceo."""
         response = MockAgentResponse(
             content="",
             structured_output={
@@ -304,13 +304,13 @@ class TestUrgentEscalation:
                 ),
                 "internal_notes_en": (
                     "URGENT: Customer threatening chargeback. "
-                    "Immediate escalation to Chris required. 4-hour SLA."
+                    "Immediate escalation to ceo required. 4-hour SLA."
                 ),
                 "internal_notes_id": (
                     "MENDESAK: Pelanggan mengancam chargeback. "
-                    "Eskalasi segera ke Chris diperlukan. SLA 4 jam."
+                    "Eskalasi segera ke ceo diperlukan. SLA 4 jam."
                 ),
-                "escalation_target": "chris",
+                "escalation_target": "ceo",
                 "order_id": None,
                 "suggested_tags": ["chargeback", "urgent", "legal"],
             },
@@ -323,7 +323,7 @@ class TestUrgentEscalation:
 
         result = response.structured_output
         assert result["tier"] == "URGENT"
-        assert result["escalation_target"] == "chris"
+        assert result["escalation_target"] == "ceo"
 
     def test_urgent_has_mendesak_label(self, triage_agent):
         """Urgent items must include MENDESAK in Bahasa Indonesia notes."""
@@ -336,7 +336,7 @@ class TestUrgentEscalation:
                 "customer_response_draft": "I understand your frustration...",
                 "internal_notes_en": "URGENT: Chargeback threat.",
                 "internal_notes_id": "MENDESAK: Pelanggan mengancam chargeback.",
-                "escalation_target": "chris",
+                "escalation_target": "ceo",
                 "order_id": None,
                 "suggested_tags": ["chargeback", "urgent"],
             },
@@ -358,7 +358,7 @@ class TestUrgentEscalation:
                 ),
                 "internal_notes_en": "Chargeback threat, escalated.",
                 "internal_notes_id": "MENDESAK: Ancaman chargeback.",
-                "escalation_target": "chris",
+                "escalation_target": "ceo",
                 "order_id": None,
                 "suggested_tags": ["chargeback"],
             },
