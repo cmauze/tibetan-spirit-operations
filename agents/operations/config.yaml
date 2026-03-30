@@ -1,0 +1,17 @@
+name: operations
+description: "Operational backbone — orders, inventory, fulfillment, supplier relationships"
+model: claude-sonnet-4-6
+max_turns: 15
+budget_usd: 0.50
+skills:
+  - shared/brand-guidelines
+  - shared/channel-config
+  - shared/supabase-ops-db
+  - operations/fulfillment-domestic
+  - operations/fulfillment-mexico
+  - operations/fulfillment-nepal
+  - operations/inventory-management
+  - operations/supplier-communication
+  - operations/amazon-fba-replenishment
+  - operations/etsy-sync-monitoring
+  - operations/travel-coordination

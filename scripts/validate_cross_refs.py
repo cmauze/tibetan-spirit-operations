@@ -19,8 +19,8 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SCHEMA_PATH = REPO_ROOT / "skills" / "shared" / "supabase-ops-db" / "schema.sql"
-SKILLS_ROOT = REPO_ROOT / "skills"
+SCHEMA_PATH = REPO_ROOT / "agents" / "shared" / "supabase-ops-db" / "schema.sql"
+SKILLS_ROOT = REPO_ROOT / "agents"
 
 # Regex to find table.column references in SKILL.md prose and code blocks
 # Matches patterns like: `products.cogs_confirmed`, products.sku, `skill_invocations`

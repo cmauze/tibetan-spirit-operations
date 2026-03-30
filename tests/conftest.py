@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, AsyncMock
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-SKILLS_DIR = REPO_ROOT / "skills"
+SKILLS_DIR = REPO_ROOT / "agents"
 
 
 @pytest.fixture

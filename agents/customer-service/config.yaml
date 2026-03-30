@@ -1,0 +1,15 @@
+name: customer-service
+description: "Voice of Tibetan Spirit to customers — warmth, accuracy, and sacred respect"
+model: claude-haiku-4-5-20251001
+max_turns: 10
+budget_usd: 0.25
+skills:
+  - shared/brand-guidelines
+  - shared/product-knowledge
+  - shared/escalation-matrix
+  - customer-service/ticket-triage
+  - customer-service/order-inquiry
+  - customer-service/practice-inquiry
+  - customer-service/product-guidance
+  - customer-service/return-request
+  - customer-service/review-solicitation

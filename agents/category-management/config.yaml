@@ -1,0 +1,17 @@
+name: category-management
+description: "Strategic portfolio management — long-term category health over short-term revenue"
+model: claude-sonnet-4-6
+max_turns: 20
+budget_usd: 1.00
+skills:
+  - shared/brand-guidelines
+  - shared/channel-config
+  - shared/product-knowledge
+  - category-management/pricing-strategy
+  - category-management/competitive-research
+  - category-management/category-portfolio
+  - category-management/assortment-planning
+  - category-management/promotion-strategy
+  - category-management/subscription-curation
+  - category-management/wholesale-strategy
+  - category-management/marketplace-expansion

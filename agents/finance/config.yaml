@@ -1,0 +1,16 @@
+name: finance
+description: "Financial conscience — accuracy, anomaly detection, decision support"
+model: claude-sonnet-4-6
+max_turns: 20
+budget_usd: 1.00
+skills:
+  - shared/brand-guidelines
+  - shared/channel-config
+  - shared/supabase-ops-db
+  - finance/cogs-tracking
+  - finance/reconciliation
+  - finance/margin-reporting
+  - finance/channel-profitability
+  - finance/amazon-fee-analysis
+  - finance/nepal-payments
+  - finance/debt-service

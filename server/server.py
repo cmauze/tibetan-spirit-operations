@@ -32,7 +32,7 @@ app = FastAPI(title="Tibetan Spirit AI Operations", version="0.2.0")
 
 SHOPIFY_WEBHOOK_SECRET = os.environ.get("SHOPIFY_WEBHOOK_SECRET", "")
 API_KEY = os.environ.get("API_KEY", "")
-SKILLS_DIR = os.path.join(os.path.dirname(__file__), "..", "skills")
+AGENTS_DIR = os.path.join(os.path.dirname(__file__), "..", "agents")
 
 MODEL_IDS = {
     "haiku": "claude-haiku-4-5-20251001",
@@ -44,8 +44,12 @@ MODEL_IDS = {
 
 
 def load_skill(skill_path: str) -> str:
-    """Load a SKILL.md file from the skills directory."""
-    full_path = os.path.join(SKILLS_DIR, skill_path, "SKILL.md")
+    """Load a SKILL.md file from the agents directory."""
+    parts = skill_path.split("/")
+    if parts[0] == "shared":
+        full_path = os.path.join(AGENTS_DIR, skill_path, "SKILL.md")
+    else:
+        full_path = os.path.join(AGENTS_DIR, parts[0], "skills", parts[1], "SKILL.md")
     if not os.path.exists(full_path):
         raise FileNotFoundError(f"Skill not found: {full_path}")
     with open(full_path, "r") as f:
@@ -218,7 +222,7 @@ async def execute_skill(
             model=MODEL_IDS.get(model_key, MODEL_IDS["sonnet"]),
             max_turns=config.get("max_turns", 10),
             permission_mode="bypassPermissions",
-            cwd=os.path.dirname(SKILLS_DIR),
+            cwd=os.path.dirname(AGENTS_DIR),
         )
 
         async for message in query(prompt=full_prompt, options=options):

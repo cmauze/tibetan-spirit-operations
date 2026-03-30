@@ -43,6 +43,38 @@ SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "")
 LATAM_COUNTRIES = {"MX", "GT", "HN", "SV", "CR", "PA", "CO", "PE", "CL", "AR", "BR", "EC", "VE", "UY", "PY", "BO"}
 
 
+def parse_shopify_date(date_str: str) -> str | None:
+    """Parse Shopify CSV dates to ISO format. Handles multiple formats."""
+    if not date_str or not date_str.strip():
+        return None
+    date_str = date_str.strip()
+
+    # Format 1: "2021-05-05 06:36:00 -0400" (ISO-like with offset)
+    if "-" in date_str[:5]:
+        return date_str
+
+    # Format 2: "M/D/YY H:MM" or "M/D/YY HH:MM" (Shopify CSV short format)
+    try:
+        parts = date_str.split(" ", 1)
+        date_part = parts[0]
+        time_part = parts[1] if len(parts) > 1 else "0:00"
+
+        month, day, year = date_part.split("/")
+        year = int(year)
+        if year < 100:
+            year += 2000
+
+        # Handle time like "18:54" or "0:00"
+        time_parts = time_part.split(":")
+        hour = int(time_parts[0]) if time_parts[0] else 0
+        minute = int(time_parts[1]) if len(time_parts) > 1 and time_parts[1] else 0
+
+        dt = datetime(year, int(month), int(day), hour, minute, tzinfo=timezone.utc)
+        return dt.isoformat()
+    except (ValueError, IndexError):
+        return date_str
+
+
 def supabase_upsert(table: str, rows: list[dict]) -> int:
     """Upsert rows to Supabase in batches of 100."""
     if not rows:
@@ -123,8 +155,8 @@ def parse_csv(filepath: str) -> list[dict]:
             if first_row.get(key):
                 shipping[field.lower().replace(" ", "_")] = first_row[key]
 
-        # Parse created_at
-        created_at = first_row.get("Created at", "")
+        # Parse created_at to ISO format
+        created_at = parse_shopify_date(first_row.get("Created at", ""))
 
         # Shopify ID (numeric, from the Id column)
         shopify_id = first_row.get("Id", "")
@@ -203,13 +235,17 @@ def main():
         totals = sum(o["total_price"] for o in orders)
         print(f"  Total revenue: ${totals:,.2f}")
 
-        # Show year breakdown
+        # Show year breakdown using parsed ISO dates
         by_year = defaultdict(lambda: {"count": 0, "revenue": 0})
         for o in orders:
             if o.get("created_at"):
-                year = o["created_at"][:4]
-                by_year[year]["count"] += 1
-                by_year[year]["revenue"] += o["total_price"]
+                try:
+                    year = o["created_at"][:4]
+                    if year.isdigit():
+                        by_year[year]["count"] += 1
+                        by_year[year]["revenue"] += o["total_price"]
+                except (IndexError, ValueError):
+                    pass
 
         print(f"\n  Year breakdown:")
         for year in sorted(by_year.keys()):

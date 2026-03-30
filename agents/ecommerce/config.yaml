@@ -1,0 +1,17 @@
+name: ecommerce
+description: "Product presentation and discovery — practice context first, SEO second"
+model: claude-sonnet-4-6
+max_turns: 15
+budget_usd: 0.50
+skills:
+  - shared/brand-guidelines
+  - shared/channel-config
+  - shared/product-knowledge
+  - ecommerce/cross-channel-parity
+  - ecommerce/etsy-content-optimization
+  - ecommerce/amazon-listing-optimization
+  - ecommerce/collection-management
+  - ecommerce/content-performance
+  - ecommerce/site-health
+  - ecommerce/agentic-discovery
+  - ecommerce/product-photography-standards

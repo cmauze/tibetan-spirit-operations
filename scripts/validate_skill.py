@@ -7,7 +7,7 @@ and model routing. Returns JSON report per file.
 
 Usage:
     python3 scripts/validate_skill.py                    # validate all skills
-    python3 scripts/validate_skill.py skills/customer-service/ticket-triage
+    python3 scripts/validate_skill.py agents/customer-service/skills/ticket-triage
 """
 
 from __future__ import annotations
@@ -180,13 +180,13 @@ def find_skill_dirs(root: Path) -> list[Path]:
 
 def main():
     repo_root = Path(__file__).resolve().parent.parent
-    skills_root = repo_root / "skills"
+    agents_root = repo_root / "agents"
 
     if len(sys.argv) > 1:
         # Validate specific skill directory
         targets = [Path(sys.argv[1])]
     else:
-        targets = find_skill_dirs(skills_root)
+        targets = find_skill_dirs(agents_root)
 
     results = []
     total_passed = 0
@@ -205,7 +205,7 @@ def main():
         total_warnings += len(report["warnings"])
 
         # Print summary per file
-        rel_path = skill_dir.relative_to(skills_root) if skills_root in skill_dir.parents else skill_dir
+        rel_path = skill_dir.relative_to(agents_root) if agents_root in skill_dir.parents else skill_dir
         print(f"  {status}  {rel_path}", end="")
         if report["warnings"]:
             print(f"  ({len(report['warnings'])} warnings)", end="")

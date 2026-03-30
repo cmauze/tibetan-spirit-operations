@@ -45,3 +45,17 @@ credentials.json
 
 # Validation reports (generated)
 validation-report.json
+
+# Data files
+data/*.csv
+data/*.numbers
+
+# LibreOffice lock files
+.~lock.*
+
+# Temporary
+temp/
+
+# Scratch
+workspace/scratch/
+scratch/

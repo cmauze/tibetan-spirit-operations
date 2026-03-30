@@ -1,0 +1,22 @@
+name: marketing
+description: "Authentic connection through marketing — restraint as competitive advantage"
+model: claude-sonnet-4-6
+max_turns: 15
+budget_usd: 0.75
+skills:
+  - shared/brand-guidelines
+  - shared/channel-config
+  - marketing/meta-ads
+  - marketing/google-ads
+  - marketing/amazon-ppc
+  - marketing/etsy-ads
+  - marketing/pinterest-ads
+  - marketing/campaign-architecture
+  - marketing/creative-library
+  - marketing/email-sms
+  - marketing/social-content
+  - marketing/seo
+  - marketing/performance-reporting
+  - marketing/ab-testing
+  - marketing/inventory-aware-advertising
+  - marketing/drift-detection
