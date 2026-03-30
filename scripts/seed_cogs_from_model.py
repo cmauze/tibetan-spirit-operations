@@ -31,32 +31,46 @@ from ts_shared.supabase_client import get_client
 
 
 # Category COGS rates (% of retail price)
+# Conservative estimates — bumped ~5% above financial model to account for
+# potentially missing shipping, customs, breakage, and handling costs.
 CATEGORY_COGS_RATES = {
-    "incense": 0.24,
-    "singing_bowls": 0.30,
-    "malas": 0.20,
-    "prayer_beads": 0.20,
-    "statues": 0.35,
-    "ritual_objects": 0.35,
-    "thangkas": 0.40,
-    "prayer_flags": 0.15,
-    "books": 0.10,
-    "texts": 0.10,
-    "altar_supplies": 0.25,
+    "incense": 0.28,
+    "singing_bowls": 0.35,
+    "malas": 0.25,
+    "prayer_beads": 0.25,
+    "statues": 0.40,
+    "ritual_objects": 0.40,
+    "thangkas": 0.45,
+    "prayer_flags": 0.20,
+    "books": 0.15,
+    "texts": 0.15,
+    "altar_supplies": 0.30,
 }
-DEFAULT_COGS_RATE = 0.25
+DEFAULT_COGS_RATE = 0.30
 
 # Category classification patterns (applied to title and handle)
+# Order matters — first match wins. More specific patterns go first.
 CATEGORY_PATTERNS: list[tuple[str, str]] = [
-    (r"incense|dhoop|nado|rope\s*incense|cone\s*incense", "incense"),
-    (r"singing\s*bowl|sound\s*bowl|tibetan\s*bowl", "singing_bowls"),
-    (r"mala\b|prayer\s*bead|japa|wrist\s*mala|guru\s*bead", "malas"),
-    (r"statue|buddha\s*figure|tara\s*figure|figurine|bronze\s*figure", "statues"),
-    (r"ritual|vajra|dorje|bell|ghanta|phurba|kapala|damaru|bumpa", "ritual_objects"),
+    # Incense (sticks, powders, sang, sur, dhoop)
+    (r"incense|dhoop|nado|rope\s*incense|cone\s*incense|\bsang\b|\bsur\b|agarwood", "incense"),
+    # Singing bowls and tingsha
+    (r"singing\s*bowl|sound\s*bowl|tibetan\s*bowl|tingsha|tingshak", "singing_bowls"),
+    # Malas, prayer beads, and jewelry/pendants/amulets
+    (r"mala\b|prayer\s*bead|japa|wrist\s*mala|guru\s*bead|sungkhor|amulet|pendant|necklace|bracelet", "malas"),
+    # Statues — deity names with size indicators (e.g. "Amitabha (Brass, 8\")")
+    (r"statue|figurine|\b\d+\"?\)?$|\bbrass\b.*\d+\"|\bcopper\b.*\d+\"|\bbronze\b.*\d+\"", "statues"),
+    # Ritual objects (vajra, dorje, bells, bhumpa, crowns, shrouds)
+    (r"ritual|vajra|dorje|\bbell\b|ghanta|phurba|kapala|damaru|bh?umpa|bumdro|crown|shroud|brocade", "ritual_objects"),
+    # Thangkas
     (r"thangka|thanka|tangka|scroll\s*painting", "thangkas"),
+    # Prayer flags
     (r"prayer\s*flag|lungta|wind\s*horse|flag\s*strand", "prayer_flags"),
-    (r"book|text|sutra|dharma\s*pub|snow\s*lion|shambhala\s*pub", "books"),
-    (r"altar|offering\s*bowl|butter\s*lamp|incense\s*holder|burner|censer|puja\s*set", "altar_supplies"),
+    # Books, texts, dharma publications, practice booklets
+    (r"\bbook\b|\btext\b|sutra|dharma\s*pub|snow\s*lion|shambhala\s*pub|recitation|practice|abridged|key\s*instructions|collection\s*of", "books"),
+    # Altar supplies, offering implements, incense holders
+    (r"altar|offering\s*bowl|butter\s*lamp|incense\s*holder|burner|censer|puja\s*set|torma|stupa", "altar_supplies"),
+    # Tea
+    (r"tea\b|puerh|pu-erh", "altar_supplies"),
 ]
 
 DUTY_RATE = 0.05
@@ -72,15 +86,19 @@ def classify_product(title: str, handle: str) -> str:
 
 
 def get_freight_per_unit(price: float) -> float:
-    """Determine freight per unit based on price tier."""
+    """Determine freight per unit based on price tier.
+
+    Conservative estimates — includes buffer for customs brokerage,
+    insurance, and handling costs that may not appear on supplier invoices.
+    """
     if price < 20:
-        return 2.50
-    elif price < 50:
         return 4.00
+    elif price < 50:
+        return 5.50
     elif price < 100:
-        return 6.00
+        return 7.50
     else:
-        return 8.00
+        return 10.00
 
 
 def main():
