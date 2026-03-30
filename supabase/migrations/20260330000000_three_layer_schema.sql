@@ -3,6 +3,19 @@
 -- Depends on: 20260323064342_initial_schema (existing orders, products tables)
 
 -- ============================================================================
+-- TRIGGER FUNCTION
+-- Ensure trigger function exists (originally from initial_schema migration)
+-- ============================================================================
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS trigger AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- ============================================================================
 -- ENUMS
 -- ============================================================================
 
