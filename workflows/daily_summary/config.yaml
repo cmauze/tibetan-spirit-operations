@@ -1,0 +1,10 @@
+name: daily_summary
+schedule: "0 18 * * *"  # 6pm Denver daily
+model: claude-haiku-4-5-20251001
+agent: operations
+skills:
+  - shared/brand-guidelines
+  - shared/channel-config
+requires_approval: false
+notify:
+  - ceo
