@@ -1,0 +1,10 @@
+name: weekly_pnl
+schedule: "0 6 * * 1"  # Monday 6am Denver
+model: claude-sonnet-4-6
+agent: finance
+skills:
+  - shared/brand-guidelines
+  - finance/cogs-tracking
+  - finance/margin-reporting
+requires_approval: true
+assignee: ceo
