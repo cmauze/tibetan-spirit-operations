@@ -46,9 +46,11 @@ credentials.json
 # Validation reports (generated)
 validation-report.json
 
-# Data files
-data/*.csv
-data/*.numbers
+# Data files (runtime, not versioned)
+/data/
+
+# Supabase CLI temp
+supabase/.temp/
 
 # LibreOffice lock files
 .~lock.*
