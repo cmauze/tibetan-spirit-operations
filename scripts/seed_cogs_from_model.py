@@ -51,26 +51,28 @@ DEFAULT_COGS_RATE = 0.30
 # Category classification patterns (applied to title and handle)
 # Order matters — first match wins. More specific patterns go first.
 CATEGORY_PATTERNS: list[tuple[str, str]] = [
-    # Incense (sticks, powders, sang, sur, dhoop)
-    (r"incense|dhoop|nado|rope\s*incense|cone\s*incense|\bsang\b|\bsur\b|agarwood", "incense"),
+    # Incense (sticks, powders, sang, sur, dhoop, resins, charcoal)
+    (r"incense|dhoop|nado|rope\s*incense|cone\s*incense|\bsang\b|\bsur\b|agarwood|guggul|resin\b|palo\s*santo|charcoal\s*tablet|sancho|gapur|menchey|puja\s*powder|rakta\s*substance", "incense"),
     # Singing bowls and tingsha
     (r"singing\s*bowl|sound\s*bowl|tibetan\s*bowl|tingsha|tingshak", "singing_bowls"),
-    # Malas, prayer beads, and jewelry/pendants/amulets
-    (r"mala\b|prayer\s*bead|japa|wrist\s*mala|guru\s*bead|sungkhor|amulet|pendant|necklace|bracelet", "malas"),
-    # Statues — deity names with size indicators (e.g. "Amitabha (Brass, 8\")")
-    (r"statue|figurine|\b\d+\"?\)?$|\bbrass\b.*\d+\"|\bcopper\b.*\d+\"|\bbronze\b.*\d+\"", "statues"),
-    # Ritual objects (vajra, dorje, bells, bhumpa, crowns, shrouds)
-    (r"ritual|vajra|dorje|\bbell\b|ghanta|phurba|kapala|damaru|bh?umpa|bumdro|crown|shroud|brocade", "ritual_objects"),
-    # Thangkas
-    (r"thangka|thanka|tangka|scroll\s*painting", "thangkas"),
-    # Prayer flags
-    (r"prayer\s*flag|lungta|wind\s*horse|flag\s*strand", "prayer_flags"),
-    # Books, texts, dharma publications, practice booklets
-    (r"\bbook\b|\btext\b|sutra|dharma\s*pub|snow\s*lion|shambhala\s*pub|recitation|practice|abridged|key\s*instructions|collection\s*of", "books"),
-    # Altar supplies, offering implements, incense holders
-    (r"altar|offering\s*bowl|butter\s*lamp|incense\s*holder|burner|censer|puja\s*set|torma|stupa", "altar_supplies"),
+    # Malas, prayer beads, and wrist beads
+    (r"mala\b|prayer\s*bead|japa|wrist\s*mala|guru\s*bead|sungkhor|amulet|pendant|necklace|bracelet|wrist\b.*adjustable", "malas"),
+    # Statues — deity names with size indicators, gilded items
+    (r"statue|figurine|gilded|gilding|\b\d+\"?\)?$|\bbrass\b.*\d+\"|\bcopper\b.*\d+\"|\bbronze\b.*\d+\"", "statues"),
+    # Ritual objects (vajra, dorje, bells, mandala, serkyem, kangling, conch, prayer wheel, tomra)
+    (r"ritual|vajra|dorje|\bbell\b|ghanta|phurba|kapala|damaru|bh?umpa|bumdro|crown|shroud|brocade|mandala|serkyem|kangling|conch|prayer.?wheel|tomra|chod\s*visor|ghau|sword|sling|throne", "ritual_objects"),
+    # Thangkas and wall hangings
+    (r"thangka|thanka|tangka|scroll\s*painting|wall.?hanging", "thangkas"),
+    # Prayer flags and katags/khatas (ceremonial scarves)
+    (r"prayer\s*flag|lungta|wind\s*horse|flag\s*strand|katag|khata|ceremonial.*scarf", "prayer_flags"),
+    # Books, texts, dharma publications, sadhanas, practice booklets
+    (r"\bbook\b|\btext\b|sutra|dharma\s*pub|snow\s*lion|shambhala\s*pub|recitation|abridged|key\s*instructions|collection\s*of|s[aā]dhana|biography|commentary|praise|mahamudra|lojong|pith\s*instruction", "books"),
+    # Altar supplies, offering implements, incense holders, offering sets, chutor
+    (r"altar|offering\s*bowl|butter\s*lamp|incense\s*holder|burner|censer|puja\s*set|torma|stupa|offering\s*plate|offering\s*set|chutor|dadar|pecha|vase\s*25", "altar_supplies"),
     # Tea
     (r"tea\b|puerh|pu-erh", "altar_supplies"),
+    # Textiles (bags, curtains, cloth)
+    (r"dharma\s*bag|door\s*curtain|mantra\s*banner|cloth\b", "prayer_flags"),
 ]
 
 DUTY_RATE = 0.05
@@ -214,21 +216,13 @@ def main():
 
     # Refresh materialized views
     print("\nRefreshing materialized views...")
-    try:
-        client.rpc("refresh_materialized_views", {}).execute()
-        print("  Materialized views refreshed via RPC.")
-    except Exception:
-        # RPC may not exist yet — try direct SQL via postgrest
-        for view in ["channel_profitability_monthly", "product_margin_detail"]:
-            try:
-                client.postgrest.rpc(
-                    "exec_sql",
-                    {"query": f"REFRESH MATERIALIZED VIEW CONCURRENTLY {view}"},
-                ).execute()
-                print(f"  Refreshed {view}")
-            except Exception as e:
-                print(f"  WARN: Could not refresh {view}: {e}")
-                print(f"  Run manually: REFRESH MATERIALIZED VIEW CONCURRENTLY {view};")
+    for view in ["product_margin_detail", "channel_profitability_monthly"]:
+        try:
+            client.rpc("refresh_materialized_view", {"view_name": view}).execute()
+            print(f"  Refreshed {view}")
+        except Exception as e:
+            print(f"  WARN: Could not refresh {view}: {e}")
+            print(f"  Run manually: REFRESH MATERIALIZED VIEW CONCURRENTLY {view};")
 
     print("\nDone.")
 
