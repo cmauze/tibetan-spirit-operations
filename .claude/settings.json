@@ -4,7 +4,12 @@
     "allow": [],
     "deny": [
       "Bash(pm2 delete*)",
-      "Bash(pm2 kill*)"
+      "Bash(pm2 kill*)",
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(chmod 777*)",
+      "Bash(ssh *)",
+      "Bash(*> /dev/*)"
     ],
     "defaultMode": "auto"
   },
@@ -19,6 +24,48 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/block-env-write.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/dangerous-actions-blocker.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/unicode-injection-scanner.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/stop-secrets-check.sh",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -30,6 +77,16 @@
             "command": ".claude/hooks/log-activity.sh",
             "timeout": 5,
             "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/output-secrets-scanner.sh",
+            "timeout": 5
           }
         ]
       }
