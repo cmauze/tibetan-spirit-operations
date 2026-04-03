@@ -1,3 +1,10 @@
+---
+name: cs-triage
+description: >
+  Classify customer emails and route to response workflows. Handles shipping, orders, returns,
+  wholesale, spiritual guidance escalation. Trigger: "triage customer email", "CS triage".
+---
+
 # CS Email Triage Skill
 
 Classifies incoming customer emails and routes them to the appropriate response workflow.
