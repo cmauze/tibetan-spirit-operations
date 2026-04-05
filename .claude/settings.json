@@ -27,6 +27,19 @@
       }
     ],
     "PreToolUse": [],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/slack-notify.sh",
+            "timeout": 10,
+            "async": true
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Bash|Write|Edit|mcp__.*",

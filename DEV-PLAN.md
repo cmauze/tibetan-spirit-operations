@@ -231,7 +231,7 @@ Do not rewrite anything that's working. Build new things alongside existing asse
 | 56 SKILL.md files | 🟡 Stubs | Frontmatter + purpose + outline. ~35% content depth. |
 | FastAPI server | 🟡 Built | 326 lines, not deployed. Future webhook/chatbot endpoint. |
 | Lib path | 🟡 Wrong path | Currently `lib/shared/src/ts_shared/` — needs flattening to `lib/ts_shared/` |
-| Slack | 🔴 Not set up | Chris will create workspace + bot token before dev starts |
+| Slack | 🟡 Webhooks active | `#ts-alerts` + `#ts-customer-service` webhooks live (2026-04-05). Bot token + Socket Mode needed for HITL buttons. |
 | ORG.md | 🔴 Missing | Referenced in CLAUDE.md but file doesn't exist |
 | workflows/ | 🔴 Missing | Directory doesn't exist yet |
 | Dashboard | 🔴 Not started | Separate repo `ts-command-center/` on Vercel |
