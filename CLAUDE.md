@@ -16,12 +16,12 @@ Full architecture detail: `docs/OPERATIONS-REFERENCE.md`
 
 | Agent | Model | Budget | Role |
 |-------|-------|--------|------|
-| Fulfillment Manager | Sonnet | $2.00 | Order tracking, shipping, supplier coordination with Jothi |
-| Inventory Analyst | Sonnet | $2.00 | Stock monitoring, restock alerts, demand forecasting |
-| CS Drafter | Sonnet | $2.00 | Email drafts via Haiku triage → enrichment → Sonnet draft. NEVER auto-sends. |
-| Marketing Strategist | Sonnet | $2.00 | Campaign briefs, content calendar, targeting |
-| Catalog Curator | Sonnet | $5.00 | Product descriptions via evaluator-optimizer loop |
-| Finance Analyst | Haiku | $0.50 | Weekly P&L, COGS tracking, margin analysis |
+| Fulfillment Manager | Opus | $2.00 | Order tracking, shipping, supplier coordination with Jothi |
+| Inventory Analyst | Opus | $2.00 | Stock monitoring, restock alerts, demand forecasting |
+| CS Drafter | Opus | $2.00 | Email drafts via triage → enrichment → draft. NEVER auto-sends. |
+| Marketing Strategist | Opus | $2.00 | Campaign briefs, content calendar, targeting |
+| Catalog Curator | Opus | $5.00 | Product descriptions via evaluator-optimizer loop |
+| Finance Analyst | Opus | $0.50 | Weekly P&L, COGS tracking, margin analysis |
 
 Agent definitions in `.claude/agents/`. Full workflow specs in `docs/OPERATIONS-REFERENCE.md`.
 

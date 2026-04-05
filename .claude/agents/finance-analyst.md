@@ -1,6 +1,6 @@
 ---
 name: finance-analyst
-model: haiku
+model: opus
 execution: fork
 schedule: "0 7 * 1"
 description: Weekly P&L summary, COGS tracking, margin analysis

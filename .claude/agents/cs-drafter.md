@@ -1,6 +1,6 @@
 ---
 name: cs-drafter
-model: sonnet
+model: opus
 execution: fork
 description: Draft customer service email responses with cultural sensitivity
 tools:
