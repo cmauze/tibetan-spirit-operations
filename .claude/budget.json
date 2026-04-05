@@ -1,0 +1,12 @@
+{
+  "daily_budget_usd": 25.00,
+  "per_agent_budgets": {
+    "cs-drafter": 2.00,
+    "finance-analyst": 0.50,
+    "fulfillment-manager": 2.00,
+    "inventory-analyst": 2.00,
+    "marketing-strategist": 2.00,
+    "catalog-curator": 5.00
+  },
+  "data_file": "data/agent-runs.json"
+}

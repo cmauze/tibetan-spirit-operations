@@ -14,60 +14,19 @@
     "defaultMode": "auto"
   },
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "mcp__shopify__.*|Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/budget-check.sh",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/block-env-write.sh",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Bash|Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/dangerous-actions-blocker.sh",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/unicode-injection-scanner.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Stop": [
+    "SessionStart": [
       {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": ".claude/hooks/stop-secrets-check.sh",
-            "timeout": 5
+            "command": ".claude/hooks/session-context.sh",
+            "timeout": 10
           }
         ]
       }
     ],
+    "PreToolUse": [],
     "PostToolUse": [
       {
         "matcher": "Bash|Write|Edit|mcp__.*",
@@ -77,16 +36,6 @@
             "command": ".claude/hooks/log-activity.sh",
             "timeout": 5,
             "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": ".claude/hooks/output-secrets-scanner.sh",
-            "timeout": 5
           }
         ]
       }

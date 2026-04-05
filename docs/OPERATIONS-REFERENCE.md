@@ -55,6 +55,37 @@ Notion for Academy modules (Jothi training) and internal playbooks only.
 | `spiritual-director` | Dr. Hun Lye | English | Email only |
 | `mexico-fulfillment` | Omar | Spanish | Email only |
 
+## Hook System
+
+Hooks enforce policies with 100% determinism. Two layers fire in sequence:
+
+### User-Level Hooks (inherited from `~/.claude/settings.json`)
+
+Universal safety hooks that apply to every project. Centralized 2026-04-05.
+
+| Event | Script | Matcher | Purpose |
+|-------|--------|---------|---------|
+| PreToolUse | `dangerous-actions-blocker.sh` | `Bash\|Edit\|Write` | Blocks destructive commands, force pushes, secret writes |
+| PreToolUse | `unicode-injection-scanner.sh` | `Edit\|Write` | Detects Unicode injection vectors |
+| PostToolUse | `output-secrets-scanner.sh` | all | Scans output for leaked secrets |
+
+### Project-Level Hooks (`.claude/settings.json` → `.claude/hooks/`)
+
+| Event | Script | Matcher | Async | Purpose |
+|-------|--------|---------|-------|---------|
+| PreToolUse | `budget-check.sh` | `mcp__shopify__.*\|Bash` | no | Per-agent budget enforcement |
+| PostToolUse | `log-activity.sh` | `Bash\|Write\|Edit\|mcp__.*` | yes | Activity logging for audit trail |
+
+Note: `.env` write blocking and secrets scanning are handled by user-level hooks (dangerous-actions-blocker.sh and stop-secrets-check.sh).
+
+### Exit Codes
+
+| Code | Meaning | Behavior |
+|------|---------|----------|
+| 0 | Allow | Tool call proceeds |
+| 1 | Warn | Non-blocking warning. Tool still proceeds. |
+| 2 | Block | Tool call prevented. **Always use exit 2 for security-critical enforcement.** |
+
 ## Legacy Agent Structure (Paperclip-inspired)
 
 ```
