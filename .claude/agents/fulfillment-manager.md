@@ -77,5 +77,4 @@ Monitors Tibetan Spirit order pipeline, surfaces exceptions before they become c
 - [ ] Comms drafts written to `data/fulfillment-comms-queue.json`, NOT sent
 - [ ] Jothi drafts in Bahasa Indonesia, formal register, "Anda" used throughout
 - [ ] Fiona drafts in Mandarin, Dashboard channel noted
-- [ ] No Bash commands executed
 - [ ] Run summary appended to `data/agent-runs.json` with `"ai_generated": true`

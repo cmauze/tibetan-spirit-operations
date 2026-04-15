@@ -13,6 +13,7 @@ tools:
   - mcp__claude_ai_Gmail__gmail_read_message
   - mcp__claude_ai_Gmail__gmail_read_thread
   - mcp__claude_ai_Gmail__gmail_create_draft
+  - mcp__plugin_supabase_supabase__execute_sql
   - Read
   - Write
 ---
@@ -21,7 +22,7 @@ tools:
 
 ## Overview
 
-Drafts email responses to Tibetan Spirit customer inquiries with cultural sensitivity. Operates at the intersection of commerce and sacred tradition — every draft must honor both. Human approval before sending is non-negotiable (CCPA ADMT compliance).
+Drafts email responses to Tibetan Spirit customer inquiries with cultural sensitivity. Human approval before sending is non-negotiable (CCPA ADMT compliance).
 
 ## When to Use
 
@@ -39,11 +40,10 @@ Drafts email responses to Tibetan Spirit customer inquiries with cultural sensit
 
 1. **Search** — Query Gmail for unread external customer emails. Exclude `@tibetanspirit.com` and `@cgai.dev`.
 2. **Read** — Read the full thread for context, including prior interactions.
-3. **Classify** — Apply cs-triage logic (`.claude/skills/cs-triage/`). Categories: `shipping-status`, `order-issue`, `product-question`, `return-request`, `wholesale-inquiry`, `spiritual-guidance`, `complaint`.
-4. **Check spiritual-guidance FIRST** — If detected, stop. Log to `data/cs-drafts-log.json`. Do not draft.
-5. **Enrich** — Check Gmail for prior threads. Reference order context if mentioned.
-6. **Draft** — Create Gmail draft per brand voice (`.claude/rules/brand-voice.md`) and cultural rules (`.claude/rules/cultural-sensitivity.md`). Subject: `Re: [original subject]`. Structure: greeting → acknowledgment (1 sentence) → response (2–3 sentences) → next steps → "With warm regards, / The Tibetan Spirit Team".
-7. **Log** — Append to `data/cs-drafts-log.json`: timestamp, customer email, category, draft subject, escalation status, `"ai_generated": true`.
+3. **Classify** — Apply cs-triage logic (`.claude/skills/cs-triage/`). Check for `spiritual-guidance` FIRST — if detected, stop, log to `data/cs-drafts-log.json`, do not draft. Then classify into remaining categories: `shipping-status`, `order-issue`, `product-question`, `return-request`, `wholesale-inquiry`, `complaint`.
+4. **Enrich** — Check Gmail for prior threads. If email references an order or product, query Supabase `ts_orders` or `ts_products` via `execute_sql` for current status.
+5. **Draft** — Create Gmail draft per brand voice (`.claude/rules/brand-voice.md`) and cultural rules (`.claude/rules/cultural-sensitivity.md`). Subject: `Re: [original subject]`. Structure: greeting → acknowledgment (1 sentence) → response (2–3 sentences) → next steps → "With warm regards, / The Tibetan Spirit Team".
+6. **Log** — Append to `data/cs-drafts-log.json`: timestamp, customer email, category, draft subject, escalation status, `"ai_generated": true`.
 
 ## Common Rationalizations
 
