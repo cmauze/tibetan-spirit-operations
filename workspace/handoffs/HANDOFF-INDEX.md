@@ -7,6 +7,7 @@ Active handoffs at top, superseded at bottom.
 | Handoff | Summary |
 |---------|---------|
 | [2026-04-14-ts-post-merge-audit.md](2026-04-14-ts-post-merge-audit.md) | Post-merge audit: verify agent/skill quality against OB2 standards, fix role IDs in 3 rules files, decide on act-on-approved skill, clean up stale branches. |
+| [2026-04-14-cross-project-standards-update.md](2026-04-14-cross-project-standards-update.md) | Apply OB2 standards to cpg-agents-2.0, dharma-writer, laurina-partners: CSO descriptions, metadata.json, agent frontmatter, deny lists. |
 | [2026-04-14-ts-financial-model.md](2026-04-14-ts-financial-model.md) | Phase 3 build sprint: Python financial scenario analysis tool for line extension decisions. TDD, Supabase MCP baseline, 5 seed scenarios, sensitivity analysis, markdown output. |
 
 ## Superseded
