@@ -49,6 +49,8 @@ validation-report.json
 
 # Data files (runtime, not versioned)
 /data/
+data/raw/
+data/db/
 
 # Supabase CLI temp
 supabase/.temp/
@@ -70,5 +72,5 @@ scratch/
 _archive/
 workspace/archive/
 
-# Generated output
-deliverables/
+# Generated output (templates/ committed, outputs/ ignored)
+deliverables/outputs/
