@@ -212,7 +212,9 @@ def _build_cogs_rows_from_products(product_rows: list) -> list:
         if price <= 0:
             continue
 
-        cogs_amount = row.get("cogs_confirmed") or row.get("cogs_estimated")
+        cogs_confirmed = row.get("cogs_confirmed")
+        cogs_estimated = row.get("cogs_estimated")
+        cogs_amount = cogs_confirmed if cogs_confirmed is not None else cogs_estimated
         if cogs_amount is None:
             continue
 

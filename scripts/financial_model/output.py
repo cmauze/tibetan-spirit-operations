@@ -135,16 +135,27 @@ def format_comparison_table(results: list[dict]) -> str:
 
 
 def format_blended_impact(baseline: dict, results: list[dict]) -> str:
-    """Show how each scenario blends with the existing business."""
-    base_rev = baseline["orders"]["total_revenue_usd"]
+    """Show how each scenario blends with the existing business.
+
+    Normalizes baseline revenue to a 24-month comparable by annualizing the
+    historical period (which covers 2025-01 through 2026-03 = 15 months).
+    """
+    base_rev_historical = baseline["orders"]["total_revenue_usd"]
+    monthly_volume = baseline["orders"].get("monthly_volume", {})
+    baseline_months = max(len(monthly_volume), 1)
+    base_rev_24mo = (base_rev_historical / baseline_months) * 24
+
     base_cogs = baseline["cogs"].get("blended_cogs_pct") or 0.0
     base_margin = 1.0 - base_cogs
+
+    monthly_run_rate = base_rev_historical / baseline_months
 
     lines = [
         "## Blended Impact on Existing Business",
         "",
-        f"Current baseline: {_dollar(base_rev)} revenue | "
-        f"{_pct(base_margin)} gross margin ({_pct(base_cogs)} COGS)",
+        f"Current baseline: {_dollar(monthly_run_rate)}/mo run rate | "
+        f"{_pct(base_margin)} gross margin ({_pct(base_cogs)} COGS) | "
+        f"24-mo comparable: {_dollar_k(base_rev_24mo)}",
         "",
         "| Scenario | New Revenue (24mo) | Blended Margin | Margin Change |",
         "|----------|-------------------|----------------|---------------|",
@@ -153,7 +164,7 @@ def format_blended_impact(baseline: dict, results: list[dict]) -> str:
     for r in results:
         new_rev = r["summary"]["total_revenue_24mo"]
         new_margin = 1.0 - _derive_cogs_pct(r)
-        blended = calculate_blended_margin_impact(base_rev, base_margin, new_rev, new_margin)
+        blended = calculate_blended_margin_impact(base_rev_24mo, base_margin, new_rev, new_margin)
         delta = blended - base_margin
         sign = "+" if delta >= 0 else ""
         lines.append(
