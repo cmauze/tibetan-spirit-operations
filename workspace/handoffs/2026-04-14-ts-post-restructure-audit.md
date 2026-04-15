@@ -217,3 +217,19 @@ Write this file at the end of Phase B. Use this structure:
 - All gaps from DEV-PLAN.md catalogued and prioritized
 - `workspace/results/2026-04-14-skills-gap-analysis.md` written to disk with prioritized build list
 - Chris has reviewed and approved the build list before any implementation begins
+
+---
+
+## Update: Skills/Workflows Structure Added (2026-04-14)
+
+After the original handoff was written, the following structural change was made:
+
+- Root `skills/` directory added (canonical), with `.claude/skills/` as symlinks
+- Root `workflows/` directory scaffolded (empty, for future Claude workflows)
+- CLAUDE.md updated with full asset structure table
+
+**Phase A audit checklist additions:**
+- [ ] `ls skills/` shows `cs-triage/` and `shopify-query/` with SKILL.md in each
+- [ ] `.claude/skills/cs-triage` and `.claude/skills/shopify-query` are symlinks (not directories)
+- [ ] `workflows/` directory exists at root
+- [ ] CLAUDE.md Asset Structure table present with 5-row table
