@@ -7,9 +7,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- 6 agents rewritten to OB2+superpowers standards: CSO descriptions, effort/memory/model frontmatter, scoped tools (Supabase MCP), Common Rationalizations + Red Flags + Verification sections — `680d640`..`fbed06e`
+- 2 existing skills (cs-triage, shopify-query) rewritten with references/ extraction — `a0041b4`, `85faaed`
+- 6 new Priority 1 skills: order-inquiry, margin-reporting, fulfillment-flag, restock-calc, campaign-brief, description-optimizer — `7cb5cc1`..`e202cda`
+- CS pipeline workflow definition (triage → enrichment → draft → approval) — `dbfe50a`
+- CCPA enforcement hook (ccpa-gate.sh) blocks direct email sending — `8b903b0`
+- HARD-GATE behavioral tag on cs-triage for spiritual guidance escalation — `dd3e4de`
+- New frontmatter fields: effort, memory, max-turns, criticalSystemReminder_EXPERIMENTAL
+- Growth roadmap ($100-200k → $1-2M) at workspace/plans/GROWTH-ROADMAP.md — `36ad441`
+
 ### Changed
+- Consolidated agent .metadata.json into YAML frontmatter comment lines — `050198e`, `448f500`
+- Updated CLAUDE.md skills/workflows/hooks counts
+- Fixed stale workflow references in ARCHITECTURE.md and OPERATIONS-REFERENCE.md
 - Scaffolded workspace structure (plans/, results/, handoffs/, archive/) — `b8149d0`
 - Consolidated root-level docs (moved DEV-PLAN.md to workspace/plans/, ORG.md to .claude/rules/org-roles.md, archived SYSTEM-STATUS.md, deleted stale validation-report.json) — `9176fff`
+
+### Removed
+- Empty workflows/ directory (replaced with cs-pipeline workflow) — `dd3e4de`
+- Separate .metadata.json files for agents (consolidated into frontmatter) — `050198e`
 
 ---
 

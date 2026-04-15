@@ -1,0 +1,13 @@
+{
+  "name": "description-optimizer",
+  "description": "Evaluator-optimizer loop for product descriptions with 5-dimension rubric scoring and cross-channel consistency.",
+  "domain": "catalog",
+  "triggers": ["description quality", "product copy review", "evaluator-optimizer", "rubric scoring", "cross-channel consistency"],
+  "model": "inherit",
+  "category": "skill",
+  "approval_tier": "review-required",
+  "cost_budget_usd": 1.00,
+  "version": "1.0.0",
+  "created": "2026-04-14",
+  "updated": "2026-04-14"
+}

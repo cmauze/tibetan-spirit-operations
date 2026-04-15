@@ -56,6 +56,9 @@ supabase/.temp/
 # LibreOffice lock files
 .~lock.*
 
+# Git worktrees
+.worktrees/
+
 # Temporary
 temp/
 

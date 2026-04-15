@@ -40,11 +40,11 @@ Six agents, each with a soul file, config, and domain-specific skills. All use t
 | Catalog Curator | Opus | $5.00 | Product descriptions via evaluator-optimizer loop |
 | Finance Analyst | Opus | $0.50 | Weekly P&L, COGS tracking, margin analysis |
 
-Agent definitions: `.claude/agents/`. Skills: `agents/{agent}/skills/`.
+Agent definitions: `.claude/agents/`. Skills: `skills/` (symlinked to `.claude/skills/`).
 
-**Shared skills** (loaded by all agents): brand-guidelines, product-knowledge, escalation-matrix, channel-config, supabase-ops-db, tibetan-calendar.
+**Skills** (8): cs-triage, shopify-query, order-inquiry, margin-reporting, fulfillment-flag, restock-calc, campaign-brief, description-optimizer. Each has SKILL.md + metadata.json + optional references/.
 
-**Skill loading** is three-tier: name+description at startup (~50 tokens/skill), full body on trigger (~2K tokens), dependencies at invocation.
+**Workflows** (1): cs-pipeline (triage → enrichment → draft → approval). Definition in `workflows/cs-pipeline/`.
 
 ---
 
@@ -106,11 +106,12 @@ tibetan-spirit-ops/
 │   ├── ARCHITECTURE.md           ← This file
 │   ├── CHANGELOG.md              ← Change history
 │   └── OPERATIONS-REFERENCE.md  ← Full operational detail
-├── agents/                       ← AI team (soul.md, config.yaml, skills/)
-│   ├── shared/                   ← Cross-agent skills (6 skills)
-│   └── {domain}/                 ← customer-service, operations, finance, marketing, ecommerce, category-management
-├── lib/ts_shared/                ← Shared Python library (Supabase client, Claude client)
-├── workflows/                    ← Cron-triggered workflow scripts
+├── skills/                       ← Domain skills (SKILL.md + metadata.json + references/)
+│   ├── cs-triage/                ← CS email classification
+│   ├── order-inquiry/            ← Order status handling
+│   └── ...                       ← 6 more skills
+├── workflows/                    ← Claude workflow definitions (cs-pipeline)
+├── scripts/                      ← Python operational scripts (cron, utilities)
 ├── tests/
 ├── workspace/plans/              ← Implementation plans
 └── .claude/

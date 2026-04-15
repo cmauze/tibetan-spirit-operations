@@ -30,7 +30,18 @@
         ]
       }
     ],
-    "PreToolUse": [],
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*gmail.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/ccpa-gate.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "",
