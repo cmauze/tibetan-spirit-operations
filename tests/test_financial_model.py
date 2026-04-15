@@ -1,11 +1,16 @@
-"""Tests for financial scenario projection math.
+"""Tests for financial scenario projection math and baseline data validation.
 
-All functions live in scripts/financial_model/analysis.py (not yet implemented).
-These tests are intentionally RED — they will fail until the implementation is written.
+Projection math functions live in scripts/financial_model/analysis.py (not yet implemented).
+Those tests are intentionally RED — they will fail until analysis.py is written.
+
+COGS quality tests use scripts/financial_model/baseline.determine_cogs_quality,
+which is a pure function and does NOT require a Supabase connection.
 """
 
 import math
 import pytest
+
+from scripts.financial_model.baseline import determine_cogs_quality
 
 from scripts.financial_model.analysis import (
     calculate_monthly_revenue,
@@ -391,3 +396,81 @@ class TestProject24Months:
         # At month 24: orders=400, revenue=34,000, GP=18,700, net=18,000/mo
         # This scenario should clearly be profitable by month 24
         assert final_cumulative > 0, "Scenario should be profitable by month 24"
+
+
+# ---------------------------------------------------------------------------
+# 8. COGS quality validation (baseline.py pure function — no Supabase needed)
+# ---------------------------------------------------------------------------
+
+class TestCOGSQualityValidation:
+    """Tests for determine_cogs_quality() — pure function, no DB required."""
+
+    def _make_cogs_row(self, product_id: int, cogs_pct: float = 0.40, confidence: str = "confirmed"):
+        return {"product_id": product_id, "cogs_pct": cogs_pct, "cogs_confidence": confidence}
+
+    def test_zero_products_returns_unavailable(self):
+        """0 active products → quality = 'unavailable', coverage = 0%."""
+        result = determine_cogs_quality(products_count=0, cogs_rows=[])
+        assert result["quality"] == "unavailable"
+        assert result["coverage_pct"] == 0.0
+        assert result["blended_cogs_pct"] is None
+        assert result["warning"] is not None
+
+    def test_zero_cogs_rows_returns_unavailable(self):
+        """Products exist but no COGS data → quality = 'unavailable'."""
+        result = determine_cogs_quality(products_count=10, cogs_rows=[])
+        assert result["quality"] == "unavailable"
+        assert result["coverage_pct"] == 0.0
+        assert result["blended_cogs_pct"] is None
+
+    def test_30_percent_coverage_is_estimated(self):
+        """30% coverage (< 50% threshold) → quality = 'estimated', has warning."""
+        products_count = 10
+        cogs_rows = [self._make_cogs_row(i) for i in range(3)]  # 3/10 = 30%
+        result = determine_cogs_quality(products_count=products_count, cogs_rows=cogs_rows)
+        assert result["quality"] == "estimated"
+        assert result["coverage_pct"] == pytest.approx(0.30)
+        assert result["warning"] is not None
+        assert len(result["warning"]) > 0
+
+    def test_estimated_quality_includes_warning_text(self):
+        """Warning string for estimated quality mentions the coverage shortfall."""
+        cogs_rows = [self._make_cogs_row(i) for i in range(3)]
+        result = determine_cogs_quality(products_count=10, cogs_rows=cogs_rows)
+        assert "estimated" in result["warning"].lower() or "%" in result["warning"]
+
+    def test_80_percent_coverage_is_confirmed(self):
+        """80% coverage (>= 50% threshold) → quality = 'confirmed', no warning."""
+        products_count = 10
+        cogs_rows = [self._make_cogs_row(i) for i in range(8)]  # 8/10 = 80%
+        result = determine_cogs_quality(products_count=products_count, cogs_rows=cogs_rows)
+        assert result["quality"] == "confirmed"
+        assert result["coverage_pct"] == pytest.approx(0.80)
+        assert result["warning"] is None
+
+    def test_exactly_50_percent_coverage_is_confirmed(self):
+        """Exactly 50% coverage hits the threshold → quality = 'confirmed'."""
+        products_count = 10
+        cogs_rows = [self._make_cogs_row(i) for i in range(5)]  # 5/10 = 50%
+        result = determine_cogs_quality(products_count=products_count, cogs_rows=cogs_rows)
+        assert result["quality"] == "confirmed"
+
+    def test_blended_cogs_pct_is_average(self):
+        """Blended COGS % is the simple average of all cogs_pct values."""
+        cogs_rows = [
+            self._make_cogs_row(1, cogs_pct=0.40),
+            self._make_cogs_row(2, cogs_pct=0.60),
+        ]
+        result = determine_cogs_quality(products_count=2, cogs_rows=cogs_rows)
+        assert result["blended_cogs_pct"] == pytest.approx(0.50, rel=1e-4)
+
+    def test_result_has_all_required_keys(self):
+        """Return dict always has quality, coverage_pct, blended_cogs_pct, warning."""
+        required_keys = {"quality", "coverage_pct", "blended_cogs_pct", "warning"}
+        for products_count, cogs_rows in [
+            (0, []),
+            (10, [self._make_cogs_row(1)]),
+            (10, [self._make_cogs_row(i) for i in range(9)]),
+        ]:
+            result = determine_cogs_quality(products_count=products_count, cogs_rows=cogs_rows)
+            assert required_keys.issubset(result.keys())
