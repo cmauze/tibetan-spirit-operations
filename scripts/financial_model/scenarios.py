@@ -10,6 +10,7 @@ Usage:
     scenarios = load_scenarios("scripts/financial_model/config/scenarios.yaml")
     projection = run_scenario(scenarios[0])
 """
+from __future__ import annotations
 
 import yaml
 from pathlib import Path

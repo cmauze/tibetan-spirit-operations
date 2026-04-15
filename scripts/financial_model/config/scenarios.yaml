@@ -1,0 +1,84 @@
+# Tibetan Spirit — Line Extension Seed Scenarios
+#
+# Calibrated against existing v6 financial model:
+#   Core product COGS: 24.8% (Supabase confirmed, 30% blended)
+#   Shopify platform fees: 6% of revenue
+#   Shipping & fulfillment: 11.5% of revenue
+#   Current business: ~$20K/mo Shopify, $134 AOV, 559 active products
+#
+# Ramp values are orders/month at each anchor point.
+# ongoing_monthly values are in USD and represent fixed monthly costs
+# beyond COGS (storage, marketing, platform fees, etc.).
+
+scenarios:
+  - name: "Meditation Cushions"
+    category: "physical"
+    asp: 85.00
+    cogs_pct: 0.45  # Higher than core (new supplier, zafus/zabutons)
+    ramp:
+      month_1: 15
+      month_6: 40
+      month_12: 75
+      month_24: 120
+    upfront_investment: 12000  # Inventory, photography, supplier setup
+    ongoing_monthly:
+      storage: 150
+      marketing: 400
+
+  - name: "Online Dharma Courses"
+    category: "digital"
+    asp: 49.00
+    cogs_pct: 0.05  # Near-zero marginal cost (hosting, payment processing)
+    ramp:
+      month_1: 8
+      month_6: 30
+      month_12: 60
+      month_24: 100
+    upfront_investment: 8000  # Content creation, platform setup, teacher fees
+    ongoing_monthly:
+      platform: 100
+      marketing: 300
+      teacher_stipend: 200
+
+  - name: "Incense Gift Sets"
+    category: "physical"
+    asp: 45.00
+    cogs_pct: 0.38  # Bundle of existing products, slight premium packaging
+    ramp:
+      month_1: 25
+      month_6: 60
+      month_12: 100
+      month_24: 150
+    upfront_investment: 4000  # Packaging design, initial bundle inventory
+    ongoing_monthly:
+      storage: 100
+      marketing: 250
+
+  - name: "Ritual Supplies Subscription"
+    category: "recurring"
+    asp: 35.00
+    cogs_pct: 0.35  # Curated monthly box (v6 model uses 28.3% for quarterly sub)
+    ramp:
+      month_1: 10
+      month_6: 50
+      month_12: 120
+      month_24: 250
+    upfront_investment: 10000  # Platform setup, initial inventory, packaging
+    ongoing_monthly:
+      fulfillment: 200
+      platform: 50
+      marketing: 350
+
+  - name: "Wholesale to Dharma Centers"
+    category: "b2b"
+    asp: 25.00  # Wholesale pricing (~50% of retail)
+    cogs_pct: 0.45  # Same product COGS but at wholesale price = higher %
+    ramp:
+      month_1: 5
+      month_6: 20
+      month_12: 50
+      month_24: 100
+    upfront_investment: 3000  # Sales materials, Faire setup, samples
+    ongoing_monthly:
+      faire_fees: 100
+      sales_outreach: 200
