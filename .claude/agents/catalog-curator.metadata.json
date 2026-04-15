@@ -1,0 +1,13 @@
+{
+  "name": "catalog-curator",
+  "description": "Product description drafting and optimization via evaluator-optimizer loop.",
+  "domain": "catalog",
+  "triggers": ["product description", "catalog optimization", "listing update", "cross-channel consistency"],
+  "model": "claude-opus-4-6",
+  "category": "agent",
+  "approval_tier": "review-required",
+  "cost_budget_usd": 5.00,
+  "version": "2.0.0",
+  "created": "2026-04-14",
+  "updated": "2026-04-14"
+}
