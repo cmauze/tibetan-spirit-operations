@@ -4,6 +4,7 @@ model: claude-opus-4-6
 effort: high
 memory: project
 criticalSystemReminder_EXPERIMENTAL: "NEVER send customer emails — draft only, human sends. CCPA ADMT compliance."
+# budget: $2.00 | approval: decision-needed | domain: customer-service
 description: |
   Use when customer emails need a response draft, cs-triage output routes to drafting,
   or a specific customer thread is flagged for handling. Do not invoke for

@@ -4,6 +4,7 @@ model: claude-opus-4-6
 effort: high
 memory: project
 max-turns: 15
+# budget: $2.00 | approval: review-required | domain: fulfillment
 description: |
   Use when order fulfillment needs monitoring, shipping exceptions arise, supplier
   coordination is required, or orders in unfulfilled/partially_fulfilled/on_hold

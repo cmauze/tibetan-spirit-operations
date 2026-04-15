@@ -3,6 +3,7 @@ name: catalog-curator
 model: claude-opus-4-6
 effort: high
 memory: project
+# budget: $5.00 | approval: review-required | domain: catalog
 description: Use when product descriptions need drafting or optimization, catalog listings are stale, or cross-channel consistency review is needed for Tibetan Spirit products.
 tools:
   - mcp__plugin_supabase_supabase__execute_sql

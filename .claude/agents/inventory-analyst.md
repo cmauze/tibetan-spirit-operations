@@ -3,6 +3,7 @@ name: inventory-analyst
 model: claude-opus-4-6
 effort: high
 memory: project
+# budget: $2.00 | approval: review-required | domain: inventory
 description: Use when stock levels need assessment, restock alerts need generating, or demand forecasting is required for Tibetan Spirit inventory.
 tools:
   - mcp__plugin_supabase_supabase__execute_sql

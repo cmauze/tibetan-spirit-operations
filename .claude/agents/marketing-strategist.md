@@ -3,6 +3,7 @@ name: marketing-strategist
 model: claude-opus-4-6
 effort: high
 memory: project
+# budget: $2.00 | approval: review-required | domain: marketing
 description: Use when campaign briefs need drafting, content calendar recommendations are needed, or marketing strategy for Tibetan Spirit requires development.
 tools:
   - mcp__plugin_supabase_supabase__execute_sql

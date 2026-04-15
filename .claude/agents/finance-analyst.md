@@ -4,6 +4,7 @@ model: claude-opus-4-6
 effort: high
 memory: project
 schedule: "0 7 * * 1"
+# budget: $0.50 | approval: auto-logged | domain: finance
 description: Use when the weekly P&L summary, COGS breakdown, or margin analysis is needed for Tibetan Spirit.
 tools:
   - mcp__plugin_supabase_supabase__execute_sql
