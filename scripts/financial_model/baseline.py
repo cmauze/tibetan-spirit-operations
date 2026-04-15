@@ -17,6 +17,7 @@ Usage (validation mode):
 
 import logging
 import os
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -44,6 +45,21 @@ PERIOD_END = "2026-04-01"
 FULFILLED_STATUS = "fulfilled"
 COGS_CONFIRMED_THRESHOLD = 0.50
 PAGE_SIZE = 1000  # Supabase default max per request
+
+# Product category classification patterns (applied to product title).
+# Derived from seed_cogs_from_model.py — kept as a standalone copy to avoid
+# import dependency on that script. First match wins.
+CATEGORY_PATTERNS: list[tuple[str, str]] = [
+    (r"incense|dhoop|nado|rope\s*incense|cone\s*incense|\bsang\b|\bsur\b|agarwood|resin\b|palo\s*santo|charcoal\s*tablet", "incense"),
+    (r"singing\s*bowl|sound\s*bowl|tibetan\s*bowl|tingsha", "singing_bowls"),
+    (r"mala\b|prayer\s*bead|wrist\s*mala|bracelet|necklace|pendant|amulet", "malas"),
+    (r"statue|figurine|gilded", "statues"),
+    (r"ritual|vajra|dorje|\bbell\b|phurba|kapala|damaru|mandala|prayer.?wheel|conch", "ritual_objects"),
+    (r"thangka|thanka|tangka|scroll\s*painting", "thangkas"),
+    (r"prayer\s*flag|lungta|wind\s*horse|katag|khata", "prayer_flags"),
+    (r"\bbook\b|\btext\b|sutra|dharma\s*pub|s[aā]dhana|commentary", "books"),
+    (r"altar|offering\s*bowl|butter\s*lamp|incense\s*holder|burner|puja\s*set|stupa", "altar_supplies"),
+]
 
 
 # ---------------------------------------------------------------------------
@@ -126,7 +142,7 @@ def _fetch_all_pages(client, table: str, select: str, filters: Optional[list] = 
 
 
 def _fetch_orders(client) -> list:
-    """Fetch all orders in the analysis period."""
+    """Fetch fulfilled orders in the analysis period."""
     return _fetch_all_pages(
         client,
         table="orders",
@@ -134,6 +150,7 @@ def _fetch_orders(client) -> list:
         filters=[
             ("gte", "created_at", PERIOD_START),
             ("lt", "created_at", PERIOD_END),
+            ("eq", "fulfillment_status", "fulfilled"),
         ],
     )
 
@@ -153,27 +170,31 @@ def _fetch_active_products(client) -> list:
 # ---------------------------------------------------------------------------
 
 def _summarize_orders(rows: list) -> dict:
-    """Summarize orders — all fetched orders are counted (no financial_status filter needed)."""
+    """Summarize orders — all fetched orders are counted (pre-filtered to fulfilled)."""
     if not rows:
         return {
             "total_count": 0,
             "total_revenue_usd": 0.0,
             "aov_usd": 0.0,
             "monthly_volume": {},
+            "monthly_revenue": {},
         }
 
     total_revenue = sum(float(r["total_price"]) for r in rows)
     monthly_volume: dict[str, int] = defaultdict(int)
+    monthly_revenue: dict[str, float] = defaultdict(float)
     for r in rows:
         # created_at is ISO 8601, e.g. "2025-03-15T14:22:00+00:00"
         month_key = r["created_at"][:7]  # "YYYY-MM"
         monthly_volume[month_key] += 1
+        monthly_revenue[month_key] += float(r["total_price"])
 
     return {
         "total_count": len(rows),
         "total_revenue_usd": round(total_revenue, 2),
         "aov_usd": round(total_revenue / len(rows), 2),
         "monthly_volume": dict(sorted(monthly_volume.items())),
+        "monthly_revenue": {k: round(v, 2) for k, v in sorted(monthly_revenue.items())},
     }
 
 
@@ -203,13 +224,25 @@ def _build_cogs_rows_from_products(product_rows: list) -> list:
     return cogs_rows
 
 
+def _classify_product(title: str) -> str:
+    """Classify a product into a category based on title regex patterns."""
+    text = title.lower()
+    for pattern, category in CATEGORY_PATTERNS:
+        if re.search(pattern, text):
+            return category
+    return "other"
+
+
 def _summarize_products(rows: list) -> dict:
-    """Summarize active products by category (using title prefix heuristic)."""
-    # products table has no product_type column; use status as the grouping dimension
-    # since all are 'active' here, just report the count
+    """Summarize active products by category (using title regex heuristic)."""
+    by_type: dict[str, int] = defaultdict(int)
+    for row in rows:
+        category = _classify_product(row.get("title", ""))
+        by_type[category] += 1
+
     return {
         "active_count": len(rows),
-        "by_product_type": {},  # product_type column does not exist in this schema
+        "by_product_type": dict(sorted(by_type.items())),
     }
 
 
@@ -277,6 +310,17 @@ def _print_summary(baseline: dict) -> None:
         f"AOV: ${orders['aov_usd']:,.2f}"
     )
     print(f"Active Products: {products['active_count']:,}")
+
+    if products.get("by_product_type"):
+        print("  Product Categories:")
+        for cat, count in products["by_product_type"].items():
+            print(f"    {cat}: {count}")
+
+    if orders.get("monthly_revenue"):
+        print("  Monthly Revenue:")
+        for month, rev in orders["monthly_revenue"].items():
+            vol = orders["monthly_volume"].get(month, 0)
+            print(f"    {month}: ${rev:,.2f} ({vol} orders)")
 
     coverage_display = f"{cogs['coverage_pct']:.0%}" if cogs["coverage_pct"] else "0%"
     blended_display = (
