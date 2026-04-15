@@ -48,7 +48,6 @@ credentials.json
 validation-report.json
 
 # Data files (runtime, not versioned)
-/data/
 data/raw/
 data/db/
 
