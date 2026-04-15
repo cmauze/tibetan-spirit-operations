@@ -1,0 +1,13 @@
+{
+  "name": "restock-calc",
+  "description": "Threshold calculation and restock quantity recommendations based on velocity, lead times, and seasonal demand.",
+  "domain": "inventory",
+  "triggers": ["restock calculation", "reorder point", "safety stock", "lead time planning", "demand forecast"],
+  "model": "inherit",
+  "category": "skill",
+  "approval_tier": "review-required",
+  "cost_budget_usd": 0.50,
+  "version": "1.0.0",
+  "created": "2026-04-14",
+  "updated": "2026-04-14"
+}
