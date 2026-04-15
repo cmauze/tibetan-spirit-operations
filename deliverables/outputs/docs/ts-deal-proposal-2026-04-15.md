@@ -101,17 +101,20 @@ Revenue: $1,237,000 | Profit: $76,000 | Cash at month 36: $155,000
 
 ### Capital Requirements
 
-| | Year 1 | Year 2 | Year 3 | Total |
-|---|---|---|---|---|
-| Operations capital | $200,000 | $100,000 | $50,000 (reserve) | $350,000 |
-| Monthly payments to Dr. Hun Lye | $36,000 | $36,000 | $36,000 | $108,000 |
-| **Total capital needed** | **$236,000** | **$136,000** | **$86,000** | **$458,000** |
+| Investment | Amount | When | Purpose |
+|---|---|---|---|
+| Operations capital (Year 1) | $200,000 | At closing | Marketing, team, technology, working capital |
+| Operations capital (Year 2) | $100,000 | As needed | Continued growth investment |
+| Reserve (Year 3) | $50,000 | If needed | Safety net; business expected to be self-sustaining |
+| **Total operations capital** | **$350,000** | Over 3 years | Interest-free, repayment deferred |
 
-The operations capital funds marketing ($110,000 in Year 1, growing to $291,000 in Year 3), team salaries, technology, and working capital. The Year 3 amount is a reserve — by that point, the business is expected to fund its own operations from revenue.
+Separately, Dr. Hun Lye receives $3,000/month ($36,000/year) in guaranteed payments — these are the seller's compensation, not an operating expense, and they continue regardless of business performance.
+
+The operations capital funds marketing ($110,000 in Year 1, growing to $291,000 in Year 3), team salaries, technology, and working capital. The Year 3 reserve is a safety net — by that point, the business is expected to fund its own operations from revenue.
 
 ### Where the Money Goes
 
-The largest single expense is marketing — because that is the entire thesis. This business has 75% margins and zero marketing. Year 1 marketing spend of $110,000 is projected to produce $173,000 in revenue. By Year 3, $291,000 in marketing drives $937,000 in product revenue (not counting TS Travels), as organic and repeat-customer revenue grows alongside paid channels.
+The largest single expense is marketing — because that is the entire thesis. This business has 75% margins and zero marketing. Year 1 marketing spend of $110,000 is projected to produce $173,000 in revenue. By Year 3, $291,000 in marketing drives $937,000 in product revenue (not counting TS Travels), as organic and repeat-customer revenue grows alongside paid channels. A marketing-to-product-revenue ratio of roughly 31% is standard for e-commerce businesses in their growth phase and declines over time as organic channels (SEO, email, repeat purchases) mature.
 
 ### Range of Outcomes
 
