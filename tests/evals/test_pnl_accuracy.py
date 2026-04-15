@@ -13,8 +13,9 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / "lib"))
+sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
-from workflows.weekly_pnl.run import (
+from weekly_pnl import (
     calculate_pnl, calculate_wow_change, get_cogs, get_landed_cost,
     build_pnl_prompt, SHOPIFY_PCT_FEE, SHOPIFY_FLAT_FEE,
 )
@@ -285,14 +286,14 @@ class TestBuildPNLPrompt:
 
 
 class TestWeeklyPNLRun:
-    @patch("workflows.weekly_pnl.run.notify")
-    @patch("workflows.weekly_pnl.run.log_invocation")
-    @patch("workflows.weekly_pnl.run.update_workflow_health")
-    @patch("workflows.weekly_pnl.run.log_workflow_run")
-    @patch("workflows.weekly_pnl.run.create_task")
-    @patch("workflows.weekly_pnl.run.call_claude")
-    @patch("workflows.weekly_pnl.run.load_skills")
-    @patch("workflows.weekly_pnl.run.get_client")
+    @patch("weekly_pnl.notify")
+    @patch("weekly_pnl.log_invocation")
+    @patch("weekly_pnl.update_workflow_health")
+    @patch("weekly_pnl.log_workflow_run")
+    @patch("weekly_pnl.create_task")
+    @patch("weekly_pnl.call_claude")
+    @patch("weekly_pnl.load_skills")
+    @patch("weekly_pnl.get_client")
     def test_full_run(
         self,
         mock_get_client,
@@ -304,7 +305,7 @@ class TestWeeklyPNLRun:
         mock_log_inv,
         mock_notify,
     ):
-        from workflows.weekly_pnl.run import run
+        from weekly_pnl import run
 
         # Mock Supabase
         mock_client = MagicMock()

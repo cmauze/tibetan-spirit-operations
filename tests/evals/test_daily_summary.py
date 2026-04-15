@@ -14,8 +14,9 @@ import pytest
 # Ensure workflow module is importable
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / "lib"))
+sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
-from workflows.daily_summary.run import calculate_metrics, build_user_prompt
+from daily_summary import calculate_metrics, build_user_prompt
 
 
 # ---------------------------------------------------------------------------
@@ -174,14 +175,14 @@ class TestBuildUserPrompt:
 
 
 class TestDailySummaryRun:
-    @patch("workflows.daily_summary.run.notify")
-    @patch("workflows.daily_summary.run.log_invocation")
-    @patch("workflows.daily_summary.run.update_workflow_health")
-    @patch("workflows.daily_summary.run.log_workflow_run")
-    @patch("workflows.daily_summary.run.create_task")
-    @patch("workflows.daily_summary.run.call_claude")
-    @patch("workflows.daily_summary.run.load_skills")
-    @patch("workflows.daily_summary.run.get_client")
+    @patch("daily_summary.notify")
+    @patch("daily_summary.log_invocation")
+    @patch("daily_summary.update_workflow_health")
+    @patch("daily_summary.log_workflow_run")
+    @patch("daily_summary.create_task")
+    @patch("daily_summary.call_claude")
+    @patch("daily_summary.load_skills")
+    @patch("daily_summary.get_client")
     def test_full_run(
         self,
         mock_get_client,
@@ -193,7 +194,7 @@ class TestDailySummaryRun:
         mock_log_inv,
         mock_notify,
     ):
-        from workflows.daily_summary.run import run
+        from daily_summary import run
 
         # Mock Supabase queries
         mock_client = MagicMock()
