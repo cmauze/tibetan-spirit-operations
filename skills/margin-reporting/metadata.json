@@ -1,0 +1,13 @@
+{
+  "name": "margin-reporting",
+  "description": "Weekly margin report with SKU-level profitability, channel comparison, trend indicators, and below-floor alerts.",
+  "domain": "finance",
+  "triggers": ["margin report", "weekly P&L", "profitability analysis", "below-floor alert", "channel margins"],
+  "model": "inherit",
+  "category": "skill",
+  "approval_tier": "auto-logged",
+  "cost_budget_usd": 0.50,
+  "version": "1.0.0",
+  "created": "2026-04-14",
+  "updated": "2026-04-14"
+}
