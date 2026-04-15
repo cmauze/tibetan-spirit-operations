@@ -76,19 +76,21 @@ Session C (agent-skill-rewrite) delivered substantial work: all 6 agents rewritt
 ### 1D. Tests
 
 **Before audit fix:** 0 tests ran (2 collection errors blocked entire suite)
-**After audit fix:** 162 passed, 7 failed, 18 errors
+**After round 1 fix:** 162 passed, 7 failed, 18 errors
+**After round 2 fix:** **186 passed, 0 failed, 0 errors (100%)**
 
-**What this session fixed:**
+**Round 1 — eval test imports (this session):**
 - `tests/evals/test_daily_summary.py` — import path `workflows.daily_summary.run` → `daily_summary`
 - `tests/evals/test_pnl_accuracy.py` — import path `workflows.weekly_pnl.run` → `weekly_pnl`
 - Mock patch strings updated to match new module paths
 
-**Pre-existing failures (7 failed + 18 errors) — all same root cause:**
-- `test_claude_client.py` (5): references legacy skill paths (`shared/brand-guidelines`, `customer-service/ticket-triage`) that don't exist in new `skills/{name}/` structure
-- `test_server.py` (2): references `agents/operations/skills/fulfillment-domestic/SKILL.md` (old structure)
-- `test_ticket_triage.py` (18 errors): references legacy architecture paths
-
-**All 25 remaining failures are path-reference issues from the repo restructure, not logic bugs.**
+**Round 2 — skill path resolution (3 parallel subagents):**
+- `lib/ts_shared/claude_client.py` — added `SKILLS_DIR`, rewrote `_resolve_skill_path()` to check canonical `skills/{name}/` first, legacy fallback
+- `server/server.py` — added `SKILLS_DIR`, updated `load_skill()` + webhook skill names (`fulfillment-flag`, `restock-calc`)
+- `tests/test_claude_client.py` — updated 5 tests to use actual skill names (cs-triage, order-inquiry)
+- `tests/test_server.py` — updated fixture to use `fulfillment-flag`
+- `tests/evals/test_ticket_triage.py` — updated tier names to match rewritten cs-triage, context-aware anti-pattern checks, metadata.json model routing check
+- `tests/conftest.py` — updated `SKILLS_DIR` from `agents/` to `skills/`
 
 ---
 
@@ -131,21 +133,18 @@ Session B's `feat/financial-scenario-model` was already merged to main.
 
 ### Known Issues at Merge Time
 
+**All test failures resolved.** 186/186 pass (100%).
+
 **Non-blocking (defer to next sprint):**
-- 25 pre-existing test failures from legacy path references (7 failed + 18 errors)
 - act-on-approved skill still missing (in Part 2 handoff scope)
 - 4 agents have medium-severity content gaps (person names, missing protocols)
 - All 8 skills missing full SKILL.md frontmatter (metadata.json covers it)
 - 3 skills missing references/ directory
 
-**None of these block the merge.** All agents and skills are functional and dramatically improved over pre-rewrite state. Test failures are path-reference issues, not logic bugs.
-
-### Post-Merge Verification (for whoever merges)
+### Post-Merge Verification
 
 ```bash
-git checkout main
-git merge feat/agent-skill-rewrite
-python3 -m pytest tests/ --tb=no -q  # expect 162+ passed, ~25 known failures
+python3 -m pytest tests/ --tb=no -q  # expect 186 passed
 python3 -c "import json; json.load(open('.claude/settings.json'))"  # valid JSON
 ls -la .claude/skills/  # 9 symlinks
 ```
@@ -156,7 +155,6 @@ ls -la .claude/skills/  # 9 symlinks
 
 | Priority | Item | Effort |
 |----------|------|--------|
-| 1 | Fix 25 test path references (test_claude_client, test_server, test_ticket_triage) | 1-2 hours |
 | 1 | Build act-on-approved skill | 1 hour |
 | 2 | Add full SKILL.md frontmatter to all 8 skills (version, category, tags, model, estimated_tokens, depends_on) | 30 min |
 | 2 | Add references/ to fulfillment-flag, campaign-brief, restock-calc | 1 hour |
