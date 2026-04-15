@@ -17,7 +17,7 @@ from ts_shared.claude_client import (
     _parse_skill_file,
     _resolve_skill_path,
     call_claude,
-    AGENTS_DIR,
+    SKILLS_DIR,
 )
 
 
@@ -77,19 +77,16 @@ def test_skill_metadata_defaults():
 # ---------------------------------------------------------------------------
 
 
-def test_resolve_shared_skill_path():
-    path = _resolve_skill_path("shared/brand-guidelines")
-    assert path == AGENTS_DIR / "shared" / "brand-guidelines" / "SKILL.md"
+def test_resolve_canonical_skill_path():
+    """Canonical path: skills/{name}/SKILL.md at repo root."""
+    path = _resolve_skill_path("shared/cs-triage")
+    assert path == SKILLS_DIR / "cs-triage" / "SKILL.md"
 
 
-def test_resolve_agent_skill_path():
-    path = _resolve_skill_path("customer-service/ticket-triage")
-    assert path == AGENTS_DIR / "customer-service" / "skills" / "ticket-triage" / "SKILL.md"
-
-
-def test_resolve_invalid_path():
-    with pytest.raises(ValueError, match="must be"):
-        _resolve_skill_path("just-a-name")
+def test_resolve_skill_path_extracts_name():
+    """Category prefix is stripped; name resolves to canonical location."""
+    path = _resolve_skill_path("customer-service/order-inquiry")
+    assert path == SKILLS_DIR / "order-inquiry" / "SKILL.md"
 
 
 # ---------------------------------------------------------------------------
@@ -97,11 +94,10 @@ def test_resolve_invalid_path():
 # ---------------------------------------------------------------------------
 
 
-def test_load_skill_brand_guidelines():
-    """Load a real SKILL.md from the agents/ tree."""
-    meta, body = load_skill("shared/brand-guidelines")
-    assert meta.name == "brand-guidelines"
-    assert meta.category == "shared"
+def test_load_skill_cs_triage():
+    """Load a real SKILL.md from the skills/ tree."""
+    meta, body = load_skill("shared/cs-triage")
+    assert meta.name == "cs-triage"
     assert len(body) > 100
 
 
@@ -110,10 +106,9 @@ def test_load_skill_not_found():
         load_skill("shared/nonexistent-skill")
 
 
-def test_load_skill_ticket_triage():
-    meta, body = load_skill("customer-service/ticket-triage")
-    assert meta.name == "ticket-triage"
-    assert "shared/brand-guidelines" in meta.depends_on
+def test_load_skill_order_inquiry():
+    meta, body = load_skill("customer-service/order-inquiry")
+    assert meta.name == "order-inquiry"
 
 
 # ---------------------------------------------------------------------------
@@ -121,23 +116,22 @@ def test_load_skill_ticket_triage():
 # ---------------------------------------------------------------------------
 
 
-def test_load_skills_brand_guidelines_always_first():
-    """brand-guidelines must be the first skill in the concatenated output."""
-    metas, body = load_skills(["customer-service/ticket-triage"])
-    assert metas[0].name == "brand-guidelines"
-    # ticket-triage should also be present
+def test_load_skills_multiple():
+    """Loading multiple skills returns all of them."""
+    metas, body = load_skills(["shared/cs-triage", "shared/order-inquiry"])
     names = [m.name for m in metas]
-    assert "ticket-triage" in names
+    assert "cs-triage" in names
+    assert "order-inquiry" in names
 
 
 def test_load_skills_deduplication():
-    """Dependencies aren't loaded twice."""
+    """Same skill requested twice is only loaded once."""
     metas, body = load_skills([
-        "shared/brand-guidelines",
-        "customer-service/ticket-triage",
+        "shared/cs-triage",
+        "customer-service/cs-triage",
     ])
     names = [m.name for m in metas]
-    assert names.count("brand-guidelines") == 1
+    assert names.count("cs-triage") == 1
 
 
 # ---------------------------------------------------------------------------
@@ -147,10 +141,10 @@ def test_load_skills_deduplication():
 
 def test_get_skill_index_returns_all():
     index = get_skill_index()
-    assert len(index) >= 50  # 57 expected
+    assert len(index) >= 8  # 8 skills in skills/ directory
     names = {m.name for m in index}
-    assert "brand-guidelines" in names
-    assert "ticket-triage" in names
+    assert "cs-triage" in names
+    assert "order-inquiry" in names
 
 
 # ---------------------------------------------------------------------------

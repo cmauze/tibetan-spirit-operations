@@ -14,8 +14,10 @@ from unittest.mock import MagicMock
 import pytest
 
 from tests.evals.conftest import (
+    REPO_ROOT,
     MockAgentResponse,
     load_skill_md,
+    load_skill_reference,
     make_customer_ticket,
     make_mock_agent,
     make_order,
@@ -29,8 +31,14 @@ from tests.evals.conftest import (
 
 @pytest.fixture
 def triage_skill_text() -> str:
-    """Load the ticket-triage SKILL.md content."""
-    return load_skill_md("cs-triage")
+    """Load the ticket-triage SKILL.md + references content."""
+    skill_text = load_skill_md("cs-triage")
+    try:
+        matrix_text = load_skill_reference("cs-triage", "references/classification-matrix.md")
+        skill_text += "\n" + matrix_text
+    except FileNotFoundError:
+        pass
+    return skill_text
 
 
 @pytest.fixture
@@ -398,27 +406,68 @@ class TestSkillStructure:
         assert "name: cs-triage" in triage_skill_text
 
     def test_has_classification_tiers(self, triage_skill_text: str):
-        """Must define all four classification tiers."""
-        for tier in ["AUTO_RESPOND", "ESCALATE_OPS_MANAGER", "ESCALATE_SPECIALIST", "URGENT"]:
-            assert tier in triage_skill_text, f"Missing tier: {tier}"
+        """Must define all seven canonical categories."""
+        categories = [
+            "shipping-status",
+            "order-issue",
+            "product-question",
+            "return-request",
+            "wholesale-inquiry",
+            "spiritual-guidance",
+            "complaint",
+        ]
+        for cat in categories:
+            assert cat in triage_skill_text, f"Missing category: {cat}"
 
     def test_has_output_format(self, triage_skill_text: str):
-        """Must include a JSON output format example."""
-        assert "```json" in triage_skill_text
+        """Must reference a classification matrix with structured response templates."""
+        assert "classification-matrix" in triage_skill_text.lower(), (
+            "Skill must reference the classification matrix for output format"
+        )
+        # Matrix must include response templates
+        assert "Response Templates" in triage_skill_text or "response template" in triage_skill_text.lower(), (
+            "Classification matrix must include response templates"
+        )
 
     def test_has_model_routing(self, triage_skill_text: str):
-        """Must specify model routing (haiku/sonnet)."""
-        assert "Haiku" in triage_skill_text or "haiku" in triage_skill_text
-        assert "Sonnet" in triage_skill_text or "sonnet" in triage_skill_text
+        """Must specify model routing via metadata or skill text."""
+        # Rewritten skill uses metadata.json with "model": "inherit"
+        # Verify metadata.json exists and specifies a model
+        metadata_path = REPO_ROOT / "skills" / "cs-triage" / "metadata.json"
+        assert metadata_path.exists(), "metadata.json must exist for model routing"
+        metadata = json.loads(metadata_path.read_text())
+        assert "model" in metadata, "metadata.json must specify a model"
+        assert metadata["model"] in ("inherit", "opus", "sonnet", "haiku"), (
+            f"Unexpected model value: {metadata['model']}"
+        )
 
     def test_references_escalation_matrix(self, triage_skill_text: str):
         """Must reference the shared escalation matrix."""
         assert "escalation" in triage_skill_text.lower()
 
     def test_no_cultural_anti_patterns(self, triage_skill_text: str):
-        """Must not contain culturally insensitive language."""
+        """Must not use culturally insensitive language outside prohibition context."""
         anti_patterns = ["exotic", "mystical", "home decor", "Oriental"]
+        # Words that indicate the term is being listed as something to avoid
+        prohibition_markers = [
+            "banned", "never use", "do not use", "avoid", "prohibited",
+            "no banned terms", "what to avoid",
+        ]
         for pattern in anti_patterns:
-            assert pattern not in triage_skill_text, (
-                f"Cultural anti-pattern found: '{pattern}'"
-            )
+            if pattern.lower() not in triage_skill_text.lower():
+                continue
+            # Term is present — check each occurrence is in prohibition context
+            text_lower = triage_skill_text.lower()
+            idx = 0
+            while True:
+                idx = text_lower.find(pattern.lower(), idx)
+                if idx == -1:
+                    break
+                # Check surrounding context (200 chars before) for prohibition markers
+                context_start = max(0, idx - 200)
+                context = text_lower[context_start:idx]
+                in_prohibition = any(m in context for m in prohibition_markers)
+                assert in_prohibition, (
+                    f"Cultural anti-pattern '{pattern}' used outside prohibition context"
+                )
+                idx += len(pattern)

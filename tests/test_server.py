@@ -68,7 +68,7 @@ async def test_run_skill_invalid_api_key(test_client):
     async with test_client as client:
         response = await client.post(
             "/api/run-skill",
-            json={"agent": "operations", "skill": "operations/fulfillment-domestic", "prompt": "test"},
+            json={"agent": "operations", "skill": "fulfillment-flag", "prompt": "test"},
             headers={"x-api-key": "wrong-key"},
         )
     assert response.status_code == 401
@@ -83,7 +83,7 @@ async def test_run_skill_valid_request(test_client):
                 "/api/run-skill",
                 json={
                     "agent": "operations",
-                    "skill": "operations/fulfillment-domestic",
+                    "skill": "fulfillment-flag",
                     "prompt": "test order routing",
                 },
                 headers={"x-api-key": "test-key"},

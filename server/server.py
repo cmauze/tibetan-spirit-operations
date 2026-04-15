@@ -33,6 +33,7 @@ app = FastAPI(title="Tibetan Spirit AI Operations", version="0.2.0")
 SHOPIFY_WEBHOOK_SECRET = os.environ.get("SHOPIFY_WEBHOOK_SECRET", "")
 API_KEY = os.environ.get("API_KEY", "")
 AGENTS_DIR = os.path.join(os.path.dirname(__file__), "..", "agents")
+SKILLS_DIR = os.path.join(os.path.dirname(__file__), "..", "skills")
 
 MODEL_IDS = {
     "haiku": "claude-haiku-4-5-20251001",
@@ -44,16 +45,28 @@ MODEL_IDS = {
 
 
 def load_skill(skill_path: str) -> str:
-    """Load a SKILL.md file from the agents directory."""
+    """Load a SKILL.md file.
+
+    Checks the flat ``skills/{name}/SKILL.md`` layout first, then falls
+    back to the legacy ``agents/{dept}/skills/{name}/SKILL.md`` path.
+    """
+    # New flat layout: skill_path is just the skill name (e.g. "fulfillment-flag")
+    new_path = os.path.join(SKILLS_DIR, skill_path, "SKILL.md")
+    if os.path.exists(new_path):
+        with open(new_path, "r") as f:
+            return f.read()
+
+    # Legacy layout: "dept/skill-name" → agents/dept/skills/skill-name/SKILL.md
     parts = skill_path.split("/")
     if parts[0] == "shared":
-        full_path = os.path.join(AGENTS_DIR, skill_path, "SKILL.md")
+        legacy_path = os.path.join(AGENTS_DIR, skill_path, "SKILL.md")
     else:
-        full_path = os.path.join(AGENTS_DIR, parts[0], "skills", parts[1], "SKILL.md")
-    if not os.path.exists(full_path):
-        raise FileNotFoundError(f"Skill not found: {full_path}")
-    with open(full_path, "r") as f:
-        return f.read()
+        legacy_path = os.path.join(AGENTS_DIR, parts[0], "skills", parts[1], "SKILL.md")
+    if os.path.exists(legacy_path):
+        with open(legacy_path, "r") as f:
+            return f.read()
+
+    raise FileNotFoundError(f"Skill not found: {new_path} (also checked legacy: {legacy_path})")
 
 
 AGENT_CONFIGS = {
@@ -274,7 +287,7 @@ async def process_order(order_payload: dict):
     logger.info(f"Processing order #{order_number}")
     await execute_skill(
         agent_name="operations",
-        skill_path="operations/fulfillment-domestic",
+        skill_path="fulfillment-flag",
         prompt=f"Route and prepare fulfillment for order #{order_number}",
         context=order_payload,
     )
@@ -284,7 +297,7 @@ async def process_inventory_update(inventory_payload: dict):
     """Check if inventory update triggers reorder alerts."""
     await execute_skill(
         agent_name="operations",
-        skill_path="operations/inventory-management",
+        skill_path="restock-calc",
         prompt="Check if this inventory change triggers any reorder alerts",
         context=inventory_payload,
     )
