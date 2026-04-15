@@ -50,6 +50,15 @@ validation-report.json
 # Data files (runtime, not versioned)
 data/raw/
 data/db/
+data/orders_export*.csv
+data/charges_export*
+data/*-queue.json
+data/agent-runs.json
+data/notifications.json
+data/restock-recommendations.json
+data/finance-reports.json
+data/backups/
+data/market-research/
 
 # Supabase CLI temp
 supabase/.temp/

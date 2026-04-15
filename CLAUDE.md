@@ -75,7 +75,6 @@ Canonical assets at root, symlinked into `.claude/` for runtime:
 | Asset | Canonical | Runtime |
 |-------|-----------|---------|
 | Skills | `skills/{name}/` | `.claude/skills/{name}/` (symlink) |
-| Workflows | `workflows/{name}/` | `.claude/skills/{name}/` (symlink) |
 | Agents | `agents/` | `.claude/agents/` (symlinks) |
 | Rules | `rules/` | `.claude/rules/` (symlinks) |
 | Hooks | `.claude/hooks/` | `settings.json` refs |
@@ -83,11 +82,8 @@ Canonical assets at root, symlinked into `.claude/` for runtime:
 ## Agents (6)
 Canonical in `agents/`, symlinked to `.claude/agents/`: `cs-drafter`, `finance-analyst`, `fulfillment-manager`, `inventory-analyst`, `marketing-strategist`, `catalog-curator`
 
-## Skills (8)
-Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `shopify-query`, `order-inquiry`, `fulfillment-flag`, `margin-reporting`, `campaign-brief`, `restock-calc`, `description-optimizer`
-
-## Workflows (1)
-Canonical in `workflows/`, symlinked to `.claude/skills/`: `cs-pipeline` (triage → enrichment → draft → approval)
+## Skills (9)
+Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `cs-pipeline` (W), `shopify-query`, `order-inquiry`, `fulfillment-flag`, `margin-reporting`, `campaign-brief`, `restock-calc`, `description-optimizer`
 
 ## Rules (10)
 Canonical in `rules/`, symlinked to `.claude/rules/`: `brand-voice`, `cultural-sensitivity`, `org-roles`, `shopify-api`, `cs-judgment`, `finance-judgment`, `marketing-discipline`, `operations-protocols`, `ecommerce-judgment`, `category-judgment`
