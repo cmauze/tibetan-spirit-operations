@@ -15,7 +15,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_ORG_PATH = REPO_ROOT / "ORG.md"
+DEFAULT_ORG_PATH = REPO_ROOT / ".claude" / "rules" / "org-roles.md"
 
 
 class OrgRole(BaseModel):

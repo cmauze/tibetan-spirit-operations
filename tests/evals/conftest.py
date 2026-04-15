@@ -19,7 +19,7 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-SKILLS_DIR = REPO_ROOT / "agents"
+SKILLS_DIR = REPO_ROOT / "skills"
 
 
 # ---------------------------------------------------------------------------
@@ -39,11 +39,7 @@ def load_skill_md(skill_path: str) -> str:
     Raises:
         FileNotFoundError: If the SKILL.md file does not exist.
     """
-    parts = skill_path.split("/")
-    if parts[0] == "shared":
-        full_path = SKILLS_DIR / skill_path / "SKILL.md"
-    else:
-        full_path = SKILLS_DIR / parts[0] / "skills" / parts[1] / "SKILL.md"
+    full_path = SKILLS_DIR / skill_path / "SKILL.md"
     if not full_path.exists():
         raise FileNotFoundError(f"SKILL.md not found at {full_path}")
     return full_path.read_text()
@@ -59,11 +55,7 @@ def load_skill_reference(skill_path: str, filename: str) -> str:
     Returns:
         The full text content of the reference file.
     """
-    parts = skill_path.split("/")
-    if parts[0] == "shared":
-        full_path = SKILLS_DIR / skill_path / filename
-    else:
-        full_path = SKILLS_DIR / parts[0] / "skills" / parts[1] / filename
+    full_path = SKILLS_DIR / skill_path / filename
     if not full_path.exists():
         raise FileNotFoundError(f"Reference file not found at {full_path}")
     return full_path.read_text()

@@ -30,7 +30,7 @@ from tests.evals.conftest import (
 @pytest.fixture
 def triage_skill_text() -> str:
     """Load the ticket-triage SKILL.md content."""
-    return load_skill_md("customer-service/ticket-triage")
+    return load_skill_md("cs-triage")
 
 
 @pytest.fixture
@@ -395,7 +395,7 @@ class TestSkillStructure:
 
     def test_frontmatter_has_name(self, triage_skill_text: str):
         """Frontmatter must include a 'name' field."""
-        assert "name: ticket-triage" in triage_skill_text
+        assert "name: cs-triage" in triage_skill_text
 
     def test_has_classification_tiers(self, triage_skill_text: str):
         """Must define all four classification tiers."""
