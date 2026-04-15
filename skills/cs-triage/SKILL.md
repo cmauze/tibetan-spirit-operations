@@ -1,105 +1,54 @@
 ---
 name: cs-triage
-description: >
-  Classify customer emails and route to response workflows. Handles shipping, orders, returns,
-  wholesale, spiritual guidance escalation. Trigger: "triage customer email", "CS triage".
+description: Use when a customer email arrives and needs classification and routing before any response is drafted.
 ---
 
-# CS Email Triage Skill
+# CS Email Triage
 
-Classifies incoming customer emails and routes them to the appropriate response workflow.
+## Overview
 
-## Classification Categories
+Classifies incoming customer emails into 7 canonical categories and routes to the appropriate response workflow or escalation path. Spiritual-guidance is always checked first.
 
-| Category | Signal Words/Patterns | Response Template | Escalation |
-|----------|----------------------|-------------------|------------|
-| shipping-status | "where is my order", "tracking", "when will it arrive", "shipping update" | Tracking lookup + ETA | None |
-| order-issue | "wrong item", "damaged", "broken", "missing", "incorrect" | Apology + resolution options | Chris reviews |
-| product-question | "what is", "how to use", "difference between", "recommend" | Product knowledge response | None |
-| return-request | "return", "refund", "exchange", "send back" | Acknowledge + return policy | Chris reviews |
-| wholesale-inquiry | "wholesale", "bulk order", "reseller", "B2B", >$500 mentioned | Acknowledge + escalate | Chris directly |
-| spiritual-guidance | "dharma", "practice", "meditation", "blessing", "mantra", "lineage", "lama" | DO NOT DRAFT | Dr. Hun Lye |
-| complaint | negative tone, "disappointed", "unacceptable", "terrible" | Empathetic + priority flag | Chris priority |
+## When to Use
 
-## Classification Rules
+- Incoming customer email needs classification before drafting
+- CS drafter needs a category assignment for routing
+- **Do NOT use for:** already-classified emails, internal team communications
 
-1. Check for spiritual-guidance FIRST — if detected, escalate immediately, do not draft
-2. Check for complaint signals — these get priority handling
-3. Multi-category emails: use the highest-severity category (complaint > order-issue > return > others)
-4. If uncertain: classify as product-question (safest default) and flag for Chris review
+## Workflow
 
-## Response Templates
+1. Check for spiritual-guidance FIRST -- if detected, escalate to Dr. Hun Lye immediately, do NOT draft
+2. Check for complaint signals -- priority handling
+3. Multi-category: use highest severity (`complaint > order-issue > return-request > wholesale-inquiry > product-question > shipping-status`)
+4. If uncertain: classify as `product-question`, flag for Chris review
+5. Apply cultural sensitivity checks (see Verification)
+6. Log classification with `"ai_generated": true` for CCPA compliance
 
-### Greeting
-```
-Dear [First Name],
+See `references/classification-matrix.md` for category signal words, response templates, and escalation paths.
 
-Thank you for reaching out to Tibetan Spirit.
-```
+## Common Rationalizations
 
-### Shipping Status
-```
-We've looked into your order #[ORDER] and here's the latest:
-[tracking info / ETA]
+| Rationalization | Reality |
+|----------------|---------|
+| "The question mentions meditation but it's really about the product" | If it touches practice, it is `spiritual-guidance`. When uncertain, escalate. |
+| "I'll draft a tentative response and flag it" | For `spiritual-guidance`, do NOT draft. Escalation is the only output. |
+| "Complaint is mild, I'll downgrade it" | Classify by content, not intensity. |
 
-If you have any other questions, we're here to help.
-```
+## Red Flags
 
-### Order Issue
-```
-We're sorry to hear about this experience with your order. We take great care in
-preparing each item, and we want to make this right.
+- Drafting a response when category is `spiritual-guidance`
+- Downgrading complaint severity based on tone mildness
+- Skipping cultural sensitivity checks
+- Missing `"ai_generated": true` in log
 
-[Specific response based on issue type]
+## Verification
 
-We'll follow up within [timeframe] with next steps.
-```
-
-### Return Request
-```
-We understand. Our return policy allows returns within 30 days of delivery for
-items in original condition.
-
-To start the process:
-1. [return steps]
-2. [shipping instructions]
-
-We'll process your [refund/exchange] within [timeframe] of receiving the item.
-```
-
-### Product Question
-```
-Great question! [Product name] is [description rooted in practice context].
-
-[Specific answer]
-
-If you'd like more guidance on choosing the right [product type] for your practice,
-we're happy to help.
-```
-
-### Wholesale Inquiry
-```
-Thank you for your interest in carrying Tibetan Spirit products. We'd love to
-explore this with you.
-
-Chris Mauzé, our founder, handles wholesale relationships directly. He'll be in
-touch within [timeframe] to discuss your needs.
-```
-
-## Cultural Sensitivity Checks (MANDATORY)
-
-Before finalizing ANY draft, verify ALL of the following:
-
-- [ ] No banned terms: exotic, mystical, oriental, ancient secrets, zen vibes, namaste
-- [ ] Sacred terms untranslated: mala, thangka, dharma, sangha, puja, mandala
-- [ ] Products framed through practice, not decor ("for your meditation practice" not "for your living room")
-- [ ] No spiritual promises ("this mala has been traditionally used for..." not "this mala will bring you...")
-- [ ] Dharma Giving (5%) never mentioned
-- [ ] Customer's spiritual level never assumed
-
-## CCPA Compliance
-
-- Log every customer data access with purpose in data/cs-drafts-log.json
-- Never store customer PII outside the draft/log context
-- If customer requests data deletion, escalate to Chris immediately
-- AI-generated drafts must note "AI-drafted, human-reviewed" in internal metadata
+- [ ] Spiritual-guidance check run FIRST
+- [ ] Category assigned from canonical 7 categories only
+- [ ] No banned terms (exotic, mystical, oriental, ancient secrets, zen vibes, namaste)
+- [ ] Sacred terms untranslated (mala, thangka, dharma, sangha, puja, mandala)
+- [ ] Products framed through practice, not decor
+- [ ] No spiritual promises or guarantees
+- [ ] Dharma Giving not mentioned
+- [ ] Customer's spiritual level not assumed
+- [ ] CCPA log entry includes `"ai_generated": true`
