@@ -1,70 +1,55 @@
 ---
 name: shopify-query
-description: >
-  On-demand Shopify store queries for agent workflows. Order lookup, product search,
-  inventory levels, recent orders, customer info. Trigger: "look up order", "check inventory",
-  "shopify query", "find product", "customer lookup".
-model: inherit
+description: Use when an agent needs real-time Shopify data not yet synced to Supabase, or a specific lookup by order number, SKU, or customer email.
 ---
 
-# Shopify Query Skill
+# Shopify Query
 
-Query Tibetan Spirit's Shopify store for real-time data. Use when agents need fresh data not yet synced to Supabase, or for specific lookups (order by number, customer by email).
+## Overview
 
-## When to Use This vs Supabase
+Queries Tibetan Spirit's Shopify store for real-time data when agents need fresh data not yet synced to Supabase.
+
+## When to Use
+
+- Specific order lookup for CS enrichment (freshest data)
+- Product search by SKU/name against live catalog
+- Real-time low stock check
+- Customer info for CS enrichment
+- **Do NOT use for:** aggregate reports (use Supabase), bulk data sync (use `scripts/backfill_shopify.py`), write operations (not supported)
+
+## Workflow
+
+1. Determine query type (order, product, inventory, recent-orders, customer)
+2. Run the appropriate command from `references/query-patterns.md`
+3. Parse JSON response; handle `{"error": "..."}` if present
+4. Log any customer data access with purpose (CCPA compliance)
 
 | Need | Use |
 |------|-----|
-| Aggregate reports, P&L, margin analysis | Supabase (`ts_orders`, `ts_products`) |
-| Specific order lookup (CS response) | This skill — freshest data |
-| Product search by name/SKU | This skill for live catalog, Supabase for enriched data |
-| Low stock alerts | This skill for real-time, Supabase for historical trends |
-| Customer info for CS enrichment | This skill |
-| Bulk data (all orders, full catalog) | `scripts/backfill_shopify.py` → Supabase |
+| Aggregate reports, P&L, margins | Supabase (`ts_orders`, `ts_products`) |
+| Specific order lookup (CS) | This skill -- freshest data |
+| Product search by SKU/name | This skill for live catalog |
+| Real-time low stock | This skill |
+| Customer info (CS enrichment) | This skill |
+| Bulk data (full catalog) | `scripts/backfill_shopify.py` -> Supabase |
 
-## Commands
+## Common Rationalizations
 
-Run from the project root (`~/code/active/tibetan-spirit-ops/`):
+| Rationalization | Reality |
+|----------------|---------|
+| "Supabase has this data, I'll use that for CS" | Supabase may lag 24h. For CS enrichment, use this skill. |
+| "I'll query all orders to be thorough" | Always use date filters. Bulk queries belong in backfill script. |
 
-### Order Lookup
-```bash
-python3 scripts/shopify_query.py order <order_number>
-```
-Returns: order details, line items, shipping address, fulfillment + tracking info, customer email.
+## Red Flags
 
-### Product Search
-```bash
-python3 scripts/shopify_query.py product "<sku_or_title>"
-```
-Searches active products by SKU (exact) or title (substring). Returns matches with price, stock, type.
+- Exposing SHOPIFY_ACCESS_TOKEN in any output
+- Bulk operations without date filters
+- Using this for aggregate reporting (use Supabase)
+- Storing customer PII outside draft/log context
 
-### Inventory Check
-```bash
-python3 scripts/shopify_query.py inventory --low 5
-```
-Without `--low`: returns first 50 products sorted by stock level.
-With `--low N`: returns only products below N units.
+## Verification
 
-### Recent Orders
-```bash
-python3 scripts/shopify_query.py recent-orders --days 7
-```
-Returns orders from the last N days with revenue total and per-order summary.
-
-### Customer Lookup
-```bash
-python3 scripts/shopify_query.py customer "email@example.com"
-```
-Returns: name, order count, total spent, tags, address. For CS enrichment only — never export PII.
-
-## Output Format
-
-All commands return JSON to stdout. Errors return `{"error": "..."}`.
-
-## Constraints
-
-- **Read-only.** This skill NEVER modifies Shopify data.
-- **CCPA compliance.** Log every customer data access with purpose. Never store PII outside the draft/log context.
-- **Rate limits.** Shopify REST API: 40 requests/minute for private apps. The script does not add retry logic — if rate-limited, wait and retry manually.
-- **No bulk operations.** For full catalog sync, use `scripts/backfill_shopify.py` instead.
-- **Credentials.** Reads SHOPIFY_STORE_URL and SHOPIFY_ACCESS_TOKEN from .env. Never expose these values.
+- [ ] Credentials not logged or exposed
+- [ ] Date filter applied for order queries
+- [ ] Customer data access logged with purpose (CCPA)
+- [ ] Output is JSON; error field handled before proceeding
