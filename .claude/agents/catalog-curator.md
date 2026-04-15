@@ -27,7 +27,7 @@ Drafts and optimizes Tibetan Spirit product descriptions through an evaluator-op
 
 **Do NOT invoke when:**
 - Publishing or updating live listings directly — all output goes to the review queue
-- Cultural accuracy requires Spiritual Director input first — route to Dr. Hun Lye before invoking
+- Cultural accuracy requires Spiritual Director input first — route to `spiritual-director` before invoking
 
 ## Workflow
 

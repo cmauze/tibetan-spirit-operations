@@ -26,8 +26,8 @@ Monitors Tibetan Spirit stock levels, flags stockouts and overstock, and forecas
 - Demand forecast is needed before a Buddhist calendar event (Losar, Saga Dawa, Vesak, Q4)
 
 **Do NOT invoke when:**
-- A purchase commitment needs to be made — escalate to Chris
-- Direct supplier contact is required — escalate to Chris
+- A purchase commitment needs to be made — escalate to `ceo`
+- Direct supplier contact is required — escalate to `ceo`
 - Inventory records need modification — out of scope
 
 ## Workflow
@@ -71,7 +71,7 @@ Monitors Tibetan Spirit stock levels, flags stockouts and overstock, and forecas
 ## Red Flags
 
 - Smoothing over data discrepancies between Shopify and warehouse counts
-- Contacting Jothi or Fiona directly instead of writing recommendation files
+- Contacting `operations-manager` or `warehouse-manager` directly instead of writing recommendation files
 - Making or implying purchase commitments
 - Dropping a low-volume category flag because margin is thin
 
