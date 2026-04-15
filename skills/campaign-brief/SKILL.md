@@ -1,13 +1,13 @@
 ---
 name: campaign-brief
-description: Use when a marketing campaign needs a structured brief, content calendar entry, or seasonal promotion plan for Chris's review.
+description: Use when a marketing campaign needs a structured brief, content calendar entry, or seasonal promotion plan for `general-manager` review.
 ---
 
 # Campaign Brief
 
 ## Overview
 
-Generates a structured campaign brief for Tibetan Spirit marketing initiatives, classifying content by tier and enforcing frequency caps before anything reaches Chris for approval. Output is queued, never scheduled.
+Generates a structured campaign brief for Tibetan Spirit marketing initiatives, classifying content by tier and enforcing frequency caps before anything reaches `general-manager` for approval. Output is queued, never scheduled.
 
 ## When to Use
 
@@ -17,24 +17,11 @@ Generates a structured campaign brief for Tibetan Spirit marketing initiatives, 
 ## Workflow
 
 1. **Classify tier** — Apply the Content Tier Framework. If uncertain, escalate to Tier 3. Tier 4 is blocked; stop immediately and explain why.
-2. **Check frequency caps** — Verify promotional email count (≤2/month) and ad impression caps (≤3/user/week) before drafting. If caps are at limit, do not draft — flag to Chris.
+2. **Check frequency caps** — Verify promotional email count (≤2/month) and ad impression caps (≤3/user/week) before drafting. If caps are at limit, do not draft — flag to `general-manager`.
 3. **Check seasonal context** — For Losar, Saga Dawa, Vesak, or Q4: approach with reverence. Flag if the brief risks commercial momentum overriding spiritual significance.
-4. **Draft the brief** — Use the canonical format below. Do not invent fields or omit sections.
+4. **Draft the brief** — Use the format in `references/brief-template.md`.
 5. **Verify compliance** — Run the Verification checklist before outputting.
 6. **Queue output** — Write to `data/marketing-briefs-queue.json` with `"ai_generated": true`. Never publish or schedule.
-
-**Canonical brief format:**
-```
-# Campaign Brief: [Name]
-**Objective:** [single sentence]
-**Timing:** [dates]
-**Audience:** [segment]
-**Tier:** [2 or 3]
-## Core Message
-## Channels
-## Content Requirements
-## What This Campaign Does NOT Do
-```
 
 ## Common Rationalizations
 

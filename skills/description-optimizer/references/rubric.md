@@ -51,7 +51,7 @@ Reference for the `description-optimizer` skill. All product descriptions must s
 - "Sangha" — community of practitioners, not generic "community"
 - "Mandala" — cosmological diagram with specific tradition, not "circular design"
 
-**Escalation rule:** When uncertain whether a term is used correctly, flag for Dr. Hun Lye. Do not generate plausible explanations. Score the dimension conservatively until confirmed.
+**Escalation rule:** When uncertain whether a term is used correctly, flag for `spiritual-director`. Do not generate plausible explanations. Score the dimension conservatively until confirmed.
 
 ---
 
@@ -133,4 +133,4 @@ Each queue entry must include:
 }
 ```
 
-If any score is <8, the entry must not appear in the queue. If `flagged_terms` is non-empty, the entry waits for Dr. Hun Lye review before advancing.
+If any score is <8, the entry must not appear in the queue. If `flagged_terms` is non-empty, the entry waits for `spiritual-director` review before advancing.

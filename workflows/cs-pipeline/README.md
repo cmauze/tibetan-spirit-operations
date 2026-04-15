@@ -19,10 +19,10 @@ cs-triage → enrichment (Supabase + Gmail) → cs-drafter → approval queue
 
 ## Escalation Paths
 
-- **Spiritual guidance** → Dr. Hun Lye (email, 48-72h response)
-- **Wholesale >$500** → Chris (Slack)
-- **Data deletion request** → Chris (Slack, immediate)
-- **Complaint** → Priority queue, Chris review first
+- **Spiritual guidance** → `spiritual-director` (email, 48-72h response)
+- **Wholesale >$500** → `general-manager` (Slack)
+- **Data deletion request** → `general-manager` (Slack, immediate)
+- **Complaint** → Priority queue, `general-manager` review first
 
 ## Compliance
 

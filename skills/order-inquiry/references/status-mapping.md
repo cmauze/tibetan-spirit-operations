@@ -35,7 +35,7 @@ When a delay is confirmed:
 1. Acknowledge the delay directly in the first sentence — do not bury it
 2. State what is known (last carrier scan, current location if available)
 3. Offer a concrete next step: carrier investigation request, replacement, or refund
-4. Escalate to operations-manager (Jothi) if a carrier claim needs to be filed
+4. Escalate to `operations-manager` if a carrier claim needs to be filed
 
 ### Order Not Found
 When no order matches the customer's provided information:

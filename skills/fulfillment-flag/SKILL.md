@@ -22,34 +22,16 @@ Identifies fulfillment exceptions and routes them to the correct team member bef
 4. **Route to the correct person** — Use the decision table to select the role and channel; use the correct language and register
 5. **Queue to comms file** — Append to `data/fulfillment-comms-queue.json` with `"ai_generated": true`; never send directly
 
-### Decision Table
-
-| Condition | Route To | Channel | Language |
-|-----------|----------|---------|----------|
-| Unfulfilled >24h | `operations-manager` | Dashboard | Bahasa Indonesia, formal |
-| Missing tracking after ship date | `warehouse-manager` | Dashboard | Mandarin |
-| Domestic + international components | Manual review flag | Dashboard | — |
-| Nepal supplier deadline <7 days | `ceo` | Slack | English |
-| Address validation failure | `operations-manager` (hold order) | Dashboard | Bahasa Indonesia, formal |
-| Inventory conflict (Shopify vs warehouse) | `warehouse-manager` (trust physical count) | Dashboard | Mandarin |
-
-### Carrier Rules (flag when violated)
-
-- USPS: light packages (<1 lb), standard domestic
-- UPS: heavy or fragile items, oversized domestic
-- DHL: international
-- Singing bowls >10 in → custom boxing required
-- Statues >$200 → double-box + insurance required
-- Thangkas → tube shipping required
+See `references/decision-table.md` for exception routing table and carrier rules.
 
 ## Common Rationalizations
 
 | Rationalization | Reality |
 |----------------|---------|
 | "I'll auto-route the mixed domestic/international order to save time" | NEVER auto-route mixed orders — flag for manual review every time |
-| "The Nepal supplier is just a few days late, I'll wait" | Surface to Chris before the deadline passes; investigate first, but don't absorb the delay silently |
+| "The Nepal supplier is just a few days late, I'll wait" | Surface to `general-manager` before the deadline passes; investigate first, but don't absorb the delay silently |
 | "Shopify says we have stock, so we're fine" | Trust the physical count when it conflicts; Shopify can be stale |
-| "I'll send the flag directly to Jothi over Slack" | Queue to `data/fulfillment-comms-queue.json`; never send directly |
+| "I'll send the flag directly to `operations-manager` over Slack" | Queue to `data/fulfillment-comms-queue.json`; never send directly |
 
 ## Red Flags
 

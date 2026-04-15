@@ -11,7 +11,7 @@ Generates weekly and ad-hoc margin reports with SKU-level profitability, channel
 
 ## When to Use
 
-- **Invoke when:** weekly P&L is due, Chris requests a margin review, a below-floor alert needs investigation, or channel profitability needs comparison
+- **Invoke when:** weekly P&L is due, `general-manager` requests a margin review, a below-floor alert needs investigation, or channel profitability needs comparison
 - **Do NOT use for:** modifying COGS records, updating Shopify pricing, or any write operation on financial data
 
 ## Workflow
@@ -33,7 +33,7 @@ See `references/queries.md` for all SQL queries and the full report template.
 | "COGS is probably close enough to skip the label" | Every estimate must be labeled. Unlabeled numbers imply confirmed data. |
 | "The variance is small, I'll smooth it over" | Surface all anomalies. A $50 gap today can be $5,000 next quarter. |
 | "Dharma Giving lowers apparent margin, I'll exclude it" | It is a real expense. Include it with its accounting label — never omit. |
-| "This channel is below floor but volume is tiny" | Floor violations are flagged regardless of volume. Chris decides what to do. |
+| "This channel is below floor but volume is tiny" | Floor violations are flagged regardless of volume. `general-manager` decides what to do. |
 
 ## Red Flags
 

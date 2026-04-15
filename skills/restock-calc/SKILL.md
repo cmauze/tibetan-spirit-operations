@@ -26,10 +26,8 @@ Computes reorder points, restock quantities, and safety stock for each SKU using
 
 1. **Identify data source** — Query `ts_inventory` via Supabase `execute_sql`; fall back to `data/inventory-snapshot.json`. Label every figure: confirmed or estimated.
 2. **Calculate daily velocity** — 30-day avg daily sales from `ts_orders`. Adjust for upcoming Buddhist calendar events (Losar, Saga Dawa, Vesak, Q4).
-3. **Compute reorder point** — `velocity × 14`. Flag immediately if a top-20 SKU is below `velocity × 7`.
-4. **Compute safety stock** — `max(velocity × 6, 2)`. Include `fba_allocated` and `fba_in_transit` when present.
-5. **Compute restock quantity** — Domestic (2–4 wk lead time): `velocity × 60`. Nepal-sourced (8–12 wk): `velocity × 90`. Use conservative estimate when sourcing tier is uncertain. Subtract `nepal_pipeline` in-transit units if populated.
-6. **Flag overstock** — `on_hand > velocity × 180` with no active promotion.
+3. **Compute reorder point, safety stock, and restock quantity** — Apply formulas from `references/formulas.md`. Flag immediately if a top-20 SKU is below critical alert threshold.
+4. **Flag overstock** — Apply overstock threshold from `references/formulas.md`.
 7. **Write output** — Append to `data/restock-recommendations.json` with confidence labels and data source.
 
 ## Common Rationalizations

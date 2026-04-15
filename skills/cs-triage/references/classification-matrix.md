@@ -5,12 +5,12 @@
 | Category | Signal Words/Patterns | Response Action | Escalation |
 |----------|----------------------|-----------------|------------|
 | shipping-status | "where is my order", "tracking", "when will it arrive", "shipping update" | Tracking lookup + ETA | None |
-| order-issue | "wrong item", "damaged", "broken", "missing", "incorrect" | Apology + resolution options | Chris reviews |
+| order-issue | "wrong item", "damaged", "broken", "missing", "incorrect" | Apology + resolution options | `general-manager` reviews |
 | product-question | "what is", "how to use", "difference between", "recommend" | Product knowledge response | None |
-| return-request | "return", "refund", "exchange", "send back" | Acknowledge + return policy | Chris reviews |
-| wholesale-inquiry | "wholesale", "bulk order", "reseller", "B2B", amount >$500 | Acknowledge + escalate | Chris directly |
-| spiritual-guidance | "dharma", "practice", "meditation", "blessing", "mantra", "lineage", "lama" | DO NOT DRAFT | Dr. Hun Lye |
-| complaint | negative tone, "disappointed", "unacceptable", "terrible" | Empathetic + priority flag | Chris priority |
+| return-request | "return", "refund", "exchange", "send back" | Acknowledge + return policy | `general-manager` reviews |
+| wholesale-inquiry | "wholesale", "bulk order", "reseller", "B2B", amount >$500 | Acknowledge + escalate | `general-manager` directly |
+| spiritual-guidance | "dharma", "practice", "meditation", "blessing", "mantra", "lineage", "lama" | DO NOT DRAFT | `spiritual-director` |
+| complaint | negative tone, "disappointed", "unacceptable", "terrible" | Empathetic + priority flag | `general-manager` priority |
 
 ## Response Templates
 

@@ -23,15 +23,14 @@ Runs the evaluator-optimizer loop on product descriptions — scoring against th
 
 ## Workflow
 
-1. **Parse structure** — Confirm the description follows the 6-sentence structure (see `references/rubric.md`). If structure is missing, rewrite to spec before scoring.
-2. **Score all 5 dimensions** — Apply the rubric in `references/rubric.md`. Record numeric score (1-10) and one-line rationale for each dimension.
-3. **Gate check** — If any dimension scores <8, go to step 4. If all ≥8, go to step 5.
-4. **Revise** — Rewrite only the failing dimension(s). Do NOT rewrite passing content. Re-score. Repeat until all ≥8 or 3 revision cycles are exhausted.
-5. **Cross-channel consistency check** — Verify the same core story (practice framing, terminology, provenance) is consistent across Shopify, Etsy, and Amazon variants.
-6. **Flag uncertain terms** — Any cultural term you are not certain about: flag for Dr. Hun Lye review. Do NOT generate plausible-sounding explanations.
-7. **Write to queue** — Append approved draft to `data/catalog-drafts-queue.json` with `"ai_generated": true` and `"rubric_scores"` object.
+1. **Parse structure** — Confirm 6-sentence structure per `references/rubric.md`. Rewrite to spec if missing.
+2. **Score all 5 dimensions** — Apply `references/rubric.md`. Record score (1-10) + one-line rationale per dimension.
+3. **Gate check** — Any dimension <8 → revise failing dimension(s) only, re-score. Max 3 cycles.
+4. **Cross-channel check** — Same practice framing, terminology, and provenance across Shopify, Etsy, Amazon.
+5. **Flag uncertain terms** — Cultural terms you're not certain about → flag for `spiritual-director`. Never generate plausible-sounding explanations.
+6. **Write to queue** — Append to `data/catalog-drafts-queue.json` with `"ai_generated": true` and `"rubric_scores"`.
 
-After 3 failed revision cycles: flag for human review, do not advance to queue.
+After 3 failed cycles: flag for human review, do not advance.
 
 ## Common Rationalizations
 
@@ -39,7 +38,7 @@ After 3 failed revision cycles: flag for human review, do not advance to queue.
 |----------------|---------|
 | "The score is 7.5 — close enough to advance" | <8 means revise. The threshold is not a suggestion. |
 | "Etsy shoppers expect different framing than practitioners" | Cross-channel consistency is non-negotiable. A mala is never "jewelry." |
-| "I'm fairly sure this is the right cultural term" | Uncertainty = flag for Dr. Hun Lye. Plausible is not accurate. |
+| "I'm fairly sure this is the right cultural term" | Uncertainty = flag for `spiritual-director`. Plausible is not accurate. |
 | "The SEO keywords will hurt the score but help conversion" | Practice-first framing is the SEO strategy. Commercial keywords are a separate failing. |
 
 ## Red Flags
@@ -58,6 +57,6 @@ After 3 failed revision cycles: flag for human review, do not advance to queue.
 - [ ] Cross-channel variants use identical practice framing and terminology
 - [ ] No banned vocabulary (exotic, mystical, oriental, ancient secrets, zen vibes, namaste)
 - [ ] Sacred terms untranslated (mala, thangka, dharma, sangha, puja, mandala)
-- [ ] Uncertain cultural terms flagged for Dr. Hun Lye — not explained
+- [ ] Uncertain cultural terms flagged for `spiritual-director` — not explained
 - [ ] `"ai_generated": true` in queue entry
 - [ ] `"rubric_scores"` object in queue entry
