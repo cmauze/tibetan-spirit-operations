@@ -1,7 +1,8 @@
 ---
 name: finance-analyst
 model: claude-opus-4-6
-execution: fork
+effort: high
+memory: project
 schedule: "0 7 * * 1"
 description: Use when generating the weekly P&L summary, COGS breakdown, or margin analysis for Tibetan Spirit — including anomaly detection and scheduled Monday morning finance reports.
 tools:
