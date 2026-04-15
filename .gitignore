@@ -61,3 +61,10 @@ temp/
 # Scratch
 workspace/scratch/
 scratch/
+
+# Archives
+_archive/
+workspace/archive/
+
+# Generated output
+deliverables/
