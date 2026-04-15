@@ -100,7 +100,8 @@ class TestInterpolateRamp:
         assert interpolate_ramp(sample_ramp, month=24) == 400.0
 
     def test_midpoint_month_3(self, sample_ramp):
-        """Month 3 is midpoint between month_1 and month_6: (50+150)/2 = 100."""
+        """Month 3 linearly interpolates between month_1 (50) and month_6 (150).
+        fraction = (3-1)/(6-1) = 0.4 → 50 + 0.4*100 = 90."""
         # Linear interpolation between month 1 (50) and month 6 (150):
         # fraction = (3-1)/(6-1) = 2/5 = 0.4
         # result = 50 + 0.4 * (150-50) = 50 + 40 = 90
@@ -178,12 +179,13 @@ class TestCalculateBreakevenMonths:
         assert result == pytest.approx(10_000 / 3_000)
 
     def test_zero_gross_profit_returns_infinity(self):
-        """Zero monthly GP → infinite breakeven (never breaks even)."""
+        """Zero monthly GP → infinite breakeven.
+        Implementation must handle ZeroDivisionError and return float('inf'), not raise."""
         result = calculate_breakeven_months(
             upfront_investment=10_000.0,
             monthly_gross_profit=0.0,
         )
-        assert result == float("inf")
+        assert math.isinf(result) and result > 0
 
     def test_zero_investment(self):
         """Zero investment → instant breakeven (0 months)."""
