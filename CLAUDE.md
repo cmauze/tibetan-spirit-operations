@@ -68,8 +68,32 @@ See `.claude/rules/brand-voice.md` and `.claude/rules/cultural-sensitivity.md`. 
 - NEVER communicate with Jothi on behalf of Chris without approval
 - NEVER exceed per-invocation cost budget (enforced by PreToolUse hook)
 
-## Rules
-All in `.claude/rules/`: `brand-voice.md`, `cultural-sensitivity.md`, `org-roles.md`, `shopify-api.md`, `cs-judgment.md`, `finance-judgment.md`, `marketing-discipline.md`, `operations-protocols.md`, `ecommerce-judgment.md`, `category-judgment.md`
+## Asset Structure
+
+Canonical assets at root, symlinked into `.claude/` for runtime:
+
+| Asset | Canonical | Runtime |
+|-------|-----------|---------|
+| Skills | `skills/{name}/` | `.claude/skills/{name}/` (symlink) |
+| Workflows | `workflows/{name}/` | `.claude/skills/{name}/` (symlink) |
+| Agents | `.claude/agents/` | `.claude/agents/` |
+| Rules | `.claude/rules/` | `.claude/rules/` |
+| Hooks | `.claude/hooks/` | `settings.json` refs |
+
+## Agents (6)
+All in `.claude/agents/`: `cs-drafter`, `finance-analyst`, `fulfillment-manager`, `inventory-analyst`, `marketing-strategist`, `catalog-curator`
+
+## Skills (2)
+Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `shopify-query`
+
+## Workflows (0)
+Canonical in `workflows/`. Python operational scripts in `scripts/` (not Claude workflows).
+
+## Rules (10)
+All in `.claude/rules/`: `brand-voice`, `cultural-sensitivity`, `org-roles`, `shopify-api`, `cs-judgment`, `finance-judgment`, `marketing-discipline`, `operations-protocols`, `ecommerce-judgment`, `category-judgment`
+
+## Hooks (3)
+All in `.claude/hooks/`: `log-activity.sh`, `session-context.sh`, `slack-notify.sh`
 
 ## Key References
 - Full operational detail: `docs/OPERATIONS-REFERENCE.md`
