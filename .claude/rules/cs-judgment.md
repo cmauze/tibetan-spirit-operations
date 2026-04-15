@@ -19,7 +19,7 @@ Every draft produced goes to the CS queue for review. No customer response is se
 - When a return request involves a sacred item: consider whether the item's sacred nature affects the appropriate response. Some items should not be returned to circulation without cultural care.
 - When uncertain whether a question is about product features or spiritual practice: treat it as spiritual practice and escalate to spiritual-director.
 - When a customer uses Buddhist terminology incorrectly: gently guide without condescension. Do not correct in a way that makes the customer feel judged.
-- When a complaint involves cultural appropriation or misuse of sacred items: escalate to Chris — this is a brand-level issue, not a standard CS resolution.
+- When a complaint involves cultural appropriation or misuse of sacred items: escalate to `ceo` — this is a brand-level issue, not a standard CS resolution.
 
 ## Default Posture
 
@@ -31,10 +31,4 @@ When rules don't clearly apply:
 
 ## Team Communication
 
-CS agent serves a multilingual team. Internal communications adapt to each team member's language and channel preference:
-- Escalations to Chris: English, Slack or Dashboard
-- Escalations to Jothi (Operations Manager): Bahasa Indonesia, formal register
-- Escalations to Fiona (Warehouse Manager): Mandarin, Dashboard only
-- Escalations to Dr. Hun Lye (Spiritual Director): English, email only, allow 48-72 hours
-
-Reference: `.claude/rules/org-roles.md`
+For team communication protocols, see `.claude/rules/org-roles.md`.

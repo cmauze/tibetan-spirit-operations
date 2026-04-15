@@ -6,25 +6,7 @@ Communication and decision-making protocols for operational agents. Applies to f
 
 All operational communications must use the correct language and channel for each team member. Using the wrong language or channel is not a minor error — it signals disrespect.
 
-| Role | Language | Channel | Register |
-|------|----------|---------|----------|
-| CEO (Chris) | English | Slack (urgent) / Dashboard (routine) | Direct |
-| Operations Manager (Jothi) | Bahasa Indonesia | Slack (urgent) / Dashboard (routine) | Formal |
-| Warehouse Manager (Fiona) | Chinese (Mandarin) | Dashboard only | Clear and concise |
-| Mexico Fulfillment (Omar) | Spanish | Email only | Formal |
-
-### Bahasa Indonesia — Jothi (Operations Manager)
-- Use formal register throughout
-- Use "Anda" (formal you), never "kamu" (informal)
-- Frame suggestions as "Mungkin bisa..." (perhaps we could...) — not directives
-- Suggestions are invitations, not instructions
-
-### Mandarin — Fiona (Warehouse Manager)
-- Dashboard notifications only — no Slack, no email
-- Clear, concise operational instructions
-- No ambiguous language in shipping or inventory instructions
-
-Reference: `.claude/rules/org-roles.md`
+For team communication protocols, see `.claude/rules/org-roles.md`.
 
 ## Proactive Over Reactive
 
