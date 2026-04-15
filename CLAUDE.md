@@ -23,7 +23,7 @@ Full architecture detail: `docs/ARCHITECTURE.md`
 | Catalog Curator | Opus | $5.00 | Product descriptions via evaluator-optimizer loop |
 | Finance Analyst | Opus | $0.50 | Weekly P&L, COGS tracking, margin analysis |
 
-Agent definitions in `.claude/agents/`. Full workflow specs in `docs/ARCHITECTURE.md`.
+Agent definitions in `agents/`. Full workflow specs in `docs/ARCHITECTURE.md`.
 
 ## Data Layer
 Supabase PostgreSQL. Key tables: `ts_products` (559 rows), `ts_orders` (19.4K+), `ts_customers`, `ts_inventory`, `ts_cogs`. Materialized views: `channel_profitability_monthly`, `product_margin_detail`. See `.claude/rules/supabase.md` for query rules.
@@ -76,12 +76,12 @@ Canonical assets at root, symlinked into `.claude/` for runtime:
 |-------|-----------|---------|
 | Skills | `skills/{name}/` | `.claude/skills/{name}/` (symlink) |
 | Workflows | `workflows/{name}/` | `.claude/skills/{name}/` (symlink) |
-| Agents | `.claude/agents/` | `.claude/agents/` |
-| Rules | `.claude/rules/` | `.claude/rules/` |
+| Agents | `agents/` | `.claude/agents/` (symlinks) |
+| Rules | `rules/` | `.claude/rules/` (symlinks) |
 | Hooks | `.claude/hooks/` | `settings.json` refs |
 
 ## Agents (6)
-All in `.claude/agents/`: `cs-drafter`, `finance-analyst`, `fulfillment-manager`, `inventory-analyst`, `marketing-strategist`, `catalog-curator`
+Canonical in `agents/`, symlinked to `.claude/agents/`: `cs-drafter`, `finance-analyst`, `fulfillment-manager`, `inventory-analyst`, `marketing-strategist`, `catalog-curator`
 
 ## Skills (8)
 Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `shopify-query`, `order-inquiry`, `fulfillment-flag`, `margin-reporting`, `campaign-brief`, `restock-calc`, `description-optimizer`
@@ -90,7 +90,7 @@ Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `shopify-qu
 Canonical in `workflows/`, symlinked to `.claude/skills/`: `cs-pipeline` (triage → enrichment → draft → approval)
 
 ## Rules (10)
-All in `.claude/rules/`: `brand-voice`, `cultural-sensitivity`, `org-roles`, `shopify-api`, `cs-judgment`, `finance-judgment`, `marketing-discipline`, `operations-protocols`, `ecommerce-judgment`, `category-judgment`
+Canonical in `rules/`, symlinked to `.claude/rules/`: `brand-voice`, `cultural-sensitivity`, `org-roles`, `shopify-api`, `cs-judgment`, `finance-judgment`, `marketing-discipline`, `operations-protocols`, `ecommerce-judgment`, `category-judgment`
 
 ## Hooks (4)
 All in `.claude/hooks/`: `ccpa-gate.sh`, `log-activity.sh`, `session-context.sh`, `slack-notify.sh`
