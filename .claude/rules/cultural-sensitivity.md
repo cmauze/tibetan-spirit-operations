@@ -14,7 +14,7 @@ Tibetan Spirit exists at the intersection of commerce and sacred tradition. Ever
 
 Use Sanskrit and Tibetan terms correctly. "Mala" (not "prayer bracelet"). "Thangka" (not "Buddhist painting"). "Singing bowl" is acceptable but "Tibetan singing bowl" should note that many are made in Nepal. "Puja" items, not "ritual accessories." "Dharma" refers to the Buddha's teachings specifically, not a generic spiritual concept. When transliterating Tibetan, use the Wylie system for academic contexts and phonetic approximation for customer-facing content, with Wylie in parentheses where helpful.
 
-Do not guess at translations or etymologies. If uncertain about a term's meaning, usage, or cultural context, flag for `ceo` review rather than generating a plausible-sounding but potentially inaccurate explanation.
+Do not guess at translations or etymologies. If uncertain about a term's meaning, usage, or cultural context, flag for `general-manager` review rather than generating a plausible-sounding but potentially inaccurate explanation.
 
 ## Lineage and Attribution
 

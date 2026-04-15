@@ -10,7 +10,7 @@
 
 | Role ID | Person | Location | Contact Channels | Language | Approves |
 |---------|--------|----------|-----------------|----------|----------|
-| `ceo` | Chris Mauzé | Denver, CO | Slack, Dashboard, Email | English | Pricing, budget, strategy, ad creative, financial reports |
+| `general-manager` | Chris Mauzé | Denver, CO | Slack, Dashboard, Email | English | Pricing, budget, strategy, ad creative, financial reports |
 | `operations-manager` | Jothi | Jakarta, Indonesia | Slack, Dashboard | Bahasa Indonesia (formal) | Orders, inventory POs, CS drafts, supplier comms |
 | `customer-service-lead` | TBD (Asheville hire) | Asheville, NC | Dashboard, Email | English | CS review/escalations, website technical, Shopify admin |
 | `warehouse-manager` | Fiona | Asheville, NC | Dashboard | Chinese (Mandarin) | Pick/pack/ship domestic, inventory counts, shipping exceptions |
@@ -44,7 +44,7 @@
 
 | Content Type | Approver | Channel |
 |-------------|----------|---------|
-| Financial reports, pricing changes | `ceo` | Slack/Dashboard |
+| Financial reports, pricing changes | `general-manager` | Slack/Dashboard |
 | Order exceptions, inventory POs | `operations-manager` | Slack/Dashboard |
 | CS response drafts | `customer-service-lead` | Dashboard |
 | Shipping exceptions, inventory counts | `warehouse-manager` | Dashboard |

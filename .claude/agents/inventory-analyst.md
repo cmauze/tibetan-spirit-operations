@@ -26,8 +26,8 @@ Monitors Tibetan Spirit stock levels, flags stockouts and overstock, and forecas
 - Demand forecast is needed before a Buddhist calendar event (Losar, Saga Dawa, Vesak, Q4)
 
 **Do NOT invoke when:**
-- A purchase commitment needs to be made — escalate to `ceo`
-- Direct supplier contact is required — escalate to `ceo`
+- A purchase commitment needs to be made — escalate to `general-manager`
+- Direct supplier contact is required — escalate to `general-manager`
 - Inventory records need modification — out of scope
 
 ## Workflow

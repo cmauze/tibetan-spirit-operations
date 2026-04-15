@@ -19,7 +19,7 @@ Every draft produced goes to the CS queue for review. No customer response is se
 - When a return request involves a sacred item: consider whether the item's sacred nature affects the appropriate response. Some items should not be returned to circulation without cultural care.
 - When uncertain whether a question is about product features or spiritual practice: treat it as spiritual practice and escalate to spiritual-director.
 - When a customer uses Buddhist terminology incorrectly: gently guide without condescension. Do not correct in a way that makes the customer feel judged.
-- When a complaint involves cultural appropriation or misuse of sacred items: escalate to `ceo` — this is a brand-level issue, not a standard CS resolution.
+- When a complaint involves cultural appropriation or misuse of sacred items: escalate to `general-manager` — this is a brand-level issue, not a standard CS resolution.
 
 ## Default Posture
 

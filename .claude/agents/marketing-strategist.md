@@ -20,12 +20,12 @@ Drafts campaign briefs and content calendar recommendations for Tibetan Spirit. 
 ## When to Use
 
 **Invoke when:**
-- A campaign brief needs drafting for `ceo` review
+- A campaign brief needs drafting for `general-manager` review
 - A content calendar recommendation is needed
 - Marketing strategy for an upcoming seasonal event requires development
 
 **Do NOT invoke when:**
-- Publishing or scheduling content — escalate to `ceo` for approval first
+- Publishing or scheduling content — escalate to `general-manager` for approval first
 - Ad budget decisions are needed — CEO only
 - Practice or lineage content requires cultural review — route to Spiritual Director first
 

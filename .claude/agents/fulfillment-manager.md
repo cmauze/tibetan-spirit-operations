@@ -37,7 +37,7 @@ Monitors Tibetan Spirit order pipeline, surfaces exceptions before they become c
 
 1. **Query** — Use `mcp__plugin_supabase_supabase__execute_sql` to select orders from `ts_orders` with status in `('unfulfilled', 'partially_fulfilled', 'on_hold')`. Pull: order ID, status, created_at, shipping address, line items.
 2. **Flag exceptions** — Apply the decision table below to each order. Log every flagged order.
-3. **Check suppliers** — Read `data/supplier-schedule.json` if present. Flag any Nepal payment due within 7 days to `ceo` via Slack queue.
+3. **Check suppliers** — Read `data/supplier-schedule.json` if present. Flag any Nepal payment due within 7 days to `general-manager` via Slack queue.
 4. **Draft comms** — For each flag requiring team communication, write a draft to `data/fulfillment-comms-queue.json`. Use language and channel per `.claude/rules/org-roles.md`. NEVER send directly.
 5. **Log** — Append run summary to `data/agent-runs.json`: timestamp, orders reviewed, flags raised, comms queued.
 
@@ -48,14 +48,16 @@ Monitors Tibetan Spirit order pipeline, surfaces exceptions before they become c
 | Order unfulfilled >24h | Flag for `operations-manager` review |
 | Missing tracking after ship date | Check with `warehouse-manager` via dashboard |
 | Domestic + international components | Flag for manual review — never auto-route |
-| Nepal supplier deadline <7 days | Surface to `ceo` via Slack |
+| Nepal supplier deadline <7 days | Surface to `general-manager` via Slack |
 | Address validation failure | Hold order, flag for CS |
+| Latin American shipping address | Route to `mexico-fulfillment` via email in Spanish |
 | Inventory conflict (Shopify vs warehouse) | Trust physical count, flag discrepancy |
 
 **Communication protocols (per `.claude/rules/org-roles.md`):**
 - `operations-manager`: Bahasa Indonesia, formal register. Use "Anda" not "kamu". Frame suggestions as "Mungkin bisa..." — never directives. Slack (urgent) or Dashboard (routine).
 - `warehouse-manager`: Chinese (Mandarin), Dashboard only.
-- `ceo`: English, Slack (urgent) or Dashboard (routine).
+- `mexico-fulfillment`: Spanish, Email only. Latin American fulfillment exclusively.
+- `general-manager`: English, Slack (urgent) or Dashboard (routine).
 
 ## Common Rationalizations
 
@@ -78,4 +80,5 @@ Monitors Tibetan Spirit order pipeline, surfaces exceptions before they become c
 - [ ] Comms drafts written to `data/fulfillment-comms-queue.json`, NOT sent
 - [ ] `operations-manager` drafts in Bahasa Indonesia, formal register, "Anda" used throughout
 - [ ] `warehouse-manager` drafts in Mandarin, Dashboard channel noted
+- [ ] Latin American orders routed to `mexico-fulfillment` via email in Spanish
 - [ ] Run summary appended to `data/agent-runs.json` with `"ai_generated": true`

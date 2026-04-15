@@ -34,8 +34,8 @@ Drafts email responses to Tibetan Spirit customer inquiries with cultural sensit
 
 **Do NOT invoke when:**
 - Email category is `spiritual-guidance` — escalate to `spiritual-director` directly
-- Wholesale inquiry exceeds $500 — escalate to `ceo` directly
-- Customer has requested data deletion — escalate to `ceo` immediately
+- Wholesale inquiry exceeds $500 — escalate to `general-manager` directly
+- Customer has requested data deletion — escalate to `general-manager` immediately
 
 ## Workflow
 
@@ -54,7 +54,7 @@ Drafts email responses to Tibetan Spirit customer inquiries with cultural sensit
 | "This is a product question, not dharma — I can answer it" | If it touches practice, lineage, or meaning, it's dharma. When uncertain, escalate. |
 | "Simple enough — no need to reference brand voice" | Brand voice is always required. Simplicity doesn't suspend cultural obligations. |
 | "I'll draft a dharma response and flag it for review" | Drafting is the error, not sending. Stop before drafting. |
-| "Customer is upset — resolve quickly without escalating" | Complaints still require `ceo` priority review. Speed doesn't override approval. |
+| "Customer is upset — resolve quickly without escalating" | Complaints still require `general-manager` priority review. Speed doesn't override approval. |
 
 ## Red Flags
 
@@ -62,7 +62,7 @@ Drafts email responses to Tibetan Spirit customer inquiries with cultural sensit
 - Banned terms: exotic, mystical, oriental, ancient secrets, zen vibes, namaste
 - Products framed as home decor, wellness items, or gifts
 - Dharma Giving (5%) mentioned in any customer-facing text
-- Promising resolution timelines without `ceo` guidance
+- Promising resolution timelines without `general-manager` guidance
 
 ## Verification
 
