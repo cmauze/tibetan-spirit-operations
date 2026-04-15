@@ -126,7 +126,7 @@ Three-year path from $173K to $1.24M.
 |---|---|---|---|
 | **Revenue** | $173K | $773K | $1,237K |
 | **Gross Profit** | $128K | $449K | $770K |
-| **Gross Margin** | 73.9% | 58.1% | 62.2% |
+| **Gross Margin** | 73.8% | 58.1% | 62.2% |
 
 **Growth Drivers:**
 - **Y1:** Shopify optimization (5.5%/mo growth), email launch, Etsy launch (M3)
@@ -165,8 +165,8 @@ Revenue by channel with launch timing:
 | Shopify D2C | $139K | $257K | $424K | Existing |
 | Amazon | -- | $53K | $140K | M13 |
 | Etsy | $14K | $39K | $80K | M3 |
-| Wholesale | $10K | $32K | $61K | M1 |
-| Subscription (Quarterly) | $10K | $37K | $124K | M1 |
+| Wholesale | $10K | $32K | $61K | M7 |
+| Subscription (Quarterly) | $10K | $37K | $124K | M4 |
 | High-Value Dropship | -- | $54K | $108K | M13 |
 | TS Travels | -- | $300K | $300K | M13 |
 
