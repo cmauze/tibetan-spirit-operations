@@ -83,8 +83,8 @@ Canonical assets at root, symlinked into `.claude/` for runtime:
 ## Agents (6)
 All in `.claude/agents/`: `cs-drafter`, `finance-analyst`, `fulfillment-manager`, `inventory-analyst`, `marketing-strategist`, `catalog-curator`
 
-## Skills (2)
-Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `shopify-query`
+## Skills (3)
+Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `shopify-query`, `order-inquiry`
 
 ## Workflows (0)
 Canonical in `workflows/`. Python operational scripts in `scripts/` (not Claude workflows).
