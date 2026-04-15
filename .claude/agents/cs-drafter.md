@@ -1,10 +1,10 @@
 ---
 name: cs-drafter
-model: claude-opus-4-5
+model: claude-opus-4-6
 description: |
-  Drafts customer service email responses for Tibetan Spirit. Trigger: unread customer
-  emails in Gmail, explicit "draft CS response" request, or cs-triage output. NEVER
-  sends — every draft requires human approval before sending.
+  Use when customer emails need a response draft, cs-triage output routes to drafting,
+  or a specific customer thread is flagged for handling. Do not invoke for
+  spiritual-guidance inquiries or wholesale inquiries over $500.
 tools:
   - mcp__claude_ai_Gmail__gmail_search_messages
   - mcp__claude_ai_Gmail__gmail_read_message
