@@ -32,7 +32,6 @@ app = FastAPI(title="Tibetan Spirit AI Operations", version="0.2.0")
 
 SHOPIFY_WEBHOOK_SECRET = os.environ.get("SHOPIFY_WEBHOOK_SECRET", "")
 API_KEY = os.environ.get("API_KEY", "")
-AGENTS_DIR = os.path.join(os.path.dirname(__file__), "..", "agents")
 SKILLS_DIR = os.path.join(os.path.dirname(__file__), "..", "skills")
 
 MODEL_IDS = {
@@ -44,94 +43,48 @@ MODEL_IDS = {
 # ─── Skill Registry ──────────────────────────────────────────────────────────
 
 
-def load_skill(skill_path: str) -> str:
-    """Load a SKILL.md file.
-
-    Checks the flat ``skills/{name}/SKILL.md`` layout first, then falls
-    back to the legacy ``agents/{dept}/skills/{name}/SKILL.md`` path.
-    """
-    # New flat layout: skill_path is just the skill name (e.g. "fulfillment-flag")
-    new_path = os.path.join(SKILLS_DIR, skill_path, "SKILL.md")
-    if os.path.exists(new_path):
-        with open(new_path, "r") as f:
-            return f.read()
-
-    # Legacy layout: "dept/skill-name" → agents/dept/skills/skill-name/SKILL.md
-    parts = skill_path.split("/")
-    if parts[0] == "shared":
-        legacy_path = os.path.join(AGENTS_DIR, skill_path, "SKILL.md")
-    else:
-        legacy_path = os.path.join(AGENTS_DIR, parts[0], "skills", parts[1], "SKILL.md")
-    if os.path.exists(legacy_path):
-        with open(legacy_path, "r") as f:
-            return f.read()
-
-    raise FileNotFoundError(f"Skill not found: {new_path} (also checked legacy: {legacy_path})")
+def load_skill(skill_name: str) -> str:
+    """Load a SKILL.md file from the skills directory."""
+    full_path = os.path.join(SKILLS_DIR, skill_name, "SKILL.md")
+    if not os.path.exists(full_path):
+        raise FileNotFoundError(f"Skill not found: {full_path}")
+    with open(full_path, "r") as f:
+        return f.read()
 
 
 AGENT_CONFIGS = {
     "customer-service": {
-        "skills": [
-            "shared/brand-guidelines",
-            "shared/product-knowledge",
-            "shared/escalation-matrix",
-            "customer-service/ticket-triage",
-        ],
+        "skills": ["cs-triage", "order-inquiry"],
         "model": "haiku",
         "max_turns": 10,
         "max_budget_usd": 0.25,
     },
     "operations": {
-        "skills": [
-            "shared/channel-config",
-            "shared/supabase-ops-db",
-            "operations/fulfillment-domestic",
-            "operations/inventory-management",
-        ],
+        "skills": ["fulfillment-flag", "restock-calc", "shopify-query"],
         "model": "sonnet",
         "max_turns": 15,
         "max_budget_usd": 0.50,
     },
     "ecommerce": {
-        "skills": [
-            "shared/channel-config",
-            "shared/product-knowledge",
-            "ecommerce/etsy-content-optimization",
-            "ecommerce/cross-channel-parity",
-        ],
+        "skills": ["description-optimizer", "shopify-query"],
         "model": "sonnet",
         "max_turns": 15,
         "max_budget_usd": 0.50,
     },
     "category-management": {
-        "skills": [
-            "shared/channel-config",
-            "shared/product-knowledge",
-            "category-management/pricing-strategy",
-            "category-management/competitive-research",
-        ],
+        "skills": ["margin-reporting", "shopify-query"],
         "model": "sonnet",
         "max_turns": 20,
         "max_budget_usd": 1.00,
     },
     "marketing": {
-        "skills": [
-            "shared/channel-config",
-            "marketing/meta-ads",
-            "marketing/google-ads",
-            "marketing/performance-reporting",
-        ],
+        "skills": ["campaign-brief"],
         "model": "sonnet",
         "max_turns": 15,
         "max_budget_usd": 0.75,
     },
     "finance": {
-        "skills": [
-            "shared/channel-config",
-            "shared/supabase-ops-db",
-            "finance/cogs-tracking",
-            "finance/reconciliation",
-        ],
+        "skills": ["margin-reporting", "shopify-query"],
         "model": "sonnet",
         "max_turns": 20,
         "max_budget_usd": 1.00,
@@ -235,7 +188,7 @@ async def execute_skill(
             model=MODEL_IDS.get(model_key, MODEL_IDS["sonnet"]),
             max_turns=config.get("max_turns", 10),
             permission_mode="bypassPermissions",
-            cwd=os.path.dirname(AGENTS_DIR),
+            cwd=os.path.dirname(SKILLS_DIR),
         )
 
         async for message in query(prompt=full_prompt, options=options):

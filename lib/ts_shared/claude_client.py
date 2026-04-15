@@ -36,7 +36,6 @@ _MODEL_COSTS: dict[str, tuple[float, float, float]] = {
 # Repo root — relative to this file: lib/ts_shared/claude_client.py → ../../
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 SKILLS_DIR = REPO_ROOT / "skills"
-AGENTS_DIR = REPO_ROOT / "agents"  # legacy fallback
 
 # ---------------------------------------------------------------------------
 # SkillMetadata
@@ -79,37 +78,13 @@ def _parse_skill_file(text: str) -> tuple[SkillMetadata, str]:
 def _resolve_skill_path(skill_path: str) -> Path:
     """Resolve a skill path to its SKILL.md file.
 
-    New canonical location: skills/{name}/SKILL.md
-    Legacy fallback: agents/{category}/skills/{name}/SKILL.md
-
+    Canonical location: skills/{name}/SKILL.md
     Accepts both "skill-name" and "category/skill-name" formats.
-    For "category/skill-name", extracts the name and checks canonical first.
+    For "category/skill-name", extracts the skill name.
     """
     parts = skill_path.split("/", 1)
-    if len(parts) == 2:
-        category, skill_name = parts
-    elif len(parts) == 1:
-        skill_name = parts[0]
-        category = None
-    else:
-        raise ValueError(f"Invalid skill path: {skill_path!r}")
-
-    # Canonical location: skills/{name}/SKILL.md
-    canonical = SKILLS_DIR / skill_name / "SKILL.md"
-    if canonical.exists():
-        return canonical
-
-    # Legacy fallback: agents/{category}/...
-    if category:
-        if category == "shared":
-            legacy = AGENTS_DIR / "shared" / skill_name / "SKILL.md"
-        else:
-            legacy = AGENTS_DIR / category / "skills" / skill_name / "SKILL.md"
-        if legacy.exists():
-            return legacy
-
-    # Return canonical path (will trigger FileNotFoundError in caller)
-    return canonical
+    skill_name = parts[-1]
+    return SKILLS_DIR / skill_name / "SKILL.md"
 
 
 # ---------------------------------------------------------------------------
@@ -118,10 +93,10 @@ def _resolve_skill_path(skill_path: str) -> Path:
 
 
 def load_skill(skill_path: str) -> tuple[SkillMetadata, str]:
-    """Load a single SKILL.md from the agents/ tree.
+    """Load a single SKILL.md from the skills/ directory.
 
     Args:
-        skill_path: e.g. "shared/brand-guidelines" or "customer-service/ticket-triage"
+        skill_path: e.g. "cs-triage" or "shared/cs-triage"
 
     Returns:
         (SkillMetadata, markdown_body)
@@ -135,7 +110,6 @@ def load_skill(skill_path: str) -> tuple[SkillMetadata, str]:
 def load_skills(skill_paths: list[str]) -> tuple[list[SkillMetadata], str]:
     """Load multiple skills with dependency resolution.
 
-    - Always loads shared/brand-guidelines FIRST.
     - Auto-resolves depends_on (co-loads dependencies).
     - Deduplicates: each skill loaded once.
 
@@ -160,12 +134,6 @@ def load_skills(skill_paths: list[str]) -> tuple[list[SkillMetadata], str]:
     for p in skill_paths:
         _enqueue(p)
 
-    # Ensure brand voice skill is first if present in the requested set
-    bg = "shared/brand-guidelines"
-    if bg in all_paths:
-        all_paths.remove(bg)
-        all_paths.insert(0, bg)
-
     # Load all in final order
     metadatas: list[SkillMetadata] = []
     sections: list[str] = []
@@ -182,11 +150,9 @@ def get_skill_index() -> list[SkillMetadata]:
     index: list[SkillMetadata] = []
     seen_paths: set[Path] = set()
 
-    # Canonical location first
-    for skill_dir in (SKILLS_DIR, AGENTS_DIR):
-        if not skill_dir.exists():
-            continue
-        for skill_file in sorted(skill_dir.rglob("SKILL.md")):
+    if not SKILLS_DIR.exists():
+        return index
+    for skill_file in sorted(SKILLS_DIR.rglob("SKILL.md")):
             resolved = skill_file.resolve()
             if resolved in seen_paths:
                 continue

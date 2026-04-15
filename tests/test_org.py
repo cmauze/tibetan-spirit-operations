@@ -20,7 +20,7 @@ def _clear_org_cache():
 
 def test_load_org_returns_all_roles():
     roles = load_org()
-    assert "ceo" in roles
+    assert "general-manager" in roles
     assert "operations-manager" in roles
     assert "customer-service-lead" in roles
     assert "warehouse-manager" in roles
@@ -44,8 +44,8 @@ def test_load_org_missing_file():
 # ---------------------------------------------------------------------------
 
 
-def test_resolve_ceo():
-    role = resolve_role("ceo")
+def test_resolve_general_manager():
+    role = resolve_role("general-manager")
     assert isinstance(role, OrgRole)
     assert role.person == "Chris Mauzé"
     assert role.language == "English"
@@ -84,15 +84,16 @@ def test_resolve_unknown_role():
         resolve_role("nonexistent-role")
 
 
-def test_ceo_has_approvals():
-    role = resolve_role("ceo")
-    # CEO approves pricing, budget, strategy, etc.
+def test_general_manager_has_approvals():
+    role = resolve_role("general-manager")
+    # general-manager approves pricing, budget, strategy, etc.
     approves_str = ", ".join(role.approves)
     assert "budget" in approves_str.lower() or "pricing" in approves_str.lower()
 
 
 def test_org_role_model_fields():
-    role = resolve_role("ceo")
-    assert role.role_id == "ceo"
+    role = resolve_role("general-manager")
+    assert role.role_id == "general-manager"
+
     assert isinstance(role.contact_methods, list)
     assert isinstance(role.approves, list)
