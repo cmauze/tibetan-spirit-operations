@@ -3,6 +3,10 @@ name: cs-triage
 description: Use when a customer email arrives and needs classification and routing before any response is drafted.
 ---
 
+<HARD-GATE>
+Spiritual guidance emails MUST be checked FIRST before any other classification. If the email contains spiritual guidance requests, it escalates immediately to Dr. Hun Lye — no draft is created, no automated response is attempted. This is a non-negotiable cultural and business requirement.
+</HARD-GATE>
+
 # CS Email Triage
 
 ## Overview
