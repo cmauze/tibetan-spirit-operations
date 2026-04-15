@@ -41,6 +41,7 @@ credentials.json
 
 # Claude Code / MCP local config
 .claude/settings.local.json
+.claude/mcp-settings.json
 .mcp.json
 
 # Validation reports (generated)
@@ -61,3 +62,10 @@ temp/
 # Scratch
 workspace/scratch/
 scratch/
+
+# Archives
+_archive/
+workspace/archive/
+
+# Generated output
+deliverables/

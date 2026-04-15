@@ -10,7 +10,7 @@ Claude Code + PM2 + Supabase + Slack. Six specialized agents handle fulfillment,
 
 Tech stack: Shopify (GraphQL Admin API 2026-01), Supabase/PostgreSQL, Shortwave Pro (Gmail), Slack #ts-operations, Langfuse (self-hosted). MCP servers: Shopify, Supabase, Slack, Gmail.
 
-Full architecture detail: `docs/OPERATIONS-REFERENCE.md`
+Full architecture detail: `docs/ARCHITECTURE.md`
 
 ## Agent Roster
 
@@ -23,7 +23,7 @@ Full architecture detail: `docs/OPERATIONS-REFERENCE.md`
 | Catalog Curator | Opus | $5.00 | Product descriptions via evaluator-optimizer loop |
 | Finance Analyst | Opus | $0.50 | Weekly P&L, COGS tracking, margin analysis |
 
-Agent definitions in `.claude/agents/`. Full workflow specs in `docs/OPERATIONS-REFERENCE.md`.
+Agent definitions in `.claude/agents/`. Full workflow specs in `docs/ARCHITECTURE.md`.
 
 ## Data Layer
 Supabase PostgreSQL. Key tables: `ts_products` (559 rows), `ts_orders` (19.4K+), `ts_customers`, `ts_inventory`, `ts_cogs`. Materialized views: `channel_profitability_monthly`, `product_margin_detail`. See `.claude/rules/supabase.md` for query rules.
@@ -68,8 +68,35 @@ See `.claude/rules/brand-voice.md` and `.claude/rules/cultural-sensitivity.md`. 
 - NEVER communicate with Jothi on behalf of Chris without approval
 - NEVER exceed per-invocation cost budget (enforced by PreToolUse hook)
 
+## Asset Structure
+
+Canonical assets at root, symlinked into `.claude/` for runtime:
+
+| Asset | Canonical | Runtime |
+|-------|-----------|---------|
+| Skills | `skills/{name}/` | `.claude/skills/{name}/` (symlink) |
+| Workflows | `workflows/{name}/` | `.claude/skills/{name}/` (symlink) |
+| Agents | `.claude/agents/` | `.claude/agents/` |
+| Rules | `.claude/rules/` | `.claude/rules/` |
+| Hooks | `.claude/hooks/` | `settings.json` refs |
+
+## Agents (6)
+All in `.claude/agents/`: `cs-drafter`, `finance-analyst`, `fulfillment-manager`, `inventory-analyst`, `marketing-strategist`, `catalog-curator`
+
+## Skills (2)
+Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `shopify-query`
+
+## Workflows (0)
+Canonical in `workflows/`. Python operational scripts in `scripts/` (not Claude workflows).
+
+## Rules (10)
+All in `.claude/rules/`: `brand-voice`, `cultural-sensitivity`, `org-roles`, `shopify-api`, `cs-judgment`, `finance-judgment`, `marketing-discipline`, `operations-protocols`, `ecommerce-judgment`, `category-judgment`
+
+## Hooks (3)
+All in `.claude/hooks/`: `log-activity.sh`, `session-context.sh`, `slack-notify.sh`
+
 ## Key References
 - Full operational detail: `docs/OPERATIONS-REFERENCE.md`
-- Dev roadmap: `DEV-PLAN.md`
-- System status: `SYSTEM-STATUS.md`
-- Org chart: `ORG.md`
+- Architecture overview: `docs/ARCHITECTURE.md`
+- Dev roadmap: `workspace/plans/DEV-PLAN.md`
+- Org roles: `.claude/rules/org-roles.md`

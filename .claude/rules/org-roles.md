@@ -1,3 +1,7 @@
+# Org Roles — Tibetan Spirit Operations
+# Agents reference this file for team member communication protocols.
+# When drafting comms for team members, use the language and channel specified here.
+
 # Tibetan Spirit — Organizational Roles
 
 > Skills reference roles, not people. Use role identifiers in all agent/skill communications.
