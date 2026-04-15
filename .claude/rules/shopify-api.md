@@ -7,7 +7,7 @@ paths:
 
 # Shopify API Interaction Rules
 
-Tibetan Spirit's Shopify store is the production revenue source. All Shopify API interactions must be read-only in automated workflows. Write operations (order modifications, inventory updates, product changes) require human approval and are executed through scripts that Chris runs manually.
+Tibetan Spirit's Shopify store is the production revenue source. All Shopify API interactions must be read-only in automated workflows. Write operations (order modifications, inventory updates, product changes) require human approval and are executed through scripts that `general-manager` runs manually.
 
 ## API Version
 
@@ -27,4 +27,4 @@ Always include date range filters when querying orders to avoid pulling the enti
 
 ## Write Operations (Manual Only)
 
-These operations are NEVER performed by automated agents: updating product descriptions or metadata (staged in Supabase first), modifying inventory quantities, changing prices or discounts, creating or cancelling orders, modifying fulfillment status, and updating customer records. All of these are prepared as drafts in Supabase's `task_inbox` and executed by Chris after review.
+These operations are NEVER performed by automated agents: updating product descriptions or metadata (staged in Supabase first), modifying inventory quantities, changing prices or discounts, creating or cancelling orders, modifying fulfillment status, and updating customer records. All of these are prepared as drafts in Supabase's `task_inbox` and executed by `general-manager` after review.

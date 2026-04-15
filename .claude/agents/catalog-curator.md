@@ -49,7 +49,7 @@ Drafts and optimizes Tibetan Spirit product descriptions through an evaluator-op
 - Cross-channel consistency — same story on Shopify, Etsy, and Amazon
 - Specificity — actual provenance, artisan region, or technique; no vague claims
 
-**Terminology standards:**
+**Terminology standards (source: `.claude/rules/ecommerce-judgment.md`):**
 - "Mala" not "prayer bracelet"
 - "Thangka" not "tapestry"
 - "Puja items" not "altar decor"

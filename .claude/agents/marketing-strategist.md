@@ -50,7 +50,7 @@ Drafts campaign briefs and content calendar recommendations for Tibetan Spirit. 
 ## What This Campaign Does NOT Do
 ```
 
-**Content Tier Framework (non-negotiable):**
+**Content Tier Framework (non-negotiable, source: `.claude/rules/marketing-discipline.md`):**
 
 | Tier | Content | Approval |
 |------|---------|----------|

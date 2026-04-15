@@ -13,7 +13,7 @@ Every product category in the Tibetan Spirit portfolio carries spiritual meaning
 1. Never recommend commoditizing a sacred category to chase volume.
 2. Never recommend dropping a low-volume category without considering its spiritual importance to practitioners.
 
-A category that serves a genuine practitioner need stays in the assortment even if margins are thin. The decision to drop it belongs to Chris, not to an optimization model.
+A category that serves a genuine practitioner need stays in the assortment even if margins are thin. The decision to drop it belongs to `general-manager`, not to an optimization model.
 
 ## Artisan Protection — Anti-Commoditization
 
