@@ -1,0 +1,9 @@
+{
+  "name": "campaign-brief",
+  "description": "Structured campaign brief generator with content tier classification and frequency cap enforcement.",
+  "domain": "marketing",
+  "triggers": ["campaign brief", "marketing plan", "content calendar", "seasonal promotion", "campaign draft"],
+  "model": "inherit",
+  "category": "skill",
+  "version": "1.0.0"
+}
