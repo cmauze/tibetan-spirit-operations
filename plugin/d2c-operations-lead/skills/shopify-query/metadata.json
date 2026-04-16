@@ -1,0 +1,9 @@
+{
+  "name": "shopify-query",
+  "description": "Real-time Shopify data queries for agent workflows.",
+  "domain": "operations",
+  "triggers": ["look up order", "check inventory", "shopify query", "find product", "customer lookup"],
+  "model": "inherit",
+  "category": "skill",
+  "version": "1.0.0"
+}

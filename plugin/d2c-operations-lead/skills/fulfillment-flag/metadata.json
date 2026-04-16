@@ -1,0 +1,9 @@
+{
+  "name": "fulfillment-flag",
+  "description": "Exception flagging and routing review for fulfillment pipeline — surfaces problems before they become crises.",
+  "domain": "fulfillment",
+  "triggers": ["fulfillment exception", "shipping anomaly", "order routing", "delayed shipment", "address issue"],
+  "model": "inherit",
+  "category": "skill",
+  "version": "1.0.0"
+}
