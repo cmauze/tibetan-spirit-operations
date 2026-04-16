@@ -1,0 +1,137 @@
+# Tibetan Spirit Financial Model v7 — Assumptions Config
+# Edit values here, then run: python3 scripts/financial_model/build_xlsx.py
+# All dollar amounts are monthly unless noted.
+
+meta:
+  version: "v7"
+  scenario: "Base Case (Conservative COGS)"
+  period: "Jun 2026 – May 2029"
+  months: 36
+  start_year: 2026
+  start_month: 6  # June
+
+# --- D2C Product Business ---
+d2c:
+  cogs_pct: 0.30  # Conservative blended COGS (was 24.8% in v6)
+  shipping_fulfillment_pct: 0.115  # ~11.5% of product revenue
+
+  channels:
+    shopify:
+      label: "Shopify D2C"
+      start_month: 1
+      starting_revenue: 7500  # Rolling 30-day actual: $7,214
+      monthly_growth: [0.055, 0.05, 0.035]  # Y1 / Y2 / Y3
+      platform_fee_pct: 0.06
+      cogs_pct_override: null  # Uses d2c.cogs_pct
+
+    etsy:
+      label: "Etsy"
+      start_month: 3  # Aug 2026
+      starting_revenue: 1000
+      monthly_growth: [0.08, 0.07, 0.055]
+      platform_fee_pct: 0.125
+      cogs_pct_override: null
+
+    amazon:
+      label: "Amazon"
+      start_month: 13  # Jun 2027
+      starting_revenue: 2500
+      monthly_growth: [null, 0.10, 0.07]  # null = not active in Y1
+      platform_fee_pct: 0.30  # Referral + FBA
+      cogs_pct_override: null
+
+    wholesale:
+      label: "Wholesale (Faire)"
+      start_month: 7  # Dec 2026
+      starting_revenue: 1500
+      monthly_growth: [0.04, 0.06, 0.05]
+      platform_fee_pct: 0.08
+      cogs_pct_override: 0.45  # 50% off retail pricing
+
+    subscription:
+      label: "Quarterly Subscription"
+      type: "quarterly"  # Revenue fires quarterly, not monthly
+      start_month: 4  # Sep 2026 (first quarter shipment)
+      starting_quarterly_revenue: 2296
+      quarterly_growth: 0.35  # 35% growth per quarter
+      platform_fee_pct: 0.06
+      cogs_pct_override: 0.283  # Curated boxes, ~72% margin
+      cannibalization_pct: 0.18  # Net of one-off displacement
+
+    dropship:
+      label: "High-Value Dropship (Kathmandu)"
+      type: "unit_based"  # Revenue = units × avg_order_value
+      start_month: 13  # Jun 2027
+      units_per_month: [0, 1.5, 3.0]  # Y1 / Y2 / Y3
+      avg_order_value: 3000  # $2K–$7K range, $3K avg
+      platform_fee_pct: 0.06
+      cogs_pct_override: 0.60  # Custom commission from Nepal artists
+
+# --- TS Travels (Completely Separate Business Unit) ---
+travels:
+  label: "TS Travels (Pilgrimages)"
+  trips_per_year: [0, 2, 2]  # Y1 / Y2 / Y3
+  revenue_per_trip: 150000
+  cogs_pct: 0.60  # Travel program — 40% gross margin
+  # No platform fees, no shipping — different cost structure entirely
+  # Dr. Hun Lye leads trips; this is the primary ongoing Spiritual Director contribution
+
+# --- Operating Costs ---
+costs:
+  personnel:
+    # Total monthly personnel cost per period (all-in, matches v6 exactly)
+    monthly_m1_to_m4: 6833     # Base team before CS hire
+    monthly_m5_to_m12: 7666    # + CS hire Oct 2026
+    monthly_y2: 8291           # Y2 team rates (all-in)
+    monthly_y3: 9750           # Y3 team rates (all-in)
+
+  technology:
+    monthly_y1: 2500    # Shopify, Supabase, Klaviyo, etc.
+    monthly_y2: 3000    # + Amazon tools, additional SaaS
+    monthly_y3: 3000    # Stable
+
+  marketing:
+    # Marketing as % of product revenue (MER approach)
+    # v6 actuals: Y1 63%, Y2 47%, Y3 31%
+    pct_of_product_revenue_y1: 0.63
+    pct_of_product_revenue_y2: 0.47
+    pct_of_product_revenue_y3: 0.31
+    # Q4 seasonal boost (Oct–Jan = 2x normal marketing spend)
+    q4_multiplier: 2.0
+    q4_months: [10, 11, 12, 1]  # Calendar months Oct–Jan
+
+  seller_payout:
+    monthly_y1_5: 3000   # $36K/year, guaranteed
+    monthly_y6_10: 1500  # Dr. Hun Lye ordains as monk, reduced involvement
+    # Note: Only Y1-3 in model scope, so always $3K/mo
+
+  foundation:
+    pct_of_net_profit: 0.10  # 10% of net profit
+    only_profitable_months: true
+    recipient: "Forest Hermitage"
+
+# --- Capital Structure ---
+capital:
+  cash_on_hand: 20000
+  ops_capital:
+    y1: 200000   # At closing (Jun 2026)
+    y2: 100000   # Start of Y2 (Jun 2027)
+    y3: 50000    # Reserve (Jun 2028)
+  truist_cd: 30000  # Available Mar 2027 (month 10)
+  inventory_facility:
+    cap: 100000  # Recommended cap (v6 had "no cap" — legally untenable)
+    interest: 0.0
+    reconciliation: "quarterly"
+
+# --- Scenario Toggles ---
+# build_xlsx.py generates these scenarios automatically:
+# 1. "Shopify Only" — just D2C Shopify, no other channels
+# 2. "D2C Core" — Shopify + Etsy + Subscription
+# 3. "Full D2C" — All D2C channels (Shopify + Etsy + Amazon + Wholesale + Sub + Dropship)
+# 4. "Full Business" — Full D2C + TS Travels
+# Each scenario computes its own P&L, EBITDA, and cash position
+
+# --- Sensitivity ---
+sensitivity:
+  revenue_factors: [0.70, 0.85, 1.0, 1.15]
+  labels: ["Conservative (70%)", "Moderate (85%)", "Base Case", "Upside (115%)"]
