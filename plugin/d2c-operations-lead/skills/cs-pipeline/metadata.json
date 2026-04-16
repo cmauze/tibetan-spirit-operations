@@ -1,0 +1,9 @@
+{
+  "name": "cs-pipeline",
+  "description": "End-to-end customer service email pipeline: triage → enrichment → draft → approval queue.",
+  "domain": "customer-service",
+  "triggers": ["run CS pipeline", "process customer emails", "CS email batch", "triage and draft"],
+  "model": "inherit",
+  "category": "workflow",
+  "version": "1.0.0"
+}

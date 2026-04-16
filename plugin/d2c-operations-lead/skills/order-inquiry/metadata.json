@@ -1,0 +1,9 @@
+{
+  "name": "order-inquiry",
+  "description": "Handles order status, tracking, and delivery questions — the most common CS inquiry type (~40% of tickets).",
+  "domain": "customer-service",
+  "triggers": ["where is my order", "order status", "tracking number", "delivery estimate", "delayed shipment"],
+  "model": "inherit",
+  "category": "skill",
+  "version": "1.0.0"
+}

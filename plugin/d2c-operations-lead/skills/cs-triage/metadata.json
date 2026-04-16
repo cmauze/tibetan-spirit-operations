@@ -1,0 +1,9 @@
+{
+  "name": "cs-triage",
+  "description": "Customer email classification and routing for CS workflow.",
+  "domain": "customer-service",
+  "triggers": ["triage customer email", "CS triage", "classify inquiry"],
+  "model": "inherit",
+  "category": "skill",
+  "version": "1.0.0"
+}
