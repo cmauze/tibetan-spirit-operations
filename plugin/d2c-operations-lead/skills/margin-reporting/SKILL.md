@@ -40,6 +40,7 @@ See `references/queries.md` for SQL query patterns and the full report template.
 - Any COGS row presented without a confidence label (confirmed / estimated)
 - Negative-margin SKU not marked URGENT
 - Charitable allocation appearing in a marketing or promotion line
+- Report written to any path other than `data/finance-reports.json`
 - Log entry missing `"ai_generated": true`
 - Financial data modified (this skill is read-only)
 

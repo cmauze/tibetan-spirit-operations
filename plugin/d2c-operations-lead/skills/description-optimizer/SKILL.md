@@ -56,6 +56,7 @@ After 3 failed cycles: flag for human review, do not advance.
 - [ ] 6-sentence structure confirmed (sentence 6 optional)
 - [ ] Cross-channel variants use identical brand framing and terminology
 - [ ] No brand-prohibited vocabulary
+- [ ] Products framed per brand guidelines
 - [ ] Uncertain terms flagged for `brand-specialist` — not explained
 - [ ] `"ai_generated": true` in queue entry
 - [ ] `"rubric_scores"` object in queue entry

@@ -1,6 +1,6 @@
 # Order Status Mapping
 
-Reference for Steps 2 and 3 of the order-inquiry workflow.
+Reference for Step 2 and Step 3 of the order-inquiry workflow.
 
 ## Internal → Customer-Facing Status
 

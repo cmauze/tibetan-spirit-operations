@@ -4,7 +4,7 @@ description: Use when customer service emails need end-to-end processing — tri
 ---
 
 <HARD-GATE>
-Every email MUST pass through triage classification before any draft is created. Brand-sensitive emails are escalated at triage — they never reach the drafting stage. Skipping triage produces unclassified drafts that bypass the escalation and compliance gates.
+Every email MUST pass through triage classification before any draft is created. Spiritual guidance emails are escalated at triage — they never reach the drafting stage. Skipping triage produces unclassified drafts that bypass the escalation and compliance gates.
 </HARD-GATE>
 
 # CS Email Pipeline
@@ -28,7 +28,7 @@ Orchestrates the full customer service email workflow: triage → enrichment →
 ## Workflow
 
 1. **Scan** — Query email for unread external customer emails. Exclude internal domains. Build the processing queue.
-2. **Triage** — For each email, invoke `cs-triage` skill. Classify into one of 7 categories. Brand-sensitive emails stop here and escalate to `brand-specialist`. Complaints get priority ordering.
+2. **Triage** — For each email, invoke `cs-triage` skill. Classify into one of 7 categories. Spiritual-guidance emails stop here and escalate to `brand-specialist`. Complaints get priority ordering.
 3. **Enrich** — For emails that passed triage, query the database for order/product context. Check email for prior threads with the same customer. Attach enrichment data to the email record.
 4. **Draft** — For each enriched email, create a draft response. Apply brand voice rules. Log with `"ai_generated": true`.
 5. **Queue** — Present the batch summary to `general-manager` for approval. Each draft shows: category, customer, subject, enrichment data used, and the draft itself.
@@ -52,7 +52,7 @@ Orchestrates the full customer service email workflow: triage → enrichment →
 ## Red Flags
 
 - Drafting before triage completes
-- Brand-sensitive emails reaching the draft stage
+- Spiritual-guidance emails reaching the draft stage
 - Sending any email without human approval
 - Skipping enrichment because "the email is straightforward"
 - Processing internal team emails through the pipeline
@@ -60,7 +60,7 @@ Orchestrates the full customer service email workflow: triage → enrichment →
 ## Verification
 
 - [ ] All emails triaged before any drafting begins
-- [ ] Brand-sensitive emails escalated, not drafted
+- [ ] Spiritual-guidance emails escalated, not drafted
 - [ ] Enrichment data attached to every email record (even if no data found)
 - [ ] All drafts have `"ai_generated": true` in log
 - [ ] Batch summary presented for `general-manager` review

@@ -43,6 +43,8 @@ Reference for the `description-optimizer` skill. All product descriptions must s
 
 **Escalation rule:** When uncertain whether a term is used correctly, flag for `brand-specialist`. Do not generate plausible explanations.
 
+
+
 ---
 
 ### Dimension 3 — SEO Authenticity
@@ -54,6 +56,8 @@ Reference for the `description-optimizer` skill. All product descriptions must s
 | 8-9 | Primary terms authentic; one commercial keyword present but not dominant |
 | 5-7 | Mixed — commercial and authentic terms compete |
 | <5 | Optimized for generic audience, not your customers |
+
+
 
 ---
 
@@ -67,6 +71,7 @@ Reference for the `description-optimizer` skill. All product descriptions must s
 | 5-7 | Channel-specific meaning differences; one channel uses different framing |
 | <5 | Product positioned differently across channels |
 
+
 ---
 
 ### Dimension 5 — Specificity
@@ -78,6 +83,7 @@ Reference for the `description-optimizer` skill. All product descriptions must s
 | 8-9 | Specific region or technique named; one element vague but not misleading |
 | 5-7 | Generic provenance language without specifics |
 | <5 | No provenance; description could apply to any similar product |
+
 
 ---
 

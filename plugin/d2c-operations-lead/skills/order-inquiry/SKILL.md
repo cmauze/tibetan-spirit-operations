@@ -20,7 +20,7 @@ Resolves customer questions about order status, tracking, and delivery by queryi
 
 2. **Query order status** — Pull from database first; fall back to Shopify GraphQL API for real-time state. Map internal status to customer-facing language per `references/status-mapping.md`.
 
-3. **Handle special cases** — Long-lead-time items (international sourcing), marketplace-fulfilled orders (e.g., FBA), delayed orders (>7 biz days domestic, >21 international), or order not found. See `references/status-mapping.md`.
+3. **Handle special cases** — international-sourced items (2–4 week lead times), marketplace-fulfilled orders, delayed orders (>7 biz days domestic, >21 international), or order not found. See `references/status-mapping.md`.
 
 4. **Draft the response** — Apply brand voice: warm, informative, authentic. Acknowledge any delay directly before offering next steps. Never use urgency language.
 
@@ -33,7 +33,7 @@ Resolves customer questions about order status, tracking, and delivery by queryi
 | "I'll estimate delivery from the ship date" | Never guess. Pull actual carrier data or state it's unavailable. |
 | "The delay is minor, I won't mention it" | Acknowledge delays directly. Customers who discover it themselves lose trust. |
 | "We have no record of this order" | Never say this. Ask the customer to check their confirmation email first. |
-| "Marketplace-fulfilled orders work the same way" | They don't. Marketplace fulfillment and tracking data comes from the marketplace, not Shopify. |
+| "marketplace-fulfilled orders work the same way" | They don't. Marketplace fulfillment and tracking data comes from Amazon, not Shopify. |
 
 ## Red Flags
 
@@ -48,7 +48,7 @@ Resolves customer questions about order status, tracking, and delivery by queryi
 - [ ] Order located via at least one identifier (order number, email, name+date)
 - [ ] Status pulled from database or Shopify fallback
 - [ ] Customer-facing status uses mapped language (not internal enum)
-- [ ] Special case rules applied if long-lead, marketplace-fulfilled, delayed, or not found
+- [ ] Special case rules applied if international-sourced, FBA, delayed, or not found
 - [ ] Response acknowledges delay before offering resolution (if applicable)
 - [ ] No urgency language, no guessed delivery dates
 - [ ] Draft queued in CS queue, not sent

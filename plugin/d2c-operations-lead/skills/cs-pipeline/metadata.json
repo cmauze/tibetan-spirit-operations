@@ -5,5 +5,9 @@
   "triggers": ["run CS pipeline", "process customer emails", "CS email batch", "triage and draft"],
   "model": "inherit",
   "category": "workflow",
-  "version": "1.0.0"
+  "approval_tier": "decision-needed",
+  "cost_budget_usd": 5.00,
+  "version": "1.0.0",
+  "created": "2026-04-14",
+  "updated": "2026-04-14"
 }

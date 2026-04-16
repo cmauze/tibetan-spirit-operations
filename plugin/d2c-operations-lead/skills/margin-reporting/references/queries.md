@@ -2,8 +2,6 @@
 
 ## SQL Query Patterns
 
-Adapt these to your database schema. The queries assume materialized views for SKU margins and channel profitability.
-
 ### 1. SKU-Level Margins
 
 ```sql
@@ -45,13 +43,14 @@ ORDER BY channel, period_month;
 ```sql
 SELECT
   category,
-  COUNT(DISTINCT sku) AS sku_count,
-  SUM(revenue_net) AS category_revenue,
-  SUM(cogs_total) AS category_cogs,
+  COUNT(DISTINCT sku)                        AS sku_count,
+  SUM(revenue_net)                           AS category_revenue,
+  SUM(cogs_total)                            AS category_cogs,
   ROUND(
-    (SUM(revenue_net) - SUM(cogs_total)) / NULLIF(SUM(revenue_net), 0) * 100, 1
-  ) AS category_margin_pct,
-  BOOL_OR(cogs_confidence = 'estimated') AS has_estimated_cogs,
+    (SUM(revenue_net) - SUM(cogs_total)) / NULLIF(SUM(revenue_net), 0) * 100,
+    1
+  )                                          AS category_margin_pct,
+  BOOL_OR(cogs_confidence = 'estimated')     AS has_estimated_cogs,
   COUNT(*) FILTER (WHERE gross_margin_pct < margin_floor_pct) AS below_floor_count
 FROM product_margin_detail
 WHERE period_start = date_trunc('week', current_date - interval '7 days')
@@ -63,8 +62,12 @@ ORDER BY category_margin_pct ASC;
 
 ```sql
 SELECT
-  sku, product_title, category, channel,
-  gross_margin_pct, margin_floor_pct,
+  sku,
+  product_title,
+  category,
+  channel,
+  gross_margin_pct,
+  margin_floor_pct,
   (gross_margin_pct - margin_floor_pct) AS gap_pp,
   cogs_confidence,
   CASE
@@ -77,9 +80,15 @@ WHERE period_start = date_trunc('week', current_date - interval '7 days')
 ORDER BY gross_margin_pct ASC;
 ```
 
+
+```sql
+SELECT
+```
+
 ---
 
 ## Trend Arrow Logic
+
 
 | Condition | Arrow |
 |-----------|-------|
@@ -112,6 +121,7 @@ BY CATEGORY
   └─ {N} SKUs | Revenue: ${X,XXX} | Below-floor: {N}
 ...
 
+
 ═══════════════════════════════════════
 BY CHANNEL
 ═══════════════════════════════════════
@@ -123,15 +133,21 @@ BY CHANNEL
 BELOW-FLOOR ALERTS
 ═══════════════════════════════════════
 [URGENT — negative margin]
-  SKU: {sku} | {product_title}
   Channel: {channel} | Category: {category}
   Margin: {X.X}% | Floor: {X.X}% | Gap: {−X.X}pp
   COGS: {confirmed|estimated}
+
+  ...
+
+═══════════════════════════════════════
+═══════════════════════════════════════
+Charitable allocation: {X.X}% of revenue (${XXX})
 
 ═══════════════════════════════════════
 ACTION ITEMS
 ═══════════════════════════════════════
 [ ] {Specific action derived from alerts or anomalies}
+...
 
 ═══════════════════════════════════════
 DATA QUALITY NOTES
@@ -140,3 +156,8 @@ DATA QUALITY NOTES
 - Anomalies requiring investigation: {descriptions}
 - Missing data: {any gaps noted}
 ```
+
+---
+
+
+

@@ -27,7 +27,7 @@ Queries your Shopify store for real-time data when agents need fresh data not ye
 | Need | Use |
 |------|-----|
 | Aggregate reports, P&L, margins | Database (orders, products tables) |
-| Specific order lookup (CS) | This skill — freshest data |
+| Specific order lookup (CS) | This skill -- freshest data |
 | Product search by SKU/name | This skill for live catalog |
 | Real-time low stock | This skill |
 | Customer info (CS enrichment) | This skill |

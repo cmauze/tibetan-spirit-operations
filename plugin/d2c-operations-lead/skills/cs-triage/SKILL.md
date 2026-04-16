@@ -22,7 +22,7 @@ Classifies incoming customer emails into 7 canonical categories and routes to th
 ## Workflow
 
 1. Check for brand-sensitive content FIRST — if detected, escalate to `brand-specialist` immediately, do NOT draft
-2. Check for complaint signals — priority handling
+2. Check for complaint signals -- priority handling
 3. Multi-category: use highest severity (`complaint > order-issue > return-request > wholesale-inquiry > product-question > shipping-status`)
 4. If uncertain: classify as `product-question`, flag for `general-manager` review
 5. Apply brand voice checks (see Verification)
@@ -34,7 +34,7 @@ See `references/classification-matrix.md` for category signal words, response te
 
 | Rationalization | Reality |
 |----------------|---------|
-| "The question mentions the brand but it's really about the product" | If it touches brand values or cultural sensitivity, it is `brand-sensitive`. When uncertain, escalate. |
+| "The question mentions the brand but it's really about the product" | If it touches brand values or brand voice, it is `brand-sensitive`. When uncertain, escalate. |
 | "I'll draft a tentative response and flag it" | For `brand-sensitive`, do NOT draft. Escalation is the only output. |
 | "Complaint is mild, I'll downgrade it" | Classify by content, not intensity. |
 

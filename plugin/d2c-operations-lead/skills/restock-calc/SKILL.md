@@ -25,7 +25,7 @@ Computes reorder points, restock quantities, and safety stock for each SKU using
 ## Workflow
 
 1. **Identify data source** — Query inventory table via database; fall back to local snapshot file. Label every figure: confirmed or estimated.
-2. **Calculate daily velocity** — 30-day avg daily sales from orders table. Adjust for upcoming seasonal events.
+2. **Calculate daily velocity** — 30-day avg daily sales from `orders table`. Adjust for upcoming seasonal events.
 3. **Compute reorder point, safety stock, and restock quantity** — Apply formulas from `references/formulas.md`. Flag immediately if a top-20 SKU is below critical alert threshold.
 4. **Flag overstock** — Apply overstock threshold from `references/formulas.md`.
 5. **Write output** — Append to restock recommendations file with confidence labels and data source.

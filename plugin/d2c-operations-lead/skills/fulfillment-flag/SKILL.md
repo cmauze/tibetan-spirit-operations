@@ -16,8 +16,8 @@ Identifies fulfillment exceptions and routes them to the correct team member bef
 
 ## Workflow
 
-1. **Evaluate the trigger** — Identify the exception type from the decision table in `references/decision-table.md`
-2. **Investigate before escalating** — Check the order in Shopify and warehouse systems; international supplier delays often have infrastructure causes, not neglect
+1. **Evaluate the trigger** — Identify the exception type from the decision table below
+2. **Investigate before escalating** — Check the order in Shopify and warehouse dashboard; international supplier delays often have infrastructure causes, not neglect
 3. **Draft the flag** — Write the exception summary with order ID, trigger condition, and recommended action
 4. **Route to the correct person** — Use the decision table to select the role and channel; use the team member's configured language and register
 5. **Queue to comms file** — Append to the fulfillment communications queue with `"ai_generated": true`; never send directly

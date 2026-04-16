@@ -5,5 +5,7 @@
   "triggers": ["look up order", "check inventory", "shopify query", "find product", "customer lookup"],
   "model": "inherit",
   "category": "skill",
-  "version": "1.0.0"
+  "version": "2.0.0",
+  "created": "2026-04-14",
+  "updated": "2026-04-14"
 }

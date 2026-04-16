@@ -42,3 +42,19 @@ Each skill references generic role IDs. Configure your team's role mapping:
 | `regional-fulfillment` | Regional/international fulfillment |
 
 Configure in your project's CLAUDE.md or org-roles rule file.
+
+## Regeneration
+
+Plugin skills are auto-generated from project `skills/` by `scripts/publish-plugin.sh`.
+The script applies sanitization rules from `sanitize.yaml` to remove
+Tibetan Spirit-specific operational details (spiritual routing, cultural terms,
+internal paths, team member names).
+
+**Do not edit plugin skills/ directly.** Edit project skills/ and re-run the script:
+
+```
+bash scripts/publish-plugin.sh
+```
+
+Sanitization rules are defined in `plugin/d2c-operations-lead/sanitize.yaml`.
+Add new rules there when project skills diverge in new ways.

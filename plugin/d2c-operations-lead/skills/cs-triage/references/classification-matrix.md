@@ -1,4 +1,4 @@
-# CS Triage — Classification Matrix
+# CS Triage -- Classification Matrix
 
 ## Category Signals
 
@@ -46,7 +46,7 @@ Great question! [Product name] is [description per brand guidelines].
 
 [Specific answer]
 
-If you'd like more guidance on choosing the right [product type], we're happy to help.
+If you'd like more guidance on choosing the right [product type] we're happy to help.
 
 ### Wholesale Inquiry
 Thank you for your interest in carrying our products. We'd love to explore this with you.

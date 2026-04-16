@@ -1,0 +1,882 @@
+# sanitize.yaml — Defines text replacements from project skills/ (operational)
+# to plugin skills/ (public-distributable).
+#
+# Usage: scripts/publish-plugin.sh reads this file and applies replacements.
+# Project skills/ is the canonical operational version.
+# Plugin skills/ is auto-generated — do not edit directly.
+#
+# Ordering matters: more specific (longer) phrases must appear BEFORE shorter ones
+# that share substrings, to avoid partial matches corrupting later replacements.
+#
+# Divergent skills: campaign-brief, cs-pipeline, cs-triage, description-optimizer,
+#                   fulfillment-flag, margin-reporting, order-inquiry, restock-calc,
+#                   shopify-query (all 9 skills diverge)
+
+replacements:
+  # ── Long-phrase matches first (avoid partial-match corruption) ────────────
+
+  # cs-triage HARD-GATE (must precede shorter spiritual-guidance replacement)
+  - from: "Spiritual guidance emails MUST be checked FIRST before any other classification. If the email contains spiritual guidance requests, it escalates immediately to `spiritual-director` — no draft is created, no automated response is attempted. This is a non-negotiable cultural and business requirement."
+    to: "Brand-sensitive emails MUST be checked FIRST before any other classification. If the email contains questions about brand values, cultural significance, or product authenticity that require specialist knowledge, it escalates immediately to `brand-specialist` — no draft is created, no automated response is attempted."
+
+  # cs-pipeline HARD-GATE
+  - from: "Spiritual-guidance emails are escalated at triage — they never reach the drafting stage."
+    to: "Brand-sensitive emails are escalated at triage — they never reach the drafting stage."
+
+  # campaign-brief workflow step 3 (full sentence before shorter seasonal replacements)
+  - from: "For Losar, Saga Dawa, Vesak, or Q4: approach with reverence. Flag if the brief risks commercial momentum overriding spiritual significance."
+    to: "For culturally or brand-significant events: approach with appropriate reverence and tone. Flag if the brief risks commercial momentum overriding significance."
+
+  # campaign-brief frequency caps (full sentence before shorter cap replacements)
+  - from: "Verify promotional email count (≤2/month) and ad impression caps (≤3/user/week) before drafting."
+    to: "Verify promotional email count and ad impression caps before drafting."
+
+  # campaign-brief red flag (full sentence before Dharma Giving replacement)
+  - from: "- Dharma Giving mentioned as a reason to purchase"
+    to: "- Charitable/mission commitments mentioned as a reason to purchase"
+
+  # campaign-brief rationalization row (full sentence before Dharma Giving replacement)
+  - from: "\"Dharma Giving makes this mission-driven, not marketing\" | Dharma Giving is an accounting line, never a campaign angle."
+    to: "\"Our charitable mission makes this mission-driven, not marketing\" | Charitable allocations are accounting lines, never campaign angles."
+
+  # campaign-brief checklist (full sentence before Dharma Giving replacement)
+  - from: "- [ ] Dharma Giving not present in any customer-facing copy"
+    to: "- [ ] Charitable allocation not present in any customer-facing copy"
+
+  # campaign-brief checklist Tier 3 (full sentence before spiritual-director replacement)
+  - from: "- [ ] Tier 3 brief flagged for Spiritual Director review before CEO"
+    to: "- [ ] Tier 3 brief flagged for `brand-specialist` review before `general-manager`"
+
+  # campaign-brief red flag (full sentence before spiritual-director replacement)
+  - from: "- Tier 3 content missing Spiritual Director review note"
+    to: "- Tier 3 content missing `brand-specialist` review note"
+
+  # campaign-brief CEO → review (before shorter replacements)
+  - from: "for CEO review"
+    to: "for review"
+
+  - from: "or any content that would require a brief to already exist"
+    to: ""
+
+  # margin-reporting Dharma Giving section (long, before shorter replacements)
+  - from: "5. **Check Dharma Giving line** — confirm 5% Forest Hermitage allocation appears as an accounting expense, not marketing"
+    to: "5. **Check charitable/mission allocations** — if the brand has a charitable allocation (e.g., % of revenue to a cause), confirm it appears as an accounting expense, not a marketing line"
+
+  - from: "| \"Dharma Giving lowers apparent margin, I'll exclude it\" | It is a real expense."
+    to: "| \"The charitable allocation lowers apparent margin, I'll exclude it\" | It is a real expense."
+
+  - from: "- Dharma Giving appearing in a marketing or promotion line"
+    to: "- Charitable allocation appearing in a marketing or promotion line"
+
+  - from: "- [ ] Dharma Giving is an accounting expense line, not a marketing line"
+    to: "- [ ] Charitable/mission allocation is an accounting expense line, not marketing"
+
+  - from: "- [ ] Output written to `data/finance-reports.json`"
+    to: ""
+
+  - from: "- [ ] Run logged to `data/agent-runs.json` with `\"ai_generated\": true`"
+    to: "- [ ] Run logged with `\"ai_generated\": true`"
+
+  # margin-reporting queries.md Dharma Giving SQL section (remove entire block)
+  - from: "### 5. Dharma Giving Line Verification"
+    to: ""
+
+  - from: "  expense_label,"
+    to: ""
+
+  - from: "  amount_usd,"
+    to: ""
+
+  - from: "  pct_of_revenue,"
+    to: ""
+
+  - from: "  expense_type   -- must be 'accounting', never 'marketing'"
+    to: ""
+
+  - from: "FROM ts_cogs"
+    to: ""
+
+  - from: "WHERE expense_label ILIKE '%dharma giving%'"
+    to: ""
+
+  - from: "  AND period_start = date_trunc('week', current_date - interval '7 days');"
+    to: ""
+
+  # margin-reporting report template (remove project-specific sections)
+  - from: "* = category contains at least one estimated COGS row"
+    to: ""
+
+  - from: "[ALERT — below floor]"
+    to: ""
+
+  - from: "  SKU: {sku} | {product_title}"
+    to: ""
+
+  # description-optimizer rubric banned vocabulary section (replace with escalation rule)
+  - from: "**Banned vocabulary:** exotic, mystical, oriental, ancient secrets, zen vibes, namaste, chakra (in Buddhist context), energy (as spiritual force), boho, wellness (applied to sacred items)"
+    to: "**Escalation rule:** When uncertain whether a term is used correctly, flag for `brand-specialist`. Do not generate plausible explanations."
+
+  # description-optimizer sacred terms block — remove header and all items
+  - from: "**Sacred terms stay untranslated and unclarified in parentheses:**"
+    to: ""
+
+  - from: "- \"Mala\" — not \"prayer bracelet\" or \"meditation beads necklace\""
+    to: ""
+
+  - from: "- \"Thangka\" — not \"tapestry,\" \"wall art,\" or \"Tibetan painting\""
+    to: ""
+
+  - from: "- \"Puja items\" — not \"altar decor\" or \"ritual accessories\""
+    to: ""
+
+  - from: "- \"Dharma\" — Buddha's teachings specifically, not generic \"spiritual path\""
+    to: ""
+
+  - from: "- \"Sangha\" — community of practitioners, not generic \"community\""
+    to: ""
+
+  - from: "- \"Mandala\" — cosmological diagram with specific tradition, not \"circular design\""
+    to: ""
+
+  # description-optimizer second escalation rule (remove — first one above is sufficient)
+  - from: "**Escalation rule:** When uncertain whether a term is used correctly, flag for `spiritual-director`. Do not generate plausible explanations. Score the dimension conservatively until confirmed."
+    to: ""
+
+  # description-optimizer SEO dimension scoring (practitioner → customer)
+  - from: "| 10 | All search terms are practitioner-native; no commercial keywords |"
+    to: "| 10 | All search terms are customer-native; no generic commercial keywords |"
+
+  - from: "| <5 | Optimized for lifestyle/wellness audience, not practitioners |"
+    to: "| <5 | Optimized for generic audience, not your customers |"
+
+  # description-optimizer SEO acceptable patterns block (remove section and examples)
+  - from: "**Acceptable patterns:**"
+    to: ""
+
+  - from: "**Not acceptable:**"
+    to: ""
+
+  - from: "- \"Tibetan singing bowl for meditation\""
+    to: ""
+
+  - from: "- \"mala beads for mantra practice\""
+    to: ""
+
+  - from: "- \"thangka painting Drikung Kagyu\""
+    to: ""
+
+  - from: "- \"108-bead mala for japa meditation\""
+    to: ""
+
+  # description-optimizer SEO not-acceptable patterns block (remove)
+  - from: "- \"relaxation sound bowl\""
+    to: ""
+
+  - from: "- \"spiritual home decor\""
+    to: ""
+
+  - from: "- \"zen meditation accessories\""
+    to: ""
+
+  - from: "- \"boho altar piece\""
+    to: ""
+
+  - from: "- \"mindfulness tools\""
+    to: ""
+
+  # description-optimizer cross-channel hard rules block (remove section and rules)
+  - from: "**Hard rules:**"
+    to: ""
+
+  - from: "- A mala is never described as jewelry on any platform"
+    to: ""
+
+  - from: "- A thangka is never \"wall art\" or \"tapestry\" on any platform"
+    to: ""
+
+  - from: "- A singing bowl is never a \"sound bowl\" or \"relaxation tool\" on any platform"
+    to: ""
+
+  # description-optimizer provenance dimension examples (remove section and examples)
+  - from: "**Examples:**"
+    to: ""
+
+  - from: "- \"Hand-rolled in Kathmandu by Newari incense makers using juniper harvested from the Helambu valley\" — scores 10"
+    to: ""
+
+  - from: "- \"Handmade in Nepal using traditional techniques\" — scores 5"
+    to: ""
+
+  - from: "- \"Authentic Himalayan craftsmanship\" — scores 3"
+    to: ""
+
+  # description-optimizer score table row (practitioner → customer/brand)
+  - from: "**Criterion:** Search terms reflect how practitioners actually search — not how lifestyle consumers search."
+    to: "**Criterion:** Search terms reflect how your actual customers search — not how generic shoppers search."
+
+  - from: "**Test:** Read only the first sentence. Does it tell a practitioner why this item exists in their practice? If not, score ≤7."
+    to: "**Test:** Read only the first sentence. Does it tell the customer what makes this product distinctive to your brand? If not, score ≤7."
+
+  - from: "**Criterion:** Buddhist and Himalayan terms are used correctly. No conflation with New Age, Hinduism, or generic \"spirituality.\" No banned vocabulary."
+    to: "**Criterion:** Brand-specific and category-specific terms are used correctly. No conflation with competitors or generic alternatives."
+
+  - from: "| 10 | All terms verified; no conflation; lineage references are specific and accurate |"
+    to: "| 10 | All terms verified; no conflation; brand references are specific and accurate |"
+
+  - from: "| 8-9 | Terms correct; one minor imprecision that does not misrepresent the tradition |"
+    to: "| 8-9 | Terms correct; one minor imprecision that does not misrepresent the brand |"
+
+  - from: "| 5-7 | Noticeable conflation or vague cultural language |"
+    to: "| 5-7 | Noticeable conflation or vague brand language |"
+
+  - from: "| <5 | Banned vocabulary present, or significant misrepresentation |"
+    to: "| <5 | Brand-prohibited vocabulary present, or significant misrepresentation |"
+
+  - from: "**Criterion:** The description leads with spiritual or contemplative purpose before any material, aesthetic, or commercial detail."
+    to: "**Criterion:** The description leads with the brand's core value proposition before any material, aesthetic, or commercial detail."
+
+  - from: "| 10 | Opens with explicit practice context; no commercial framing anywhere in the description |"
+    to: "| 10 | Opens with explicit brand context; no generic commercial framing anywhere |"
+
+  - from: "| 8-9 | Opens with practice context; minor commercial language appears later |"
+    to: "| 8-9 | Opens with brand context; minor commercial language appears later |"
+
+  - from: "| 5-7 | Practice and commercial framing compete; unclear which leads |"
+    to: "| 5-7 | Brand and commercial framing compete; unclear which leads |"
+
+  - from: "| 1 | What the item IS and what tradition or practice it serves |"
+    to: "| 1 | What the item IS and what purpose or context it serves (brand-first) |"
+
+  - from: "| 4-5 | Practical guidance: how to use, care instructions, practice context |"
+    to: "| 4-5 | Practical guidance: how to use, care instructions, intended context |"
+
+  - from: "| 6 (optional) | Cultural context, lineage, or sourcing story |"
+    to: "| 6 (optional) | Provenance, artisan story, or sourcing context |"
+
+  - from: "| 10 | Identical practice framing, terminology, and provenance across all channels |"
+    to: "| 10 | Identical brand framing, terminology, and provenance across all channels |"
+
+  - from: "| <5 | Product positioned differently across channels (e.g., \"jewelry\" on Etsy, \"practice tool\" on Shopify) |"
+    to: "| <5 | Product positioned differently across channels |"
+
+  - from: "**Criterion:** Provenance, artisan region, and technique are named — not gestured at."
+    to: "**Criterion:** Provenance, maker, and technique are named — not gestured at."
+
+  # description-optimizer cross-channel criterion (remove store-specific channel names)
+  - from: "**Criterion:** The same product tells the same story on Shopify, Etsy, and Amazon. Channel formatting may differ; meaning and framing must not."
+    to: "**Criterion:** The same product tells the same story on every sales channel. Formatting may differ; meaning and framing must not."
+
+  - from: "| 10 | Specific artisan region, technique, and material source named and verifiable |"
+    to: "| 10 | Specific maker, region, technique, and material source named and verifiable |"
+
+  - from: "| 5-7 | Generic provenance language (\"Himalayan,\" \"traditional\") without specifics |"
+    to: "| 5-7 | Generic provenance language without specifics |"
+
+  # description-optimizer margin-reporting queries.md output section (remove)
+  - from: "Both files require `\"ai_generated\": true` in every entry for CCPA compliance."
+    to: ""
+
+  # fulfillment-flag decision table (full row before shorter replacements)
+  - from: "| Nepal supplier deadline <7 days | `general-manager` | Slack | English |"
+    to: "| International supplier deadline <7 days | `general-manager` | Chat/Slack | Strategic decision |"
+
+  - from: "| Latin American shipping address | `mexico-fulfillment` | Email | Spanish |"
+    to: "| Regional/international shipping address | `regional-fulfillment` | Email | Regional team handles |"
+
+  # fulfillment-flag carrier table (replace entire product-specific carrier section)
+  - from: "- USPS: light packages (<1 lb), standard domestic"
+    to: "Configure per your shipping setup. Common patterns:"
+
+  - from: "- UPS: heavy or fragile items, oversized domestic"
+    to: "- Light packages (<1 lb): economy carrier (e.g., USPS)"
+
+  - from: "- DHL: international"
+    to: "- Heavy or fragile items: premium carrier with handling (e.g., UPS)"
+
+  - from: "- Singing bowls >10 in → custom boxing required"
+    to: "- International: international carrier (e.g., DHL)"
+
+  - from: "- Statues >$200 → double-box + insurance required"
+    to: "- Fragile/high-value items: custom packaging + insurance required"
+
+  - from: "- Thangkas → tube shipping required"
+    to: "- Oversized items: special shipping method required"
+
+  # fulfillment-flag language-specific reference (before shorter replacements)
+  - from: "- Using \"kamu\" instead of \"Anda\" in Bahasa Indonesia comms"
+    to: "- Using incorrect language or register for team communications"
+
+  # order-inquiry Nepal sourcing explanation (before shorter Nepal replacements)
+  - from: "### Nepal-Sourced Items"
+    to: "### Long-Lead-Time Items (International Sourcing)"
+
+  - from: "Items handcrafted by Nepal artisan partners carry a 2–4 week lead time before fulfillment. When a customer inquires about an item with this lead time:"
+    to: "Items sourced from international artisan partners may carry extended lead times before fulfillment. When a customer inquires:"
+
+  - from: "- Explain the artisan sourcing context positively — these items are made to order by skilled craftspeople"
+    to: "- Explain the sourcing context positively — these items are crafted by skilled artisans"
+
+  - from: "- Skipping the Nepal sourcing explanation when it's relevant"
+    to: "- Skipping the sourcing context explanation when it's relevant"
+
+  # order-inquiry FBA section (before shorter FBA replacements)
+  - from: "### FBA (Fulfilled by Amazon) Orders"
+    to: "### Marketplace-Fulfilled Orders (e.g., FBA)"
+
+  - from: "FBA orders are fulfilled and tracked through Amazon, not Shopify."
+    to: "Orders fulfilled through marketplaces (Amazon FBA, etc.) are tracked through the marketplace, not Shopify."
+
+  - from: "- Do not use Shopify tracking data for FBA orders"
+    to: "- Do not use Shopify tracking data for marketplace-fulfilled orders"
+
+  - from: "- Direct the customer to their Amazon order confirmation for tracking"
+    to: "- Direct the customer to their marketplace order confirmation for tracking"
+
+  - from: "- If the customer purchased on tibetanspirit.com but the order routes to FBA, explain this clearly"
+    to: "- If the customer purchased on your site but the order routes to marketplace fulfillment, explain this clearly"
+
+  - from: "- Ask the customer to locate their original confirmation email (subject: \"Your Tibetan Spirit order\")"
+    to: "- Ask the customer to locate their original confirmation email"
+
+  - from: "- If still unresolved after two attempts, escalate to customer-service-lead for manual investigation"
+    to: "- If still unresolved after two attempts, escalate for manual investigation"
+
+  # order-inquiry practice-aware
+  - from: "Apply brand voice: warm, informative, practice-aware."
+    to: "Apply brand voice: warm, informative, authentic."
+
+  # order-inquiry CCPA-specific
+  - from: "- Special case rules applied if Nepal-sourced, FBA, delayed, or not found"
+    to: "- Special case rules applied if long-lead, marketplace-fulfilled, delayed, or not found"
+
+  - from: "- Sending any response without human review (CCPA violation)"
+    to: "- Sending any response without human review (compliance violation)"
+
+  # order-inquiry status check (before shorter ts_orders replacement)
+  - from: "- [ ] Status pulled from `ts_orders` or Shopify fallback"
+    to: "- [ ] Status pulled from database or Shopify fallback"
+
+  # order-inquiry FBA short forms
+  - from: "FBA orders"
+    to: "marketplace-fulfilled orders"
+
+  - from: "FBA order"
+    to: "marketplace-fulfilled order"
+
+  - from: "FBA fulfillment"
+    to: "Marketplace fulfillment"
+
+  - from: "FBA fields"
+    to: "Marketplace fields"
+
+  - from: "\"FBA orders work the same way\""
+    to: "\"Marketplace-fulfilled orders work the same way\""
+
+  # restock-calc Buddhist calendar (before shorter Buddhist replacements)
+  - from: "Adjust for upcoming Buddhist calendar events (Losar, Saga Dawa, Vesak, Q4)."
+    to: "Adjust for upcoming seasonal events."
+
+  - from: "- Determining safety stock for a SKU ahead of a Buddhist calendar event"
+    to: "- Determining safety stock for a SKU ahead of a seasonal event"
+
+  # restock-calc Nepal (before shorter Nepal replacements)
+  - from: "- Computing reorder quantity without checking sourcing tier (domestic vs. Nepal)"
+    to: "- Computing reorder quantity without checking sourcing tier (domestic vs. international)"
+
+  - from: "- [ ] Nepal-sourced items use 90-day quantity with 8–12 week lead time"
+    to: "- [ ] International-sourced items use 90-day quantity with conservative lead time"
+
+  - from: "- [ ] `fba_allocated`, `fba_in_transit`, `nepal_pipeline`, `nepal_eta` checked"
+    to: "- [ ] Marketplace-specific fields checked when available"
+
+  - from: "\"The Nepal lead time is probably shorter this time\" | Use 8–12 weeks conservative."
+    to: "\"The international lead time is probably shorter this time\" | Use conservative lead time estimates."
+
+  - from: "\"Low-margin SKU, I'll skip the safety stock calc\" | If it serves a practitioner need, compute it regardless of margin."
+    to: "\"Low-margin SKU, I'll skip the safety stock calc\" | If it serves a customer need, compute it regardless of margin."
+
+  - from: "\"FBA fields aren't in the snapshot, I'll use on-hand only\""
+    to: "\"Marketplace fields aren't in the snapshot, I'll use on-hand only\""
+
+  # restock-calc data source labels (before shorter Supabase replacements)
+  - from: "- [ ] Data source labeled: Supabase (confirmed) or snapshot (estimated)"
+    to: "- [ ] Data source labeled: database (confirmed) or snapshot (estimated)"
+
+  - from: "- [ ] Daily velocity uses 30-day avg from `ts_orders`"
+    to: "- [ ] Daily velocity uses 30-day avg from orders table"
+
+  - from: "- [ ] Output written to `data/restock-recommendations.json`"
+    to: ""
+
+  # restock-calc formulas.md (before shorter replacements)
+  - from: "| Nepal-sourced | 8–12 weeks | velocity × 90 days |"
+    to: "| International-sourced | 8–12 weeks (configure per supplier) | velocity × 90 days |"
+
+  - from: "- Subtract `nepal_pipeline` in-transit units from Nepal restock quantity if populated"
+    to: "- Subtract in-transit units from international restock quantity if populated"
+
+  - from: "- Include `fba_allocated` and `fba_in_transit` in safety stock when present"
+    to: "- Include marketplace-allocated and marketplace-in-transit units in safety stock when present"
+
+  # shopify-query references (before shorter Supabase replacements)
+  - from: "| Aggregate reports, P&L, margins | Supabase (`ts_orders`, `ts_products`) |"
+    to: "| Aggregate reports, P&L, margins | Database (orders, products tables) |"
+
+  - from: "| Bulk data (full catalog) | `scripts/backfill_shopify.py` -> Supabase |"
+    to: "| Bulk data (full catalog) | Backfill script → database |"
+
+  - from: "| \"Supabase has this data, I'll use that for CS\" | Supabase may lag 24h."
+    to: "| \"The database has this data, I'll use that for CS\" | Database may lag 24h."
+
+  - from: "- Using this for aggregate reporting (use Supabase)"
+    to: "- Using this for aggregate reporting (use database)"
+
+  - from: "- **Do NOT use for:** aggregate reports (use Supabase), bulk data sync (use `scripts/backfill_shopify.py`), write operations (not supported)"
+    to: "- **Do NOT use for:** aggregate reports (use database), bulk data sync (use backfill scripts), write operations (not supported)"
+
+  # shopify-query description (before shorter Supabase replacement)
+  - from: "Queries Tibetan Spirit's Shopify store for real-time data when agents need fresh data not yet synced to Supabase."
+    to: "Queries your Shopify store for real-time data when agents need fresh data not yet synced to the database."
+
+  - from: "description: Use when an agent needs real-time Shopify data not yet synced to Supabase"
+    to: "description: Use when an agent needs real-time Shopify data not yet synced to the database"
+
+  - from: "- Exposing SHOPIFY_ACCESS_TOKEN in any output"
+    to: "- Exposing API credentials in any output"
+
+  # shopify-query query-patterns.md (replace full command-based section header)
+  - from: "All commands run from project root (`~/code/active/tibetan-spirit-ops/`)."
+    to: "All queries use the Shopify GraphQL Admin API. Configure your store URL and access token in environment variables."
+
+  # cs-pipeline scan step (full sentence before shorter replacements)
+  - from: "1. **Scan** — Query Gmail for unread external customer emails. Exclude `@tibetanspirit.com` and `@cgai.dev`. Build the processing queue."
+    to: "1. **Scan** — Query email for unread external customer emails. Exclude internal domains. Build the processing queue."
+
+  # cs-pipeline enrich step (full sentence before shorter replacements)
+  - from: "3. **Enrich** — For emails that passed triage, query Supabase for order/product context. Check Gmail for prior threads with the same customer. Attach enrichment data to the email record."
+    to: "3. **Enrich** — For emails that passed triage, query the database for order/product context. Check email for prior threads with the same customer. Attach enrichment data to the email record."
+
+  # cs-pipeline draft step (full sentence before shorter replacements)
+  - from: "4. **Draft** — For each enriched email, invoke `cs-drafter` agent to create a Gmail draft. Apply brand voice and cultural sensitivity rules. Log with `\"ai_generated\": true`."
+    to: "4. **Draft** — For each enriched email, create a draft response. Apply brand voice rules. Log with `\"ai_generated\": true`."
+
+  # cs-pipeline stage gate row (full sentence before shorter replacements)
+  - from: "| Triage → Enrich | Category assigned, not `spiritual-guidance` | Escalate to `spiritual-director` |"
+    to: "| Triage → Enrich | Category assigned, not `brand-sensitive` | Escalate to `brand-specialist` |"
+
+  # cs-pipeline rationalization rows (full before shorter)
+  - from: "| \"I know the category already, I'll skip triage\" | Triage catches spiritual-guidance escalations. Skipping it is a compliance gap. |"
+    to: "| \"I know the category already, I'll skip triage\" | Triage catches brand-sensitive escalations. Skipping it is a compliance gap. |"
+
+  - from: "| \"Customer is waiting, I'll send this one directly\" | Every draft goes through the queue. CCPA requires human approval. |"
+    to: "| \"Customer is waiting, I'll send this one directly\" | Every draft goes through the queue. Compliance requires human approval. |"
+
+  # cs-triage overview sentence (before shorter spiritual-guidance replacement)
+  - from: "routes to the appropriate response workflow or escalation path. Spiritual-guidance is always checked first."
+    to: "routes to the appropriate response workflow or escalation path. Brand-sensitive topics are always checked first."
+
+  # cs-triage workflow step 1 (before shorter spiritual-guidance replacement)
+  - from: "1. Check for spiritual-guidance FIRST -- if detected, escalate to `spiritual-director` immediately, do NOT draft"
+    to: "1. Check for brand-sensitive content FIRST — if detected, escalate to `brand-specialist` immediately, do NOT draft"
+
+  # cs-triage workflow step 6 (before shorter CCPA replacement)
+  - from: "6. Log classification with `\"ai_generated\": true` for CCPA compliance"
+    to: "6. Log classification with `\"ai_generated\": true` for compliance"
+
+  # cs-triage rationalization rows (full before shorter)
+  - from: "| \"The question mentions meditation but it's really about the product\" | If it touches practice, it is `spiritual-guidance`. When uncertain, escalate. |"
+    to: "| \"The question mentions the brand but it's really about the product\" | If it touches brand values or cultural sensitivity, it is `brand-sensitive`. When uncertain, escalate. |"
+
+  - from: "| \"I'll draft a tentative response and flag it\" | For `spiritual-guidance`, do NOT draft. Escalation is the only output. |"
+    to: "| \"I'll draft a tentative response and flag it\" | For `brand-sensitive`, do NOT draft. Escalation is the only output. |"
+
+  # cs-triage red flags (full before shorter)
+  - from: "- Drafting a response when category is `spiritual-guidance`"
+    to: "- Drafting a response when category is `brand-sensitive`"
+
+  - from: "- Skipping cultural sensitivity checks"
+    to: "- Skipping brand voice checks"
+
+  # cs-triage verification checklist (full before shorter)
+  - from: "- [ ] Spiritual-guidance check run FIRST"
+    to: "- [ ] Brand-sensitive check run FIRST"
+
+  - from: "- [ ] No banned terms (exotic, mystical, oriental, ancient secrets, zen vibes, namaste)"
+    to: "- [ ] No brand-prohibited vocabulary used"
+
+  - from: "- [ ] Sacred terms untranslated (mala, thangka, dharma, sangha, puja, mandala)"
+    to: "- [ ] Products framed per brand guidelines"
+
+  - from: "- [ ] Products framed through practice, not decor"
+    to: ""
+
+  - from: "- [ ] No spiritual promises or guarantees"
+    to: "- [ ] No claims beyond product specifications"
+
+  - from: "- [ ] Dharma Giving not mentioned"
+    to: ""
+
+  - from: "- [ ] Customer's spiritual level not assumed"
+    to: ""
+
+  - from: "- [ ] CCPA log entry includes `\"ai_generated\": true`"
+    to: "- [ ] Compliance log entry includes `\"ai_generated\": true`"
+
+  # cs-triage workflow steps 5 (before shorter)
+  - from: "5. Apply cultural sensitivity checks (see Verification)"
+    to: "5. Apply brand voice checks (see Verification)"
+
+  # description-optimizer workflow step 4 (before shorter practice replacements)
+  - from: "4. **Cross-channel check** — Same practice framing, terminology, and provenance across Shopify, Etsy, Amazon."
+    to: "4. **Cross-channel check** — Same brand framing, terminology, and provenance across all sales channels."
+
+  - from: "5. **Flag uncertain terms** — Cultural terms you're not certain about → flag for `spiritual-director`. Never generate plausible-sounding explanations."
+    to: "5. **Flag uncertain terms** — Brand-specific or cultural terms you're not certain about → flag for `brand-specialist`. Never generate plausible-sounding explanations."
+
+  - from: "6. **Write to queue** — Append to `data/catalog-drafts-queue.json` with `\"ai_generated\": true` and `\"rubric_scores\"`."
+    to: "6. **Write to queue** — Append to catalog drafts queue with `\"ai_generated\": true` and `\"rubric_scores\"`."
+
+  # description-optimizer rationalization rows (full before shorter)
+  - from: "| \"Etsy shoppers expect different framing than practitioners\" | Cross-channel consistency is non-negotiable. A mala is never \"jewelry.\" |"
+    to: "| \"Different marketplace shoppers expect different framing\" | Cross-channel consistency is non-negotiable. Products tell the same story everywhere. |"
+
+  - from: "| \"I'm fairly sure this is the right cultural term\" | Uncertainty = flag for `spiritual-director`. Plausible is not accurate. |"
+    to: "| \"I'm fairly sure this is the right term\" | Uncertainty = flag for `brand-specialist`. Plausible is not accurate. |"
+
+  - from: "| \"The SEO keywords will hurt the score but help conversion\" | Practice-first framing is the SEO strategy."
+    to: "| \"The SEO keywords will hurt the score but help conversion\" | Brand-authentic framing is the SEO strategy."
+
+  # description-optimizer red flags (full before shorter)
+  - from: "- Using commercial keywords (wellness, boho, decor, relaxation tool, tapestry)"
+    to: "- Using generic commercial keywords instead of brand-authentic terms"
+
+  - from: "- Describing a mala as jewelry, a thangka as wall art, or a singing bowl as a sound bowl"
+    to: "- Misrepresenting product category or positioning across channels"
+
+  - from: "- Generating cultural explanations without verified sourcing"
+    to: "- Generating explanations for uncertain terms without verified sourcing"
+
+  - from: "- Writing directly to Shopify, Etsy, or Amazon — queue only"
+    to: "- Writing directly to any sales channel — queue only"
+
+  # description-optimizer verification (full before shorter)
+  - from: "- [ ] Cross-channel variants use identical practice framing and terminology"
+    to: "- [ ] Cross-channel variants use identical brand framing and terminology"
+
+  - from: "- [ ] No banned vocabulary (exotic, mystical, oriental, ancient secrets, zen vibes, namaste)"
+    to: "- [ ] No brand-prohibited vocabulary"
+
+  - from: "- [ ] Uncertain cultural terms flagged for `spiritual-director` — not explained"
+    to: "- [ ] Uncertain terms flagged for `brand-specialist` — not explained"
+
+  # description-optimizer when to use (before shorter replacements)
+  - from: "- Publishing directly to any channel — output goes to `data/catalog-drafts-queue.json` only"
+    to: "- Publishing directly to any channel — output goes to the catalog drafts queue only"
+
+  - from: "- Category strategy decisions (use `category-judgment` rule)"
+    to: "- Category strategy decisions"
+
+  # description-optimizer cross-channel (before shorter)
+  - from: "- Cross-channel consistency needs to be verified (Shopify, Etsy, Amazon)"
+    to: "- Cross-channel consistency needs to be verified (Shopify, Etsy, Amazon, etc.)"
+
+  # description-optimizer rubric scoring (key/value pairs)
+  - from: "\"practice_first_framing\":"
+    to: "\"brand_first_framing\":"
+
+  - from: "\"cultural_accuracy\":"
+    to: "\"brand_accuracy\":"
+
+  - from: "If `flagged_terms` is non-empty, the entry waits for `spiritual-director` review before advancing."
+    to: "If `flagged_terms` is non-empty, the entry waits for `brand-specialist` review before advancing."
+
+  # fulfillment-flag SKILL.md (full before shorter)
+  - from: "Nepal supplier delays have infrastructure causes, not neglect"
+    to: "international supplier delays often have infrastructure causes, not neglect"
+
+  - from: "| \"The Nepal supplier is just a few days late, I'll wait\""
+    to: "| \"The international supplier is just a few days late, I'll wait\""
+
+  - from: "| \"I'll send the flag directly to `operations-manager` over Slack\" | Queue to `data/fulfillment-comms-queue.json`; never send directly |"
+    to: "| \"I'll send the flag directly to the team\" | Queue to the communications file; never send directly |"
+
+  - from: "- Escalating a Nepal supplier delay without first investigating infrastructure causes"
+    to: "- Escalating a supplier delay without first investigating infrastructure causes"
+
+  - from: "- [ ] Flag queued to `data/fulfillment-comms-queue.json`, not sent"
+    to: "- [ ] Flag queued to communications file, not sent"
+
+  - from: "5. **Queue to comms file** — Append to `data/fulfillment-comms-queue.json` with `\"ai_generated\": true`; never send directly"
+    to: "5. **Queue to comms file** — Append to the fulfillment communications queue with `\"ai_generated\": true`; never send directly"
+
+  - from: "4. **Route to the correct person** — Use the decision table to select the role and channel; use the correct language and register"
+    to: "4. **Route to the correct person** — Use the decision table to select the role and channel; use the team member's configured language and register"
+
+  # margin-reporting SKILL.md (full before shorter)
+  - from: "- **Do NOT use for:** modifying COGS records, updating Shopify pricing, or any write operation on financial data"
+    to: "- **Do NOT use for:** modifying COGS records, updating pricing, or any write operation on financial data"
+
+  - from: "1. **Query SKU margins** — run `product_margin_detail` view; label COGS confidence"
+    to: "1. **Query SKU margins** — run SKU-level margin query; label COGS confidence"
+
+  - from: "2. **Query channel rollup** — run `channel_profitability_monthly`; compute trend arrows"
+    to: "2. **Query channel rollup** — run channel profitability query; compute trend arrows"
+
+  - from: "7. **Write output** — save to `data/finance-reports.json`; log run to `data/agent-runs.json` with `\"ai_generated\": true`"
+    to: "7. **Write output** — save to the finance reports file; log run with `\"ai_generated\": true`"
+
+  - from: "See `references/queries.md` for all SQL queries and the full report template."
+    to: "See `references/queries.md` for SQL query patterns and the full report template."
+
+  # margin-reporting queries.md section headers
+  - from: "## SQL Queries"
+    to: "## SQL Query Patterns"
+
+  - from: "### 1. SKU-Level Margins (`product_margin_detail`)"
+    to: "### 1. SKU-Level Margins"
+
+  - from: "### 2. Channel Profitability Rollup (`channel_profitability_monthly`)"
+    to: "### 2. Channel Profitability Rollup"
+
+  # margin-reporting report template brand name
+  - from: "TIBETAN SPIRIT — WEEKLY MARGIN REPORT"
+    to: "{BRAND_NAME} — WEEKLY MARGIN REPORT"
+
+  # margin-reporting report template DHARMA GIVING block (remove section)
+  - from: "DHARMA GIVING"
+    to: ""
+
+  - from: "Forest Hermitage allocation: {X.X}% of revenue (${XXX})"
+    to: "Charitable allocation: {X.X}% of revenue (${XXX})"
+
+  - from: "Expense type: accounting  ← must never read \"marketing\""
+    to: ""
+
+  # margin-reporting report template estimated COGS (remove SKU list detail)
+  - from: "- Estimated COGS rows: {N} (listed: {skus})"
+    to: "- Estimated COGS rows: {N}"
+
+  # margin-reporting output destination section (remove specific paths)
+  - from: "## Output Destination"
+    to: ""
+
+  - from: "- Report JSON → `data/finance-reports.json`"
+    to: ""
+
+  - from: "- Run log → `data/agent-runs.json`"
+    to: ""
+
+  # margin-reporting: section header rename (the adapt note is already in plugin version)
+  - from: "# Margin Reporting — Queries & Report Template"
+    to: "# Margin Reporting — Query Patterns & Report Template"
+
+  # margin-reporting report template trend arrow note (add label)
+  - from: "Applied to channel margin delta (`margin_delta_pp`):"
+    to: ""
+
+  # order-inquiry SKILL.md (full before shorter)
+  - from: "2. **Query order status** — Pull from Supabase `ts_orders` first; fall back to Shopify"
+    to: "2. **Query order status** — Pull from database first; fall back to Shopify"
+
+  - from: "3. **Handle special cases** — Nepal-sourced items (2–4 week lead times), FBA orders"
+    to: "3. **Handle special cases** — Long-lead-time items (international sourcing), marketplace-fulfilled orders"
+
+  - from: "5. **Queue for human review** — All drafts go to the CS queue. CCPA ADMT compliance requires human approval before sending."
+    to: "5. **Queue for human review** — All drafts go to the CS queue. Compliance requires human approval before sending."
+
+  # restock-calc SKILL.md (full before shorter)
+  - from: "- Computing a recommended order quantity for domestic or Nepal-sourced items"
+    to: "- Computing a recommended order quantity for domestic or international-sourced items"
+
+  - from: "- Reconciling Shopify vs. warehouse counts (inventory-analyst owns that)"
+    to: "- Reconciling Shopify vs. warehouse counts (inventory analyst owns that)"
+
+  - from: "- Generating the full inventory report (use inventory-analyst agent)"
+    to: "- Generating the full inventory report (use inventory analyst agent)"
+
+  - from: "1. **Identify data source** — Query `ts_inventory` via Supabase `execute_sql`; fall back to `data/inventory-snapshot.json`. Label every figure: confirmed or estimated."
+    to: "1. **Identify data source** — Query inventory table via database; fall back to local snapshot file. Label every figure: confirmed or estimated."
+
+  - from: "2. **Calculate daily velocity** — 30-day avg daily sales from `ts_orders`. Adjust for upcoming Buddhist calendar events (Losar, Saga Dawa, Vesak, Q4)."
+    to: "2. **Calculate daily velocity** — 30-day avg daily sales from orders table. Adjust for upcoming seasonal events."
+
+  - from: "7. **Write output** — Append to `data/restock-recommendations.json` with confidence labels and data source."
+    to: "5. **Write output** — Append to restock recommendations file with confidence labels and data source."
+
+  # shopify-query (full before shorter)
+  - from: "4. Log any customer data access with purpose (CCPA compliance)"
+    to: "4. Log any customer data access with purpose (compliance)"
+
+  - from: "- [ ] Customer data access logged with purpose (CCPA)"
+    to: "- [ ] Customer data access logged with purpose (compliance)"
+
+  - from: "2. Run the appropriate command from `references/query-patterns.md`"
+    to: "2. Run the appropriate query from `references/query-patterns.md`"
+
+  # cs-triage classification-matrix.md (full before shorter)
+  - from: "| spiritual-guidance | \"dharma\", \"practice\", \"meditation\", \"blessing\", \"mantra\", \"lineage\", \"lama\" | DO NOT DRAFT | `spiritual-director` |"
+    to: "| brand-sensitive | Brand-specific signal words configured per store | DO NOT DRAFT | `brand-specialist` |"
+
+  - from: "Thank you for reaching out to Tibetan Spirit."
+    to: "Thank you for reaching out."
+
+  - from: "within 30 days of delivery"
+    to: "within [N] days of delivery"
+
+  - from: "[description rooted in practice context]"
+    to: "[description per brand guidelines]"
+
+  - from: "for your practice, we're happy to help."
+    to: "we're happy to help."
+
+  - from: "Thank you for your interest in carrying Tibetan Spirit products."
+    to: "Thank you for your interest in carrying our products."
+
+  - from: "Chris Mauze, our founder, handles wholesale relationships directly. He'll be in touch within [timeframe] to discuss your needs."
+    to: "Our team will be in touch within [timeframe] to discuss your needs."
+
+  # ── Short-form replacements (after all long-phrase matches above) ──────────
+
+  # Spiritual routing roles
+  - from: "spiritual-director"
+    to: "brand-specialist"
+
+  # Category names
+  - from: "spiritual-guidance"
+    to: "brand-sensitive"
+
+  # Practice framing
+  - from: "practice context"
+    to: "brand context"
+
+  - from: "practice framing"
+    to: "brand framing"
+
+  - from: "practice-first framing"
+    to: "brand-first framing"
+
+  - from: "Practice-First Framing"
+    to: "Brand-First Framing"
+
+  - from: "practice-first"
+    to: "brand-first"
+
+  - from: "practice-aware"
+    to: "authentic"
+
+  # Cultural accuracy
+  - from: "Cultural Accuracy"
+    to: "Brand Accuracy"
+
+  - from: "cultural accuracy"
+    to: "brand accuracy"
+
+  - from: "cultural sensitivity"
+    to: "brand voice"
+
+  # Dharma Giving (short forms — after all long-form sentences handled above)
+  - from: "Dharma Giving"
+    to: "charitable/mission allocation"
+
+  - from: "dharma giving"
+    to: "charitable allocation"
+
+  - from: "Forest Hermitage"
+    to: "charitable partner"
+
+  # Brand name
+  - from: "Tibetan Spirit marketing initiatives"
+    to: "D2C marketing initiatives"
+
+  - from: "Tibetan Spirit's Shopify store"
+    to: "your Shopify store"
+
+  - from: "tibetanspirit.com"
+    to: "your store domain"
+
+  # Supplier geography (short forms — after long-form sentences handled above)
+  - from: "Nepal-sourced"
+    to: "international-sourced"
+
+  - from: "Nepal sourced"
+    to: "international-sourced"
+
+  - from: "Nepal supplier"
+    to: "international supplier"
+
+  - from: "Nepal artisan partners"
+    to: "international artisan partners"
+
+  - from: "Nepal pipeline"
+    to: "international pipeline"
+
+  - from: "nepal_pipeline"
+    to: "intl_pipeline"
+
+  - from: "nepal_eta"
+    to: "intl_eta"
+
+  - from: "Nepal lead time"
+    to: "international lead time"
+
+  - from: "Nepal-sourced items"
+    to: "international-sourced items"
+
+  # Database references (short forms — after all long-form sentences handled above)
+  - from: "Supabase"
+    to: "database"
+
+  - from: "ts_orders"
+    to: "orders table"
+
+  - from: "ts_inventory"
+    to: "inventory table"
+
+  - from: "ts_cogs"
+    to: "cogs table"
+
+  - from: "fba_allocated"
+    to: "marketplace_allocated"
+
+  - from: "fba_in_transit"
+    to: "marketplace_in_transit"
+
+  # CCPA short forms (after long-form sentences handled above)
+  - from: "CCPA violation"
+    to: "compliance violation"
+
+  - from: "CCPA ADMT"
+    to: "compliance"
+
+  - from: "CCPA"
+    to: "compliance"
+
+  # Scripts
+  - from: "scripts/backfill_shopify.py"
+    to: "backfill scripts"
+
+  # cs-pipeline README.md (before shorter replacements)
+  - from: "Orchestrates the full customer service email handling pipeline for Tibetan Spirit."
+    to: "Orchestrates the full customer service email handling pipeline."
+
+  - from: "cs-triage → enrichment (Supabase + Gmail) → cs-drafter → approval queue"
+    to: "cs-triage → enrichment (database + email) → cs-drafter → approval queue"
+
+  - from: "| Enrichment | Supabase MCP + Gmail MCP | Direct tool calls |"
+    to: "| Enrichment | Database MCP + Email MCP | Direct tool calls |"
+
+  - from: "| Queue | `data/cs-drafts-log.json` | Output file |"
+    to: "| Queue | CS drafts log file | Output file |"
+
+  - from: "- **Spiritual guidance** → `spiritual-director` (email, 48-72h response)"
+    to: "- **Brand-sensitive** → `brand-specialist` (email, allow 48-72h response)"
+
+  - from: "- CCPA ADMT: all drafts require human approval before sending"
+    to: "- Compliance: all drafts require human approval before sending"
+
+  - from: "- compliance gate hook (`ccpa-gate.sh`) blocks direct email sending at the tool layer"
+    to: "- Compliance gate hook blocks direct email sending at the tool layer"
+
+  # cs-drafter casing
+  - from: "cs-drafter needs upstream triage"
+    to: "CS drafter needs upstream triage"

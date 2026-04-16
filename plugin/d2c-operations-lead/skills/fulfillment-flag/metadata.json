@@ -5,5 +5,9 @@
   "triggers": ["fulfillment exception", "shipping anomaly", "order routing", "delayed shipment", "address issue"],
   "model": "inherit",
   "category": "skill",
-  "version": "1.0.0"
+  "approval_tier": "review-required",
+  "cost_budget_usd": 0.50,
+  "version": "1.0.0",
+  "created": "2026-04-14",
+  "updated": "2026-04-14"
 }
