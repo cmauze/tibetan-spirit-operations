@@ -1,0 +1,8 @@
+{
+  "name": "d2c-operations-lead",
+  "description": "D2C operations workflows — CS triage, inventory monitoring, fulfillment routing, marketing discipline, catalog optimization, and margin reporting for Shopify-based brands",
+  "version": "0.1.0",
+  "author": {"name": "Chris Mauzé", "url": "https://chrismauze.com"},
+  "license": "UNLICENSED",
+  "keywords": ["d2c", "ecommerce", "shopify", "operations", "cs-triage", "inventory", "fulfillment", "marketing", "catalog"]
+}
