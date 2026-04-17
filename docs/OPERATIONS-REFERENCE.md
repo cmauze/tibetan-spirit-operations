@@ -183,7 +183,7 @@ tibetan-spirit-ops/
 │   ├── ecommerce/
 │   └── category-management/
 ├── lib/ts_shared/                     ← Shared Python library
-├── workflows/                         ← Claude workflow definitions (cs-pipeline)
+├── workflows/                         ← Claude workflow definitions (cs-workflow)
 ├── scripts/                           ← Utility scripts
 ├── server/                            ← FastAPI (future)
 ├── tests/

@@ -31,7 +31,7 @@ Operational automation for [tibetanspirit.com](https://tibetanspirit.com) — a 
 │  │ Strategist   │ │ Curator      │ │ Analyst      │               │
 │  └──────────────┘ └──────────────┘ └──────────────┘               │
 │                                                                     │
-│  Skills: cs-triage · cs-pipeline (W) · shopify-query               │
+│  Skills: cs-triage · cs-workflow (W) · shopify-query               │
 │  order-inquiry · fulfillment-flag · margin-reporting               │
 │  campaign-brief · restock-calc · description-optimizer             │
 └──────────────────────────────┬──────────────────────────────────────┘
@@ -73,7 +73,7 @@ Agent definitions: `agents/*.md` (symlinked to `.claude/agents/`)
 | Skill | Job | Used By |
 |-------|-----|---------|
 | `cs-triage` | Classify inbound CS email (category, urgency, suggested action) | CS Drafter |
-| `cs-pipeline` **(W)** | Workflow orchestrator: triage → enrichment → draft → approval | CS Drafter |
+| `cs-workflow` **(W)** | Workflow orchestrator: triage → enrichment → draft → approval | CS Drafter |
 | `shopify-query` | Real-time Shopify GraphQL queries (orders, products, inventory) | All agents |
 | `order-inquiry` | Order status lookup and customer-ready summary | CS Drafter, Fulfillment Manager |
 | `fulfillment-flag` | Flag orders for exceptions, routing anomalies, manual review | Fulfillment Manager |
@@ -163,7 +163,7 @@ tibetan-spirit-ops/
 │   └── finance-analyst.md
 ├── skills/                       # 9 skills (flat, each a directory)
 │   ├── cs-triage/
-│   ├── cs-pipeline/              # Workflow orchestrator (W)
+│   ├── cs-workflow/              # Workflow orchestrator (W)
 │   ├── shopify-query/
 │   ├── order-inquiry/
 │   ├── fulfillment-flag/

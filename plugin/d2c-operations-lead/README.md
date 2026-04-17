@@ -7,7 +7,7 @@ D2C operations plugin for Claude Code. Encodes operational workflows for Shopify
 | Skill | Domain | Description |
 |-------|--------|-------------|
 | cs-triage | Customer Service | Email classification → 7 categories with escalation routing |
-| cs-pipeline | Customer Service | End-to-end: triage → enrichment → draft → approval queue |
+| cs-workflow | Customer Service | End-to-end: triage → enrichment → draft → approval queue |
 | shopify-query | Data Access | Real-time Shopify GraphQL lookups (orders, products, inventory) |
 | order-inquiry | Customer Service | Order status → customer-facing language with special case handling |
 | fulfillment-flag | Operations | Exception flagging and routing for fulfillment anomalies |

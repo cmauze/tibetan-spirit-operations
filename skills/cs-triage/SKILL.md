@@ -67,4 +67,4 @@ Classify a single incoming customer email into exactly one of 7 canonical catego
 ## Works Well With
 
 - **Followed by:** `order-inquiry` (shipping-status), `cs-drafter` (all other categories)
-- **Invoked within:** `cs-pipeline` (step 2)
+- **Invoked within:** `cs-workflow` (step 2)

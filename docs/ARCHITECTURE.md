@@ -42,7 +42,7 @@ Six agents, each with a soul file, config, and domain-specific skills. All use t
 
 Agent definitions: `.claude/agents/`. Skills: `skills/` (symlinked to `.claude/skills/`).
 
-**Skills** (9): cs-triage, cs-pipeline (W), shopify-query, order-inquiry, margin-reporting, fulfillment-flag, restock-calc, campaign-brief, description-optimizer. Each has SKILL.md + metadata.json + optional references/. Workflow orchestrators (W) live alongside their sub-skills.
+**Skills** (9): cs-triage, cs-workflow (W), shopify-query, order-inquiry, margin-reporting, fulfillment-flag, restock-calc, campaign-brief, description-optimizer. Each has SKILL.md + metadata.json + optional references/. Workflow orchestrators (W) live alongside their sub-skills.
 
 ---
 
@@ -106,7 +106,7 @@ tibetan-spirit-ops/
 │   └── OPERATIONS-REFERENCE.md  ← Full operational detail
 ├── skills/                       ← All skills incl. workflow orchestrators (SKILL.md + metadata.json + references/)
 │   ├── cs-triage/                ← CS email classification
-│   ├── cs-pipeline/              ← Workflow orchestrator (triage → enrichment → draft → approval)
+│   ├── cs-workflow/              ← Workflow orchestrator (triage → enrichment → draft → approval)
 │   ├── order-inquiry/            ← Order status handling
 │   └── ...                       ← 6 more skills
 ├── scripts/                      ← Python operational scripts (cron, utilities)

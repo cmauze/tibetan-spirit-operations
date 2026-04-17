@@ -8,7 +8,7 @@
 # Ordering matters: more specific (longer) phrases must appear BEFORE shorter ones
 # that share substrings, to avoid partial matches corrupting later replacements.
 #
-# Divergent skills: campaign-brief, cs-pipeline, cs-triage, description-optimizer,
+# Divergent skills: campaign-brief, cs-workflow, cs-triage, description-optimizer,
 #                   fulfillment-flag, margin-reporting, order-inquiry, restock-calc,
 #                   shopify-query (all 9 skills diverge)
 
@@ -19,7 +19,7 @@ replacements:
   - from: "Spiritual guidance emails MUST be checked FIRST before any other classification. If the email contains spiritual guidance requests, it escalates immediately to `spiritual-director` — no draft is created, no automated response is attempted. This is a non-negotiable cultural and business requirement."
     to: "Brand-sensitive emails MUST be checked FIRST before any other classification. If the email contains questions about brand values, cultural significance, or product authenticity that require specialist knowledge, it escalates immediately to `brand-specialist` — no draft is created, no automated response is attempted."
 
-  # cs-pipeline HARD-GATE
+  # cs-workflow HARD-GATE
   - from: "Spiritual-guidance emails are escalated at triage — they never reach the drafting stage."
     to: "Brand-sensitive emails are escalated at triage — they never reach the drafting stage."
 
@@ -448,23 +448,23 @@ replacements:
   - from: "All commands run from project root (`~/code/active/tibetan-spirit-ops/`)."
     to: "All queries use the Shopify GraphQL Admin API. Configure your store URL and access token in environment variables."
 
-  # cs-pipeline scan step (full sentence before shorter replacements)
+  # cs-workflow scan step (full sentence before shorter replacements)
   - from: "1. **Scan** — Query Gmail for unread external customer emails. Exclude `@tibetanspirit.com` and `@cgai.dev`. Build the processing queue."
     to: "1. **Scan** — Query email for unread external customer emails. Exclude internal domains. Build the processing queue."
 
-  # cs-pipeline enrich step (full sentence before shorter replacements)
+  # cs-workflow enrich step (full sentence before shorter replacements)
   - from: "3. **Enrich** — For emails that passed triage, query Supabase for order/product context. Check Gmail for prior threads with the same customer. Attach enrichment data to the email record."
     to: "3. **Enrich** — For emails that passed triage, query the database for order/product context. Check email for prior threads with the same customer. Attach enrichment data to the email record."
 
-  # cs-pipeline draft step (full sentence before shorter replacements)
+  # cs-workflow draft step (full sentence before shorter replacements)
   - from: "4. **Draft** — For each enriched email, invoke `cs-drafter` agent to create a Gmail draft. Apply brand voice and cultural sensitivity rules. Log with `\"ai_generated\": true`."
     to: "4. **Draft** — For each enriched email, create a draft response. Apply brand voice rules. Log with `\"ai_generated\": true`."
 
-  # cs-pipeline stage gate row (full sentence before shorter replacements)
+  # cs-workflow stage gate row (full sentence before shorter replacements)
   - from: "| Triage → Enrich | Category assigned, not `spiritual-guidance` | Escalate to `spiritual-director` |"
     to: "| Triage → Enrich | Category assigned, not `brand-sensitive` | Escalate to `brand-specialist` |"
 
-  # cs-pipeline rationalization rows (full before shorter)
+  # cs-workflow rationalization rows (full before shorter)
   - from: "| \"I know the category already, I'll skip triage\" | Triage catches spiritual-guidance escalations. Skipping it is a compliance gap. |"
     to: "| \"I know the category already, I'll skip triage\" | Triage catches brand-sensitive escalations. Skipping it is a compliance gap. |"
 
@@ -855,7 +855,7 @@ replacements:
   - from: "scripts/backfill_shopify.py"
     to: "backfill scripts"
 
-  # cs-pipeline README.md (before shorter replacements)
+  # cs-workflow README.md (before shorter replacements)
   - from: "Orchestrates the full customer service email handling pipeline for Tibetan Spirit."
     to: "Orchestrates the full customer service email handling pipeline."
 

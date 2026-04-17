@@ -1,5 +1,5 @@
 {
-  "name": "cs-pipeline",
+  "name": "cs-workflow",
   "version": "2.0.0",
   "description": "End-to-end customer service email pipeline: triage → enrichment → draft → approval queue.",
   "pattern": "composition",

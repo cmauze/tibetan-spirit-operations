@@ -83,7 +83,7 @@ Canonical assets at root, symlinked into `.claude/` for runtime:
 Canonical in `agents/`, symlinked to `.claude/agents/`: `cs-drafter`, `finance-analyst`, `fulfillment-manager`, `inventory-analyst`, `marketing-strategist`, `catalog-curator`
 
 ## Skills (9)
-Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `cs-pipeline` (W), `shopify-query`, `order-inquiry`, `fulfillment-flag`, `margin-reporting`, `campaign-brief`, `restock-calc`, `description-optimizer`
+Canonical in `skills/`, symlinked to `.claude/skills/`: `cs-triage`, `cs-workflow` (W), `shopify-query`, `order-inquiry`, `fulfillment-flag`, `margin-reporting`, `campaign-brief`, `restock-calc`, `description-optimizer`
 
 ## Rules (10)
 Canonical in `rules/`, symlinked to `.claude/rules/`: `brand-voice`, `cultural-sensitivity`, `org-roles`, `shopify-api`, `cs-judgment`, `finance-judgment`, `marketing-discipline`, `operations-protocols`, `ecommerce-judgment`, `category-judgment`
