@@ -1,53 +1,69 @@
 ---
 name: fulfillment-flag
-description: Use when orders need exception flagging, fulfillment routing review, or shipping anomalies require team coordination.
+description: Identifies fulfillment exceptions and routes them to the correct team member before a problem compounds. Use when orders need exception flagging, fulfillment routing review, or shipping anomalies require team coordination.
+allowed-tools: Read, Write, mcp__plugin_supabase_supabase__execute_sql
 ---
 
 # Fulfillment Flag
 
-## Overview
+**Announce at start:** "I'm using the fulfillment-flag skill to identify and route fulfillment exceptions."
 
-Identifies fulfillment exceptions and routes them to the correct team member before a problem compounds. A delayed shipment is always better than a mis-routed one.
+## Goal
 
-## When to Use
+Detect fulfillment exceptions from the order pipeline, investigate each before escalating, draft the correct communication for the responsible team member in their language and channel, and queue everything to `data/fulfillment-comms-queue.json` for human approval. A delayed shipment is always better than a mis-routed one.
 
-- **Invoke when:** An order is unfulfilled beyond threshold, tracking is missing after ship date, address validation fails, routing is ambiguous, or inventory counts conflict
-- **Do NOT use for:** Standard order flow, routine fulfillment updates, or Shopify order modification (write operations require human approval)
+## Process
 
-## Workflow
+1. **Evaluate the trigger** — Identify the exception type using the decision table in `references/decision-table.md`. Match exception type to responsible role, channel, and language.
+2. **Investigate before escalating** — Check the order in Shopify and the warehouse dashboard. For Nepal supplier delays, investigate infrastructure causes before assuming negligence. Never escalate blindly.
+3. **Draft the flag** — Write the exception summary: order ID, exception type, investigation findings, and recommended action. Use the correct language and formal register per `.claude/rules/org-roles.md`.
+4. **Route to the correct person** — Apply decision table to select role, channel, and language. `operations-manager`: Bahasa Indonesia formal, use "Anda". `warehouse-manager`: Mandarin, Dashboard only. `general-manager`: English, Slack or Dashboard.
+5. **Queue to comms file** — Append to `data/fulfillment-comms-queue.json` with `"ai_generated": true`. Log observability entry to `data/agent-runs.json` per `_templates/observability.md`. Never send directly.
 
-1. **Evaluate the trigger** — Identify the exception type from the decision table below
-2. **Investigate before escalating** — Check the order in Shopify and warehouse dashboard; Nepal supplier delays have infrastructure causes, not neglect
-3. **Draft the flag** — Write the exception summary with order ID, trigger condition, and recommended action
-4. **Route to the correct person** — Use the decision table to select the role and channel; use the correct language and register
-5. **Queue to comms file** — Append to `data/fulfillment-comms-queue.json` with `"ai_generated": true`; never send directly
+## Output
 
-See `references/decision-table.md` for exception routing table and carrier rules.
+- **Primary:** `data/fulfillment-comms-queue.json` — queued exception flags with routing metadata
+- **Secondary:** `data/agent-runs.json` — one observability entry per `_templates/observability.md`
+- **Terminal:** List of exceptions flagged with exception type, order ID, and assigned role
+
+**Verification:** Exception type identified from decision table. Investigation completed before escalation. Correct role, channel, and language assigned per decision table. Mixed domestic/international orders flagged for manual review — not auto-routed. All flags in queue — nothing sent. `"ai_generated": true` in every queue entry.
+
+## Data Hygiene
+
+- Include order ID and exception type in flags — not customer name or email address.
+- Never log customer shipping addresses in `data/fulfillment-comms-queue.json` — reference order ID only.
+- Strip customer PII from observability entries in `data/agent-runs.json`.
 
 ## Common Rationalizations
 
-| Rationalization | Reality |
-|----------------|---------|
-| "I'll auto-route the mixed domestic/international order to save time" | NEVER auto-route mixed orders — flag for manual review every time |
-| "The Nepal supplier is just a few days late, I'll wait" | Surface to `general-manager` before the deadline passes; investigate first, but don't absorb the delay silently |
-| "Shopify says we have stock, so we're fine" | Trust the physical count when it conflicts; Shopify can be stale |
-| "I'll send the flag directly to `operations-manager` over Slack" | Queue to `data/fulfillment-comms-queue.json`; never send directly |
+| Thought | Reality |
+|---|---|
+| "I'll auto-route the mixed domestic/international order to save time" | NEVER auto-route mixed orders — flag for manual review every time. |
+| "The Nepal supplier is just a few days late, I'll wait" | Surface to `general-manager` before the deadline passes — investigate first, but don't absorb delays silently. |
+| "Shopify says we have stock, so we're fine" | Trust the physical count when it conflicts — Shopify can be stale. |
+| "I'll send the flag directly to `operations-manager` over Slack" | Queue to `data/fulfillment-comms-queue.json` — never send directly. |
 
-## Red Flags
+## Edge Cases
 
-- Routing an order without flagging when routing is ambiguous
-- Auto-routing an order with both domestic and international components
-- Escalating a Nepal supplier delay without first investigating infrastructure causes
-- Using "kamu" instead of "Anda" in Bahasa Indonesia comms
-- Writing to the comms queue without `"ai_generated": true`
-- Flagging with Shopify inventory data when physical count is available and conflicts
+- **Mixed domestic/international components:** Always flag for manual review — never auto-route regardless of apparent simplicity.
+- **Nepal supplier delay:** Investigate infrastructure causes first. Escalate to `general-manager` after investigation, not before.
+- **Address validation failure:** Hold order. Flag for CS team — do not attempt address correction.
+- **Inventory conflict (Shopify vs. warehouse):** Trust physical count. Flag discrepancy to `operations-manager`.
 
-## Verification
+## Rules
 
-- [ ] Exception type identified from decision table
-- [ ] Investigation completed before escalation (no assumption of negligence)
-- [ ] Correct role, channel, and language used per decision table
-- [ ] Mixed domestic/international orders flagged for manual review — not auto-routed
-- [ ] Flag queued to `data/fulfillment-comms-queue.json`, not sent
-- [ ] `"ai_generated": true` included in queue entry
-- [ ] Carrier and packaging rules checked for relevant orders
+- NEVER send any communication directly — queue only, human approves.
+- NEVER auto-route orders with both domestic and international components.
+- ALWAYS use "Anda" (not "kamu") in all Bahasa Indonesia communications.
+- ALWAYS investigate Nepal delays before escalating — assume infrastructure, not negligence.
+
+## Environment
+
+- **MCP server:** Supabase (`execute_sql`)
+- **Data files:** `data/fulfillment-comms-queue.json`, `data/agent-runs.json`
+- **Reference files:** `references/decision-table.md`, `.claude/rules/org-roles.md`, `_templates/observability.md`
+
+## Works Well With
+
+- **Invoked by:** `fulfillment-manager` agent
+- **Preceded by:** `shopify-query` (for order status lookup)

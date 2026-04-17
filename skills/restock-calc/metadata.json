@@ -1,13 +1,15 @@
 {
   "name": "restock-calc",
+  "version": "2.0.0",
   "description": "Threshold calculation and restock quantity recommendations based on velocity, lead times, and seasonal demand.",
+  "pattern": "sequential",
+  "category": "skill",
   "domain": "inventory",
+  "tags": ["inventory", "restock", "reorder-point", "safety-stock", "demand-forecast"],
+  "projects": ["tibetan-spirit-ops"],
   "triggers": ["restock calculation", "reorder point", "safety stock", "lead time planning", "demand forecast"],
   "model": "inherit",
-  "category": "skill",
-  "approval_tier": "review-required",
   "cost_budget_usd": 0.50,
-  "version": "1.0.0",
   "created": "2026-04-14",
-  "updated": "2026-04-14"
+  "updated": "2026-04-17"
 }

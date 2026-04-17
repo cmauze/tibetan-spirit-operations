@@ -24,8 +24,8 @@ cs-triage → enrichment (Supabase + Gmail) → cs-drafter → approval queue
 - **Data deletion request** → `general-manager` (Slack, immediate)
 - **Complaint** → Priority queue, `general-manager` review first
 
-## Compliance
+## Safety Gates
 
-- CCPA ADMT: all drafts require human approval before sending
-- `"ai_generated": true` logged for every draft
-- CCPA gate hook (`ccpa-gate.sh`) blocks direct email sending at the tool layer
+- All drafts require human approval before sending — no exceptions
+- `"ai_generated": true` logged for every draft (audit trail)
+- Gate hook (`ccpa-gate.sh`) blocks direct email sending at the tool layer

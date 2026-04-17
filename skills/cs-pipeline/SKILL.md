@@ -1,67 +1,74 @@
 ---
 name: cs-pipeline
-description: Use when customer service emails need end-to-end processing — triage, enrichment, drafting, and approval queuing in sequence.
+description: Orchestrates the full customer service email workflow — triage, enrichment, draft, and approval queue in sequence. Use when a batch of unread customer emails needs processing, or when cs-drafter needs upstream triage and enrichment before drafting.
+allowed-tools: Read, Write, mcp__claude_ai_Gmail__gmail_search_messages, mcp__claude_ai_Gmail__gmail_read_message, mcp__plugin_supabase_supabase__execute_sql
 ---
 
 <HARD-GATE>
-Every email MUST pass through triage classification before any draft is created. Spiritual guidance emails are escalated at triage — they never reach the drafting stage. Skipping triage produces unclassified drafts that bypass the escalation and compliance gates.
+Do NOT draft any customer email without running triage classification first. Spiritual guidance emails escalate at triage and never reach the drafting stage. Skipping triage produces unclassified drafts that bypass escalation gates.
 </HARD-GATE>
 
 # CS Email Pipeline
 
-## Overview
+**Announce at start:** "I'm using the cs-pipeline skill to process the customer email batch."
 
-Orchestrates the full customer service email workflow: triage → enrichment → draft → approval queue. Each stage has its own gate — an email only advances when the prior stage passes.
+## Goal
 
-## When to Use
+Orchestrate the full customer service email workflow from inbox to approval queue: triage → enrichment → draft → queue. Each stage gates the next — an email only advances when the prior stage passes. No email is sent; all drafts require human approval before sending.
 
-**Invoke when:**
-- A batch of unread customer emails needs processing
-- `general-manager` says "run CS pipeline" or "process customer emails"
-- cs-drafter needs upstream triage and enrichment before drafting
-
-**Do NOT use for:**
-- A single already-classified email (use cs-drafter directly)
-- Internal team communications
-- Emails already in the approval queue
-
-## Workflow
+## Process
 
 1. **Scan** — Query Gmail for unread external customer emails. Exclude `@tibetanspirit.com` and `@cgai.dev`. Build the processing queue.
-2. **Triage** — For each email, invoke `cs-triage` skill. Classify into one of 7 categories. Spiritual-guidance emails stop here and escalate to `spiritual-director`. Complaints get priority ordering.
-3. **Enrich** — For emails that passed triage, query Supabase for order/product context. Check Gmail for prior threads with the same customer. Attach enrichment data to the email record.
-4. **Draft** — For each enriched email, invoke `cs-drafter` agent to create a Gmail draft. Apply brand voice and cultural sensitivity rules. Log with `"ai_generated": true`.
-5. **Queue** — Present the batch summary to `general-manager` for approval. Each draft shows: category, customer, subject, enrichment data used, and the draft itself.
+2. **Triage** — For each email, invoke the `cs-triage` skill. Classify into one of 7 categories. Spiritual-guidance emails stop here and escalate to `spiritual-director` — do not draft. Complaints get priority ordering.
+3. **Enrich** — For emails that passed triage, query Supabase `ts_orders` / `ts_products` for order and product context. Check Gmail for prior threads with the same customer. Attach enrichment data to the email record — even if the lookup returns nothing, the empty record must be attached.
+4. **Draft** — For each enriched email, invoke the `cs-drafter` agent. Apply brand voice (`.claude/rules/brand-voice.md`) and cultural sensitivity rules (`.claude/rules/cultural-sensitivity.md`). Log each draft with `"ai_generated": true`.
+5. **Queue** — Present batch summary to `general-manager` for approval. Each draft shows: category, customer first name only, subject, enrichment data used, and the draft text. Log observability entry to `data/agent-runs.json` per `_templates/observability.md`.
 
-**Stage gates:**
+**HUMAN GATE 1: No email is sent. All drafts require `general-manager` approval before any response is sent.**
 
-| Gate | Condition to advance | Failure action |
-|------|---------------------|----------------|
-| Triage → Enrich | Category assigned, not `spiritual-guidance` | Escalate to `spiritual-director` |
-| Enrich → Draft | Enrichment data attached (even if empty) | Flag for manual review |
-| Draft → Queue | Draft passes Verification checklist | Hold for revision |
+## Output
+
+- **Primary:** `data/cs-drafts-log.json` — all draft records with category, enrichment, and `"ai_generated": true`
+- **Secondary:** `data/agent-runs.json` — one observability entry per `_templates/observability.md`
+- **Terminal:** Batch summary table: total processed, by category, escalations, drafts queued
+
+**Verification:** All emails triaged before any draft created. Spiritual-guidance emails escalated with no draft produced. Enrichment record attached to every email (even empty). All drafts carry `"ai_generated": true`. No emails sent — drafts only, in queue.
+
+## Data Hygiene
+
+- Log customer first name only in batch summary — never full name or email address in terminal output.
+- Persist first 200 chars of email body in enrichment records — keeps log files small and limits exposure.
+- Never write full customer email addresses to `data/cs-drafts-log.json` — use customer ID or order number as the reference key.
+- Strip PII before writing observability entries to `data/agent-runs.json`.
 
 ## Common Rationalizations
 
-| Rationalization | Reality |
-|----------------|---------|
-| "I know the category already, I'll skip triage" | Triage catches spiritual-guidance escalations. Skipping it is a compliance gap. |
+| Thought | Reality |
+|---|---|
+| "I know the category already, I'll skip triage" | Triage catches spiritual-guidance escalations. Skipping it bypasses a hard gate. |
 | "No enrichment data found, so I'll draft without it" | Attach the empty enrichment record — the drafter needs to know the lookup happened. |
-| "Customer is waiting, I'll send this one directly" | Every draft goes through the queue. CCPA requires human approval. |
+| "Customer is waiting, I'll send this one directly" | Every draft goes through the queue. Human approval is required before sending. |
 
-## Red Flags
+## Edge Cases
 
-- Drafting before triage completes
-- Spiritual-guidance emails reaching the draft stage
-- Sending any email without human approval
-- Skipping enrichment because "the email is straightforward"
-- Processing internal team emails through the pipeline
+- **Spiritual-guidance email reaches draft stage:** Block immediately. This means triage was skipped or misclassified. Log the error and do not produce a draft.
+- **Enrichment lookup fails (Supabase down):** Attach an empty enrichment record with `"source": "unavailable"`. Continue to drafting.
+- **Batch is empty:** Log to `data/agent-runs.json` with `"inputs_summary": {"emails_found": 0}`. Report zero-item batch to terminal.
 
-## Verification
+## Rules
 
-- [ ] All emails triaged before any drafting begins
-- [ ] Spiritual-guidance emails escalated, not drafted
-- [ ] Enrichment data attached to every email record (even if no data found)
-- [ ] All drafts have `"ai_generated": true` in log
-- [ ] Batch summary presented for `general-manager` review
-- [ ] No emails sent — drafts only, queued for approval
+- NEVER send any customer email — draft only, `general-manager` sends.
+- NEVER skip triage for any email in the batch, regardless of apparent simplicity.
+- NEVER advance a spiritual-guidance email to the drafting stage.
+
+## Environment
+
+- **MCP servers:** Gmail (`gmail_search_messages`, `gmail_read_message`), Supabase (`execute_sql`)
+- **Sub-skills:** `cs-triage`, `cs-drafter`
+- **Data files:** `data/cs-drafts-log.json`, `data/agent-runs.json`
+- **Reference files:** `.claude/rules/brand-voice.md`, `.claude/rules/cultural-sensitivity.md`, `_templates/observability.md`
+
+## Works Well With
+
+- **Sub-skills:** `cs-triage` (step 2), `cs-drafter` (step 4)
+- **Invoked by:** `cs-drafter` agent on batch runs

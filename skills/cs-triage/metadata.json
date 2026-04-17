@@ -1,11 +1,15 @@
 {
   "name": "cs-triage",
-  "description": "Customer email classification and routing for CS workflow.",
+  "version": "3.0.0",
+  "description": "Customer email classification and routing for the CS workflow — classifies into 7 categories with spiritual-guidance check first.",
+  "pattern": "sequential",
+  "category": "skill",
   "domain": "customer-service",
+  "tags": ["customer-service", "triage", "classification", "escalation", "email"],
+  "projects": ["tibetan-spirit-ops"],
   "triggers": ["triage customer email", "CS triage", "classify inquiry"],
   "model": "inherit",
-  "category": "skill",
-  "version": "2.0.0",
+  "human_gates": ["spiritual-guidance emails escalate to spiritual-director, no draft produced"],
   "created": "2026-04-14",
-  "updated": "2026-04-14"
+  "updated": "2026-04-17"
 }

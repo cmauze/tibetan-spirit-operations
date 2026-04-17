@@ -1,13 +1,16 @@
 {
   "name": "order-inquiry",
+  "version": "2.0.0",
   "description": "Handles order status, tracking, and delivery questions — the most common CS inquiry type (~40% of tickets).",
+  "pattern": "sequential",
+  "category": "skill",
   "domain": "customer-service",
+  "tags": ["customer-service", "orders", "tracking", "delivery", "status"],
+  "projects": ["tibetan-spirit-ops"],
   "triggers": ["where is my order", "order status", "tracking number", "delivery estimate", "delayed shipment"],
   "model": "inherit",
-  "category": "skill",
-  "approval_tier": "decision-needed",
+  "human_gates": ["all draft responses queued for human approval before sending"],
   "cost_budget_usd": 0.50,
-  "version": "1.0.0",
   "created": "2026-04-14",
-  "updated": "2026-04-14"
+  "updated": "2026-04-17"
 }

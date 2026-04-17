@@ -1,13 +1,16 @@
 {
   "name": "fulfillment-flag",
-  "description": "Exception flagging and routing review for fulfillment pipeline — surfaces problems before they become crises.",
+  "version": "2.0.0",
+  "description": "Exception flagging and routing review for the fulfillment pipeline — surfaces problems before they become crises.",
+  "pattern": "sequential",
+  "category": "skill",
   "domain": "fulfillment",
+  "tags": ["fulfillment", "exceptions", "shipping", "routing", "escalation"],
+  "projects": ["tibetan-spirit-ops"],
   "triggers": ["fulfillment exception", "shipping anomaly", "order routing", "delayed shipment", "address issue"],
   "model": "inherit",
-  "category": "skill",
-  "approval_tier": "review-required",
+  "human_gates": ["all flags queued to data/fulfillment-comms-queue.json, human sends"],
   "cost_budget_usd": 0.50,
-  "version": "1.0.0",
   "created": "2026-04-14",
-  "updated": "2026-04-14"
+  "updated": "2026-04-17"
 }

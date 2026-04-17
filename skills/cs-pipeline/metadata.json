@@ -1,13 +1,17 @@
 {
   "name": "cs-pipeline",
+  "version": "2.0.0",
   "description": "End-to-end customer service email pipeline: triage → enrichment → draft → approval queue.",
+  "pattern": "composition",
+  "category": "skill",
   "domain": "customer-service",
+  "tags": ["customer-service", "email", "pipeline", "triage", "draft", "hitl"],
+  "projects": ["tibetan-spirit-ops"],
   "triggers": ["run CS pipeline", "process customer emails", "CS email batch", "triage and draft"],
   "model": "inherit",
-  "category": "workflow",
-  "approval_tier": "decision-needed",
+  "sub_skills": ["cs-triage", "cs-drafter"],
+  "human_gates": ["No email is sent without general-manager approval"],
   "cost_budget_usd": 5.00,
-  "version": "1.0.0",
   "created": "2026-04-14",
-  "updated": "2026-04-14"
+  "updated": "2026-04-17"
 }

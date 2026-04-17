@@ -1,13 +1,15 @@
 {
   "name": "margin-reporting",
+  "version": "2.0.0",
   "description": "Weekly margin report with SKU-level profitability, channel comparison, trend indicators, and below-floor alerts.",
+  "pattern": "sequential",
+  "category": "skill",
   "domain": "finance",
+  "tags": ["finance", "margin", "reporting", "P&L", "COGS", "channel-profitability"],
+  "projects": ["tibetan-spirit-ops"],
   "triggers": ["margin report", "weekly P&L", "profitability analysis", "below-floor alert", "channel margins"],
   "model": "inherit",
-  "category": "skill",
-  "approval_tier": "auto-logged",
   "cost_budget_usd": 0.50,
-  "version": "1.0.0",
   "created": "2026-04-14",
-  "updated": "2026-04-14"
+  "updated": "2026-04-17"
 }

@@ -179,4 +179,4 @@ DATA QUALITY NOTES
 - Report JSON → `data/finance-reports.json`
 - Run log → `data/agent-runs.json`
 
-Both files require `"ai_generated": true` in every entry for CCPA compliance.
+Both files require `"ai_generated": true` in every entry for audit traceability.

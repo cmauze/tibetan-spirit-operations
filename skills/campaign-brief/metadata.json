@@ -1,13 +1,15 @@
 {
   "name": "campaign-brief",
-  "description": "Structured campaign brief generator with content tier classification and frequency cap enforcement.",
+  "version": "2.0.0",
+  "description": "Generates a structured campaign brief with content tier classification and frequency cap enforcement.",
+  "pattern": "sequential",
+  "category": "skill",
   "domain": "marketing",
+  "tags": ["marketing", "campaign", "content-tier", "frequency-cap", "brief"],
+  "projects": ["tibetan-spirit-ops"],
   "triggers": ["campaign brief", "marketing plan", "content calendar", "seasonal promotion", "campaign draft"],
   "model": "inherit",
-  "category": "skill",
-  "approval_tier": "review-required",
   "cost_budget_usd": 0.50,
-  "version": "1.0.0",
   "created": "2026-04-14",
-  "updated": "2026-04-14"
+  "updated": "2026-04-17"
 }

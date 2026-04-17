@@ -1,62 +1,63 @@
 ---
 name: description-optimizer
-description: Use when product descriptions need scoring against the quality rubric, revision through the evaluator-optimizer loop, or cross-channel consistency checking.
+description: Runs the evaluator-optimizer loop on product descriptions — scores against the 5-dimension rubric, revises until all dimensions pass, and verifies cross-channel consistency before queuing for review. Use when a product description needs scoring, revision, or cross-channel consistency checking.
+allowed-tools: Read, Write
 ---
 
 # Description Optimizer
 
-## Overview
+**Announce at start:** "I'm using the description-optimizer skill to score and refine this product description."
 
-Runs the evaluator-optimizer loop on product descriptions — scoring against the 5-dimension rubric, revising until all dimensions pass, and verifying cross-channel consistency before queuing for review.
+## Goal
 
-## When to Use
+Score a product description against the 5-dimension quality rubric, revise any dimension below the threshold (score <8), confirm cross-channel consistency across Shopify, Etsy, and Amazon, and queue the passing description for human review. Maximum 3 revision cycles; descriptions that do not pass after 3 cycles are flagged for human review, not advanced.
 
-**Invoke when:**
-- A new product description needs scoring before catalog entry
-- An existing description is flagged for quality review
-- Cross-channel consistency needs to be verified (Shopify, Etsy, Amazon)
+## Process
 
-**Do NOT use for:**
-- Descriptions that have already passed review and are live
-- Category strategy decisions (use `category-judgment` rule)
-- Publishing directly to any channel — output goes to `data/catalog-drafts-queue.json` only
+1. **Parse structure** — Confirm 6-sentence structure per `references/rubric.md`. Rewrite to spec if missing or malformed.
+2. **Score all 5 dimensions** — Apply `references/rubric.md`. Record numeric score (1–10) and one-line rationale for each dimension.
+3. **Gate check** — Any dimension <8 → revise the failing dimension(s) only, re-score. Repeat up to 3 cycles. After 3 failed cycles, flag for human review — do not advance to queue.
+4. **Cross-channel check** — Verify same practice framing, terminology, and provenance across Shopify, Etsy, and Amazon variants. A mala is never "jewelry" on any platform.
+5. **Flag uncertain terms** — Cultural terms you are not certain about → flag for `spiritual-director`. Never generate plausible-sounding explanations for uncertain terms.
+6. **Write to queue** — Append to `data/catalog-drafts-queue.json` with `"ai_generated": true` and `"rubric_scores"` object. Log observability entry to `data/agent-runs.json` per `_templates/observability.md`.
 
-## Workflow
+## Output
 
-1. **Parse structure** — Confirm 6-sentence structure per `references/rubric.md`. Rewrite to spec if missing.
-2. **Score all 5 dimensions** — Apply `references/rubric.md`. Record score (1-10) + one-line rationale per dimension.
-3. **Gate check** — Any dimension <8 → revise failing dimension(s) only, re-score. Max 3 cycles.
-4. **Cross-channel check** — Same practice framing, terminology, and provenance across Shopify, Etsy, Amazon.
-5. **Flag uncertain terms** — Cultural terms you're not certain about → flag for `spiritual-director`. Never generate plausible-sounding explanations.
-6. **Write to queue** — Append to `data/catalog-drafts-queue.json` with `"ai_generated": true` and `"rubric_scores"`.
+- **Primary:** `data/catalog-drafts-queue.json` — passing description with `rubric_scores` and `"ai_generated": true`
+- **Secondary:** `data/agent-runs.json` — one observability entry per `_templates/observability.md`
+- **Terminal:** Score table per dimension, revision cycle count, and cross-channel status
 
-After 3 failed cycles: flag for human review, do not advance.
+**Verification:** All 5 rubric dimensions scored ≥8. 6-sentence structure confirmed. Cross-channel variants use identical practice framing and terminology. No banned vocabulary. Sacred terms untranslated. Uncertain cultural terms flagged for `spiritual-director`. Output written to queue, not published to any channel.
 
 ## Common Rationalizations
 
-| Rationalization | Reality |
-|----------------|---------|
+| Thought | Reality |
+|---|---|
 | "The score is 7.5 — close enough to advance" | <8 means revise. The threshold is not a suggestion. |
 | "Etsy shoppers expect different framing than practitioners" | Cross-channel consistency is non-negotiable. A mala is never "jewelry." |
 | "I'm fairly sure this is the right cultural term" | Uncertainty = flag for `spiritual-director`. Plausible is not accurate. |
 | "The SEO keywords will hurt the score but help conversion" | Practice-first framing is the SEO strategy. Commercial keywords are a separate failing. |
 
-## Red Flags
+## Edge Cases
 
-- Advancing a description with any dimension score <8
-- Using commercial keywords (wellness, boho, decor, relaxation tool, tapestry)
-- Describing a mala as jewelry, a thangka as wall art, or a singing bowl as a sound bowl
-- Generating cultural explanations without verified sourcing
-- Writing directly to Shopify, Etsy, or Amazon — queue only
+- **3 cycles without passing:** Flag for human review. Write the best-attempt draft with scores to `data/catalog-drafts-queue.json` with `"status": "needs-human-review"`. Do not advance as approved.
+- **Uncertain cultural term:** Flag in the queue entry with `"cultural_flags": ["<term>"]`. Do not block queue submission — the flag routes the review.
+- **Cross-channel inconsistency found:** Revise the inconsistent variant before advancing. Log which channel required the change.
 
-## Verification
+## Rules
 
-- [ ] All 5 rubric dimensions scored with numeric score + rationale
-- [ ] No dimension below 8
-- [ ] 6-sentence structure confirmed (sentence 6 optional)
-- [ ] Cross-channel variants use identical practice framing and terminology
-- [ ] No banned vocabulary (exotic, mystical, oriental, ancient secrets, zen vibes, namaste)
-- [ ] Sacred terms untranslated (mala, thangka, dharma, sangha, puja, mandala)
-- [ ] Uncertain cultural terms flagged for `spiritual-director` — not explained
-- [ ] `"ai_generated": true` in queue entry
-- [ ] `"rubric_scores"` object in queue entry
+- NEVER advance a description with any dimension score <8 (before cycle 3 exhaustion).
+- NEVER use commercial keywords: wellness, boho, decor, relaxation tool, tapestry, sound bowl, jewelry.
+- NEVER write directly to Shopify, Etsy, or Amazon — queue only.
+- ALWAYS include `rubric_scores` object in every queue entry.
+
+## Environment
+
+- **Data files:** `data/catalog-drafts-queue.json`, `data/agent-runs.json`
+- **Reference files:** `references/rubric.md`, `_templates/observability.md`
+- **Rules:** `.claude/rules/brand-voice.md`, `.claude/rules/cultural-sensitivity.md`, `.claude/rules/ecommerce-judgment.md`
+
+## Works Well With
+
+- **Invoked by:** `catalog-curator` agent (step 4)
+- **Preceded by:** `catalog-curator` draft step

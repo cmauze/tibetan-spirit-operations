@@ -1,56 +1,63 @@
 ---
 name: margin-reporting
-description: Use when the weekly margin report is due, an ad-hoc margin review is requested, or below-floor alerts need investigation.
+description: Generates weekly and ad-hoc margin reports with SKU-level profitability, channel comparison, trend indicators, and below-floor alerts. Use when the weekly P&L is due, an ad-hoc margin review is requested, or below-floor alerts need investigation.
+allowed-tools: Read, Write, mcp__plugin_supabase_supabase__execute_sql
 ---
 
 # Margin Reporting
 
-## Overview
+**Announce at start:** "I'm using the margin-reporting skill to generate the margin report."
 
-Generates weekly and ad-hoc margin reports with SKU-level profitability, channel comparisons, trend indicators, and below-floor alerts. Read-only — never modifies financial records.
+## Goal
 
-## When to Use
+Query Supabase for SKU-level margin data and channel profitability, compute trend indicators, flag all below-floor SKUs and negative-margin items, and write a structured margin report to `data/finance-reports.json`. Read-only — never modifies financial records.
 
-- **Invoke when:** weekly P&L is due, `general-manager` requests a margin review, a below-floor alert needs investigation, or channel profitability needs comparison
-- **Do NOT use for:** modifying COGS records, updating Shopify pricing, or any write operation on financial data
+## Process
 
-## Workflow
+1. **Query SKU margins** — Run `product_margin_detail` view via `execute_sql`. Label COGS confidence on every row: `confirmed` or `estimated`. An unlabeled row is a data quality error.
+2. **Query channel rollup** — Run `channel_profitability_monthly`. Compute trend arrows per channel: ▲ ≥+2pp, ▼ ≥−2pp, ─ <2pp change.
+3. **Run category rollup** — Aggregate SKU margins by category. Flag any category average below floor.
+4. **Identify below-floor alerts** — Flag all SKUs where `margin < channel_floor`. Mark negative-margin rows as URGENT. See `references/queries.md` for floor thresholds.
+5. **Check Dharma Giving line** — Confirm 5% Forest Hermitage allocation appears as an accounting expense line, not a marketing or promotion line.
+6. **Assemble report** — Format per `references/queries.md` template: Executive Summary → By Category → By Channel → Below-Floor Alerts → Action Items.
+7. **Write output** — Save to `data/finance-reports.json`. Log observability entry to `data/agent-runs.json` per `_templates/observability.md`.
 
-1. **Query SKU margins** — run `product_margin_detail` view; label COGS confidence on every row (confirmed vs. estimated)
-2. **Query channel rollup** — run `channel_profitability_monthly`; compute trend arrows per channel (▲ ≥+2pp, ▼ ≥−2pp, ─ <2pp)
-3. **Run category rollup** — aggregate SKU margins by category; flag any category average below floor
-4. **Identify below-floor alerts** — flag all SKUs where `margin < channel_floor`; mark negative-margin rows as URGENT
-5. **Check Dharma Giving line** — confirm 5% Forest Hermitage allocation appears as an accounting expense, not marketing
-6. **Assemble report sections** — Executive Summary → By Category → By Channel → Below-Floor Alerts → Action Items (see `references/queries.md` for full template)
-7. **Write output** — save to `data/finance-reports.json`; log run to `data/agent-runs.json` with `"ai_generated": true`
+## Output
 
-See `references/queries.md` for all SQL queries and the full report template.
+- **Primary:** `data/finance-reports.json` — full margin report with trend indicators and below-floor alerts
+- **Secondary:** `data/agent-runs.json` — one observability entry per `_templates/observability.md`
+- **Terminal:** Executive summary with anomaly count and any URGENT flags
+
+**Verification:** All COGS rows carry a confidence label (confirmed or estimated). Trend arrows applied to all channel rows. Every SKU below floor appears in Below-Floor Alerts. Negative-margin SKUs marked URGENT. Dharma Giving is an accounting expense line. Output written to `data/finance-reports.json`. No financial records modified.
 
 ## Common Rationalizations
 
-| Rationalization | Reality |
-|----------------|---------|
+| Thought | Reality |
+|---|---|
 | "COGS is probably close enough to skip the label" | Every estimate must be labeled. Unlabeled numbers imply confirmed data. |
 | "The variance is small, I'll smooth it over" | Surface all anomalies. A $50 gap today can be $5,000 next quarter. |
 | "Dharma Giving lowers apparent margin, I'll exclude it" | It is a real expense. Include it with its accounting label — never omit. |
 | "This channel is below floor but volume is tiny" | Floor violations are flagged regardless of volume. `general-manager` decides what to do. |
 
-## Red Flags
+## Edge Cases
 
-- Any COGS row presented without a confidence label (confirmed / estimated)
-- Negative-margin SKU not marked URGENT
-- Dharma Giving appearing in a marketing or promotion line
-- Report written to any path other than `data/finance-reports.json`
-- Log entry missing `"ai_generated": true`
-- Financial data modified (this skill is read-only)
+- **Supabase unavailable:** Log `status: "blocked"` to `data/agent-runs.json`. Do not produce a partial report with unlabeled gaps.
+- **COGS data not yet confirmed:** Report the section with an explicit `"estimated"` confidence label. Omission hides the gap.
+- **Dharma Giving not present in data:** Flag missing line in the report — do not silently omit it.
 
-## Verification
+## Rules
 
-- [ ] All COGS rows labeled: confirmed or estimated
-- [ ] Trend arrows applied to all channel rows (▲ / ▼ / ─)
-- [ ] Every SKU with margin < channel floor appears in Below-Floor Alerts
-- [ ] Negative-margin SKUs marked URGENT
-- [ ] Dharma Giving is an accounting expense line, not a marketing line
-- [ ] Output written to `data/finance-reports.json`
-- [ ] Run logged to `data/agent-runs.json` with `"ai_generated": true`
-- [ ] No financial records modified
+- NEVER report any COGS row without a confidence label.
+- NEVER smooth over discrepancies — surface them with the dollar amount.
+- NEVER classify Dharma Giving as marketing, promotion, or brand spend.
+- NEVER modify financial records — this skill is read-only.
+
+## Environment
+
+- **MCP server:** Supabase (`execute_sql`)
+- **Data files:** `data/finance-reports.json`, `data/agent-runs.json`
+- **Reference files:** `references/queries.md`, `_templates/observability.md`
+
+## Works Well With
+
+- **Invoked by:** `finance-analyst` agent

@@ -1,11 +1,14 @@
 {
   "name": "shopify-query",
-  "description": "Real-time Shopify data queries for agent workflows.",
+  "version": "3.0.0",
+  "description": "Real-time Shopify data queries for agent workflows — order lookup, inventory check, product search, customer enrichment.",
+  "pattern": "sequential",
+  "category": "skill",
   "domain": "operations",
+  "tags": ["shopify", "orders", "inventory", "customer-data", "real-time", "read-only"],
+  "projects": ["tibetan-spirit-ops"],
   "triggers": ["look up order", "check inventory", "shopify query", "find product", "customer lookup"],
   "model": "inherit",
-  "category": "skill",
-  "version": "2.0.0",
   "created": "2026-04-14",
-  "updated": "2026-04-14"
+  "updated": "2026-04-17"
 }
