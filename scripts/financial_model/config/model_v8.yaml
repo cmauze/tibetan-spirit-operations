@@ -1,0 +1,151 @@
+# Tibetan Spirit Financial Model v8 — Product Line Config
+# Edit values here, then run: python3 scripts/financial_model/build_xlsx.py --config scripts/financial_model/config/model_v8.yaml
+# All dollar amounts are monthly unless noted.
+
+meta:
+  version: "v8"
+  scenario: "Base Case (Conservative COGS)"
+  period: "Jun 2026 – May 2029"
+  months: 36
+  start_year: 2026
+  start_month: 6  # June
+
+# --- D2C Product Business ---
+d2c:
+  shipping_fulfillment_pct: 0.115  # ~11.5% of product revenue
+
+  # Blended platform fee schedule — evolves as channels expand
+  # M1-M2: Shopify only (6%). M3: +Etsy. M7: +Wholesale. M13: +Amazon.
+  platform_fee_schedule:
+    - { through_month: 2, rate: 0.060 }   # Shopify only
+    - { through_month: 6, rate: 0.065 }   # + Etsy
+    - { through_month: 12, rate: 0.070 }  # + Wholesale (Faire)
+    - { through_month: 24, rate: 0.090 }  # + Amazon (30% fee on growing share)
+    - { through_month: 36, rate: 0.090 }  # Mature channel mix
+
+  product_lines:
+    shrine_core:
+      label: "Shrine Items — Core"
+      start_month: 1
+      starting_revenue: 2822  # 37.6% of $7,500 (based on 2025 Shopify data)
+      monthly_growth: [0.09, 0.06, 0.04]  # Y1/Y2/Y3 — includes multi-channel expansion
+      cogs_pct: 0.30
+
+    incense:
+      label: "Incense"
+      start_month: 1
+      starting_revenue: 2183  # 29.1% of $7,500
+      monthly_growth: [0.10, 0.065, 0.045]  # Consumable, highest repeat rate
+      cogs_pct: 0.25  # Better margins on incense
+
+    malas:
+      label: "Malas"
+      start_month: 1
+      starting_revenue: 1409  # 18.8% of $7,500
+      monthly_growth: [0.08, 0.055, 0.04]
+      cogs_pct: 0.30
+
+    prayer_flags:
+      label: "Prayer Flags & Home"
+      start_month: 1
+      starting_revenue: 430  # 5.7% of $7,500
+      monthly_growth: [0.07, 0.045, 0.035]
+      cogs_pct: 0.28
+
+    other:
+      label: "Other"
+      start_month: 1
+      starting_revenue: 656  # 8.7% of $7,500
+      monthly_growth: [0.05, 0.035, 0.03]
+      cogs_pct: 0.30
+
+    subscription:
+      label: "Quarterly Subscription Box"
+      type: "quarterly"
+      start_month: 4  # September 2026 (first shipment)
+      starting_quarterly_revenue: 2296
+      quarterly_growth: 0.35  # 35% growth per quarter
+      cogs_pct: 0.283  # Curated boxes, ~72% margin
+      cannibalization_pct: 0.18
+
+    premium:
+      label: "Shrine Items — Rare/Antique/Premium"
+      type: "unit_based"
+      start_month: 7  # December 2026 — first sales after 6 months sourcing
+      units_per_month: [0.5, 1.5, 3.0]  # Y1: ~1 sale/2 months. Y2-Y3: ramp
+      avg_order_value: 3000  # $2K–$7K range, $3K avg
+      cogs_pct: 0.60  # Commission to Kathmandu vendors
+
+# --- TS Travels (Completely Separate Business Unit) ---
+travels:
+  label: "TS Travels (Pilgrimages)"
+  trips_per_year: [0, 2, 2]  # Y1 / Y2 / Y3
+  revenue_per_trip: 150000
+  cogs_pct: 0.60
+
+# --- Operating Costs ---
+costs:
+  personnel:
+    # Simplified: flat per year. No M5 CS hire bump — Jothi is already in Y1.
+    monthly_y1: 6833   # Jothi (Ops Manager), Fiona (Warehouse), existing team
+    monthly_y2: 7500   # Annual raises (~10%)
+    monthly_y3: 8500   # Continued growth
+
+  technology:
+    monthly_y1: 2500
+    monthly_y2: 3000
+    monthly_y3: 3000
+
+  marketing:
+    # Monthly ramp schedule for Y1 (model months, not calendar months)
+    # M1 (June 2026): zero spend — setup/onboarding only
+    # M2-M4 (July-Sep 2026): 33% of standard — learning period
+    # M5+ (Oct 2026+): full rate
+    ramp_schedule:
+      - { through_month: 1, pct: 0.0 }      # June 2026: zero
+      - { through_month: 4, pct: 0.208 }     # July-Sep: 33% of 0.63
+      - { through_month: 12, pct: 0.63 }     # Oct 2026+: full Y1 rate
+    pct_of_product_revenue_y2: 0.47
+    pct_of_product_revenue_y3: 0.31
+    # Holiday boost (calendar months Oct-Dec)
+    holiday_months: [10, 11, 12]
+    holiday_multiplier_y1: 1.25   # Conservative first holiday season
+    holiday_multiplier_y2: 2.0
+    holiday_multiplier_y3: 2.0
+
+  seller_payout:
+    monthly_y1_5: 3000   # $36K/year, guaranteed
+    monthly_y6_10: 1500
+
+  foundation:
+    pct_of_net_profit: 0.10
+    only_profitable_months: true
+    recipient: "Forest Hermitage"
+
+# --- Capital Structure ---
+capital:
+  cash_on_hand: 20000
+  ops_capital:
+    y1: 200000
+    y2: 100000
+    y3: 50000
+  truist_cd: 30000  # Available March 2027 (model month 10)
+  inventory_facility:
+    cap: 100000
+    interest: 0.0
+    reconciliation: "quarterly"
+
+# --- Sensitivity ---
+sensitivity:
+  revenue_factors: [0.70, 0.85, 1.0, 1.15]
+  labels: ["Conservative (70%)", "Moderate (85%)", "Base Case", "Upside (115%)"]
+
+# --- 2025 Revenue Data (for reference, not used in projections) ---
+# Total Shopify non-trip revenue: $116,536
+# Product line splits (with $14,692 "None" category split evenly across Shrine/Incense/Malas):
+#   Shrine Core: $43,873 (37.6%)
+#   Incense:     $33,917 (29.1%)
+#   Malas:       $21,885 (18.8%)
+#   Prayer Flags: $6,683 (5.7%)
+#   Other:       $10,152 (8.7%)
+#   Premium:     $0 (new line, starts 2026)
