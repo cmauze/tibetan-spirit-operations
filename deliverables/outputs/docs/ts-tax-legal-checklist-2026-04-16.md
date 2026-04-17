@@ -13,7 +13,7 @@
 | Transaction type | Asset purchase |
 | Nominal consideration | $1 |
 | Effective consideration | $270,000 (secured promissory note, 10-year term) |
-| Payment schedule | $3,000/mo × 60 months + $1,500/mo × 60 months |
+| Payment schedule | Options A-D presented (see deal proposal v3) — range: $270K-$360K |
 | Seller entity | Bear Springs, Inc. (S-Corp) |
 | Buyer entity | [TBD — new LLC recommended] |
 | Seller's continuing role | Spiritual Director (advisory, non-employment) |
@@ -63,6 +63,22 @@
 - [ ] Should we obtain a tax opinion letter on the characterization?
 - [ ] Does the Spiritual Director Advisory Agreement need specific language to support the non-employment, non-compensation characterization?
 - [ ] The seller plans to ordain as a monk after Y5 — should this be referenced in the purchase agreement to explain the payment step-down?
+
+### 2a. Tax Treatment by Payment Option
+
+The deal proposal presents four payment structure options. Each has different tax implications:
+
+| Option | Tax Treatment | Key Consideration |
+|---|---|---|
+| **A: $300K upfront** | Full gain recognized in year of sale. Not eligible for installment sale. | Seller pays all tax in year 1. Buyer may structure as asset purchase for depreciation. |
+| **B: $90K up + deferred** | Hybrid — $90K recognized at closing, remainder may qualify for installment treatment. | Consult whether partial upfront disqualifies installment election for the deferred portion. |
+| **C: Fully deferred** | Strong candidate for installment sale (IRC §453). Gain spread over 10 years. | Most favorable for seller's tax rate if capital gains treatment applies. |
+| **D: $50K up + deferred** | Similar to Option B — partial upfront, remainder potentially installment. | Same question about installment election applicability. |
+
+**Questions for attorney:**
+- [ ] Does a partial upfront payment (Options B, D) disqualify the deferred portion from installment sale treatment?
+- [ ] For Option A, can the $300K be structured to maximize the buyer's depreciable basis?
+- [ ] Does the choice of option affect the Form 8594 allocation strategy?
 
 ### 3. Inventory Facility Definition
 
