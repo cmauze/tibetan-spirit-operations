@@ -157,7 +157,7 @@ def _build_assumptions_tab(ws, config: dict):
     _set_col_widths(ws, {"A": 35, "B": 25, "C": 20, "D": 20})
 
     row = 1
-    ws.cell(row=row, column=1, value="Tibetan Spirit Financial Model v7 — Assumptions")
+    ws.cell(row=row, column=1, value=f"Tibetan Spirit Financial Model {config['meta']['version']} — Assumptions")
     ws.cell(row=row, column=1).font = _TITLE_FONT
     row += 2
 
@@ -176,51 +176,53 @@ def _build_assumptions_tab(ws, config: dict):
     _write_section_header(ws, row, "D2C Product Business", 4)
     row += 1
     d2c = config["d2c"]
-    ws.cell(row=row, column=1, value="  Blended COGS %").font = _INDENT_FONT
-    ws.cell(row=row, column=2, value=d2c["cogs_pct"])
-    ws.cell(row=row, column=2).style = "pct"
-    row += 1
+    if "cogs_pct" in d2c:
+        ws.cell(row=row, column=1, value="  Blended COGS %").font = _INDENT_FONT
+        ws.cell(row=row, column=2, value=d2c["cogs_pct"])
+        ws.cell(row=row, column=2).style = "pct"
+        row += 1
     ws.cell(row=row, column=1, value="  Shipping/Fulfillment %").font = _INDENT_FONT
     ws.cell(row=row, column=2, value=d2c["shipping_fulfillment_pct"])
     ws.cell(row=row, column=2).style = "pct"
     row += 2
 
-    # Channels
-    _write_section_header(ws, row, "Channel Assumptions", 4)
+    # Product Lines / Channels
+    lines_key = "product_lines" if "product_lines" in d2c else "channels"
+    section_label = "Product Line Assumptions" if lines_key == "product_lines" else "Channel Assumptions"
+    _write_section_header(ws, row, section_label, 4)
     row += 1
-    _write_header_row(ws, row, ["Channel", "Start Month", "Starting Rev", "Growth / Type"])
+    _write_header_row(ws, row, ["Product Line", "Start Month", "Starting Rev", "Growth / Type"])
     row += 1
-    for ch_name, ch_cfg in d2c["channels"].items():
-        ws.cell(row=row, column=1, value=ch_cfg.get("label", ch_name))
+    for ln_name, ln_cfg in d2c[lines_key].items():
+        ws.cell(row=row, column=1, value=ln_cfg.get("label", ln_name))
         ws.cell(row=row, column=1).font = _INDENT_FONT
-        ws.cell(row=row, column=2, value=ch_cfg["start_month"])
-        ch_type = ch_cfg.get("type", "standard")
-        if ch_type == "quarterly":
-            ws.cell(row=row, column=3, value=ch_cfg["starting_quarterly_revenue"])
+        ws.cell(row=row, column=2, value=ln_cfg["start_month"])
+        ln_type = ln_cfg.get("type", "standard")
+        if ln_type == "quarterly":
+            ws.cell(row=row, column=3, value=ln_cfg["starting_quarterly_revenue"])
             ws.cell(row=row, column=3).style = "dollar"
-            ws.cell(row=row, column=4, value=f"Quarterly, {ch_cfg['quarterly_growth']:.0%} growth/qtr")
-        elif ch_type == "unit_based":
-            ws.cell(row=row, column=3, value=ch_cfg["avg_order_value"])
+            ws.cell(row=row, column=4, value=f"Quarterly, {ln_cfg['quarterly_growth']:.0%} growth/qtr")
+        elif ln_type == "unit_based":
+            ws.cell(row=row, column=3, value=ln_cfg["avg_order_value"])
             ws.cell(row=row, column=3).style = "dollar"
-            ws.cell(row=row, column=4, value=f"Unit-based, {ch_cfg['units_per_month']} units/mo")
+            ws.cell(row=row, column=4, value=f"Unit-based, {ln_cfg['units_per_month']} units/mo")
         else:
-            ws.cell(row=row, column=3, value=ch_cfg["starting_revenue"])
+            ws.cell(row=row, column=3, value=ln_cfg["starting_revenue"])
             ws.cell(row=row, column=3).style = "dollar"
-            growth = ch_cfg["monthly_growth"]
+            growth = ln_cfg["monthly_growth"]
             ws.cell(row=row, column=4, value=f"Monthly: {growth}")
         row += 1
-        # Platform fee and COGS override
-        ws.cell(row=row, column=1, value="    Platform Fee / COGS Override")
+        # COGS rate
+        cogs = ln_cfg.get("cogs_pct", ln_cfg.get("cogs_pct_override"))
+        fee = ln_cfg.get("platform_fee_pct")
+        ws.cell(row=row, column=1, value="    COGS %")
         ws.cell(row=row, column=1).font = Font(color="A0A0A0", size=9)
-        fee_val = ch_cfg["platform_fee_pct"]
-        cogs_ov = ch_cfg.get("cogs_pct_override")
-        ws.cell(row=row, column=2, value=fee_val)
-        ws.cell(row=row, column=2).style = "pct"
-        if cogs_ov:
-            ws.cell(row=row, column=3, value=cogs_ov)
+        if cogs:
+            ws.cell(row=row, column=2, value=cogs)
+            ws.cell(row=row, column=2).style = "pct"
+        if fee:
+            ws.cell(row=row, column=3, value=fee)
             ws.cell(row=row, column=3).style = "pct"
-        else:
-            ws.cell(row=row, column=3, value="(default)")
         row += 1
 
     row += 1
@@ -264,15 +266,36 @@ def _build_assumptions_tab(ws, config: dict):
     ws.cell(row=row, column=1, value="Marketing").font = _BOLD_FONT
     row += 1
     mkt = costs["marketing"]
-    for k in ["pct_of_product_revenue_y1", "pct_of_product_revenue_y2",
-              "pct_of_product_revenue_y3"]:
-        ws.cell(row=row, column=1, value=f"  {k}").font = _INDENT_FONT
-        ws.cell(row=row, column=2, value=mkt[k])
-        ws.cell(row=row, column=2).style = "pct"
+    if "ramp_schedule" in mkt:
+        ws.cell(row=row, column=1, value="  Y1 Ramp Schedule").font = _INDENT_FONT
         row += 1
-    ws.cell(row=row, column=1, value="  Q4 Multiplier").font = _INDENT_FONT
-    ws.cell(row=row, column=2, value=mkt["q4_multiplier"])
-    row += 1
+        for entry in mkt["ramp_schedule"]:
+            ws.cell(row=row, column=1,
+                    value=f"    Through M{entry['through_month']}").font = Font(color="A0A0A0", size=9)
+            ws.cell(row=row, column=2, value=entry["pct"])
+            ws.cell(row=row, column=2).style = "pct"
+            row += 1
+        for k in ["pct_of_product_revenue_y2", "pct_of_product_revenue_y3"]:
+            ws.cell(row=row, column=1, value=f"  {k}").font = _INDENT_FONT
+            ws.cell(row=row, column=2, value=mkt[k])
+            ws.cell(row=row, column=2).style = "pct"
+            row += 1
+        for yr in [1, 2, 3]:
+            key = f"holiday_multiplier_y{yr}"
+            if key in mkt:
+                ws.cell(row=row, column=1, value=f"  Holiday Multiplier Y{yr}").font = _INDENT_FONT
+                ws.cell(row=row, column=2, value=mkt[key])
+                row += 1
+    else:
+        for k in ["pct_of_product_revenue_y1", "pct_of_product_revenue_y2",
+                   "pct_of_product_revenue_y3"]:
+            ws.cell(row=row, column=1, value=f"  {k}").font = _INDENT_FONT
+            ws.cell(row=row, column=2, value=mkt[k])
+            ws.cell(row=row, column=2).style = "pct"
+            row += 1
+        ws.cell(row=row, column=1, value="  Q4 Multiplier").font = _INDENT_FONT
+        ws.cell(row=row, column=2, value=mkt["q4_multiplier"])
+        row += 1
     # Seller payout
     ws.cell(row=row, column=1, value="Seller Payout").font = _BOLD_FONT
     row += 1
@@ -312,6 +335,7 @@ def _build_assumptions_tab(ws, config: dict):
 
 def _build_d2c_pnl_tab(ws, pnl: dict, config: dict):
     ws.title = "D2C Monthly P&L"
+    lines_key = "product_lines" if "product_lines" in config["d2c"] else "channels"
     _set_col_widths(ws, {1: 30})
     # Set month columns to 10
     for c in range(2, 41):
@@ -330,7 +354,7 @@ def _build_d2c_pnl_tab(ws, pnl: dict, config: dict):
     row += 1
 
     for ch_name, ch_vals in pnl["d2c_channels"].items():
-        label = config["d2c"]["channels"][ch_name].get("label", ch_name)
+        label = config["d2c"][lines_key][ch_name].get("label", ch_name)
         _write_monthly_row(ws, row, f"  {label}", ch_vals, indent=True,
                            yearly_totals=_yearly_totals(ch_vals))
         row += 1
@@ -345,7 +369,7 @@ def _build_d2c_pnl_tab(ws, pnl: dict, config: dict):
     row += 1
 
     for ch_name, ch_vals in pnl["cogs_by_channel"].items():
-        label = config["d2c"]["channels"][ch_name].get("label", ch_name)
+        label = config["d2c"][lines_key][ch_name].get("label", ch_name)
         _write_monthly_row(ws, row, f"  {label}", ch_vals, indent=True,
                            yearly_totals=_yearly_totals(ch_vals))
         row += 1
@@ -875,13 +899,13 @@ def main():
     )
     parser.add_argument(
         "--config",
-        default=str(Path(__file__).parent / "config" / "model_v7.yaml"),
+        default=str(Path(__file__).parent / "config" / "model_v8.yaml"),
         help="Path to YAML config file",
     )
     parser.add_argument(
         "--output",
         default=str(_PROJECT_ROOT / "deliverables" / "outputs" / "docs"
-                     / "ts-financial-model-v7-2026-04-16.xlsx"),
+                     / "ts-financial-model-v8-2026-04-17.xlsx"),
         help="Path for output xlsx file",
     )
     args = parser.parse_args()
