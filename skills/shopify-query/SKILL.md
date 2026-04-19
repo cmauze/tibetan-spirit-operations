@@ -2,6 +2,7 @@
 name: shopify-query
 description: Queries Tibetan Spirit's Shopify store for real-time data not yet synced to Supabase. Use when an agent needs a specific order lookup, live inventory check, product search by SKU, or customer info for CS enrichment.
 allowed-tools: Read, Write, Bash
+model: sonnet
 ---
 
 # Shopify Query

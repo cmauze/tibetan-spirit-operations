@@ -2,6 +2,7 @@
 name: restock-calc
 description: Computes reorder points, restock quantities, and safety stock for each SKU using velocity data, lead times, and seasonal demand signals. Use when calculating reorder points, computing recommended order quantities, or determining safety stock before a Buddhist calendar event.
 allowed-tools: Read, Write, mcp__plugin_supabase_supabase__execute_sql
+model: sonnet
 ---
 
 # Restock Calculator
