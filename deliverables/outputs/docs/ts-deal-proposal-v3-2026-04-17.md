@@ -76,7 +76,7 @@ D2C Revenue: $167,000 | The business runs at a loss this year as we invest in ma
 
 **Year 2 (June 2027 - May 2028): Expand Channels**
 
-Amazon launches in June 2027 with a curated selection of bestsellers. The quarterly subscription box gains traction. The Premium sourcing operation ramps — custom statues and thangkas commissioned directly from Kathmandu vendors for individual collectors and dharma centers. TS Travels launches with two pilgrimages per year led by Dr. Hun Lye.
+Amazon launches in June 2027 with a curated selection of bestsellers. The quarterly subscription box gains traction. The Premium sourcing operation ramps — custom statues and thangkas commissioned directly from Kathmandu vendors for individual collectors and dharma centers. TS Travels launches with two pilgrimages per year led by Dr. Hun Lye. The $150,000 per-trip assumption is validated by the April 2026 Bhutan pilgrimage, which collected $97,432 in online payments plus an estimated $50,000 in cash — closely tracking the model.
 
 D2C Revenue: $425,000 | TS Travels Revenue: $300,000 | Total: $725,000
 The business narrows its losses as revenue scales and marketing efficiency improves.

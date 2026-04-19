@@ -171,7 +171,7 @@ Revenue by product line:
 | Premium (Rare/Antique) | $9K | $54K | $108K | Kathmandu sourcing, December 2026 |
 | TS Travels | -- | $300K | $300K | 2 trips/yr, $150K each |
 
-**TS Travels:** Curated trips to Nepal (2 per year x ~$150K each). High-margin, deepens practitioner relationships, reinforces sourcing narrative.
+**TS Travels:** Curated trips to Nepal/Bhutan (2 per year x ~$150K each). April 2026 Bhutan pilgrimage validated at ~$147K ($97K online + ~$50K cash est.). High-margin, deepens practitioner relationships, reinforces sourcing narrative.
 
 ---
 

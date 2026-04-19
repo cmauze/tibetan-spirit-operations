@@ -6,6 +6,7 @@ Active handoffs at top, superseded at bottom.
 
 | Handoff | Summary |
 |---------|---------|
+| [2026-04-18-v8-review-and-diligence.md](2026-04-18-v8-review-and-diligence.md) | v8 model complete + deal docs updated. Pending: Chris file review, Lopon diligence responses, Bhutan cash receipt confirmation. |
 | [2026-04-15-financial-model-deal-docs-pitch.md](2026-04-15-financial-model-deal-docs-pitch.md) | Three workstreams: finish financial model (Sheets sync, v6 validation, live run) + deal proposal for Dr. Hun Lye/investors + vision pitch deck for internal investors. |
 | [2026-04-14-ts-audit-fixes.md](2026-04-14-ts-audit-fixes.md) | 8-fix sprint: agent person names, Mexico fulfillment, rule citations, skill loading refactor, stale tests, word count trimming, branch cleanup. |
 | [2026-04-14-cross-project-standards-update.md](2026-04-14-cross-project-standards-update.md) | Apply OB2 standards to cpg-agents-2.0, dharma-writer, laurina-partners: CSO descriptions, metadata.json, agent frontmatter, deny lists. |

@@ -80,7 +80,7 @@ d2c:
 travels:
   label: "TS Travels (Pilgrimages)"
   trips_per_year: [0, 2, 2]  # Y1 / Y2 / Y3
-  revenue_per_trip: 150000
+  revenue_per_trip: 150000  # Validated: Apr 2026 Bhutan trip = $97,432 online + ~$50K cash est. = ~$147K
   cogs_pct: 0.60
 
 # --- Operating Costs ---
