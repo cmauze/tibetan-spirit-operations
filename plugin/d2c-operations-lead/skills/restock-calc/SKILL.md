@@ -1,6 +1,8 @@
 ---
 name: restock-calc
 description: Use when inventory levels need threshold calculation, restock quantities need computing, or demand-based reorder recommendations are needed.
+model: sonnet
+review: opus
 ---
 
 # Restock Calculator

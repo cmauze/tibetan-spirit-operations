@@ -1,6 +1,8 @@
 ---
 name: cs-workflow
 description: Use when customer service emails need end-to-end processing — triage, enrichment, drafting, and approval queuing in sequence.
+model: sonnet
+review: opus
 ---
 
 <HARD-GATE>

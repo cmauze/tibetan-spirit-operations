@@ -3,6 +3,7 @@ name: cs-workflow
 description: Orchestrates the full customer service email workflow — triage, enrichment, draft, and approval queue in sequence. Use when a batch of unread customer emails needs processing, or when cs-drafter needs upstream triage and enrichment before drafting.
 allowed-tools: Read, Write, mcp__claude_ai_Gmail__gmail_search_messages, mcp__claude_ai_Gmail__gmail_read_message, mcp__plugin_supabase_supabase__execute_sql
 model: sonnet
+review: opus
 ---
 
 <HARD-GATE>
