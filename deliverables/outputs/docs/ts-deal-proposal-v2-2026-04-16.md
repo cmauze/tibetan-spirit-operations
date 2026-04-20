@@ -68,7 +68,7 @@ The question this plan answers is simple: what happens when a business with 70% 
 
 **Year 1 (June 2026 - May 2027): Build the Foundation**
 
-The first year is about investing in growth infrastructure without disrupting what already works. We launch on Etsy (month 3) and start wholesale through Faire (month 7). We build out email marketing, begin SEO work, and run targeted paid advertising to the practitioner community. A dedicated customer service hire joins in October 2026. Shopify D2C grows at approximately 5.5% per month — conservative given the zero-advertising starting point.
+The first year is about investing in growth infrastructure without disrupting what already works. We launch on Etsy (month 3) and start wholesale through Faire (month 7). We build out email marketing, begin SEO work, and run targeted paid advertising to the practitioner community. A dedicated customer service hire joins in June 2026. Shopify D2C grows at approximately 5.5% per month — conservative given the zero-advertising starting point.
 
 D2C Revenue: $157,000 | The business runs at a loss this year as we invest in marketing and channel setup.
 
